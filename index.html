@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMLF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav>
+    <ul class="sidebar">
+      <li onclick="hideSideBar()"><a class="exit-icon" href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#7b3f00"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+      <li><a class="first"  href="#">About</a></li>
+      <li><a class="first"  href="#">Mission</a></li>
+      <li><a class="first"  href="#">Goal</a></li>
+      <li><a class="first"  href="#">Testimonials</a></li>
+      <li><a class="first"  href="#">Contact</a></li>
+    </ul>
+
+    <ul>
+      <li><a class="second" href="#">Mentor Men Leadership Forum</a></li>
+      <li class="hideOnMobile"><a class="first" href="#">About</a></li>
+      <li class="hideOnMobile"><a  class="first"  href="#">Mission</a></li>
+      <li class="hideOnMobile"><a class="first"  href="#">Goal</a></li>
+      <li class="hideOnMobile"><a class="first"  href="#">Testimonials</a></li>
+      <li class="hideOnMobile"><a class="first"  href="#">Contact</a></li>
+      <li class="menu-button" onclick="showSideBar()"><a class="menu-icon"href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#7b3f00"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+    </ul>
+  </nav>
+
+  <section class="sec">
+    <div class="hero">
+      <h2>Mentor Men Leadership Forum</h2>
+      <p>Raising Godly, Responsible, and Intentional Men.</p>
+
+        <button>Register</button>
+    </div>
+
+    <div class="backdrop"></div>
+  </section>
+
+
+  <script>
+    function showSideBar() {
+      const sidebar = document.querySelector('.sidebar')
+      sidebar.style.display = 'flex'
+    }
+
+    function hideSideBar() {
+      const sidebar = document.querySelector('.sidebar')
+      sidebar.style.display = 'none'
+    }
+  </script>
+</body>
+</html>
