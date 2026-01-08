@@ -45,13 +45,15 @@ nav a.second {
   font-weight: bold;
   width: 200px;
   color: #7B3f00;
+  line-height: 20px;
 }
 nav a.second:hover {
   border: none;
   color: none;
 }
 nav li:first-child {
-  margin-right: auto;
+  /* margin-right: auto; */
+   margin-right: auto;
 }
 .sidebar { 
   position: fixed;
@@ -154,6 +156,7 @@ nav li:first-child {
   gap: 20px;
 }
 .testimony h3 {
+  padding-bottom: 30px;
   text-align: center;
   font-size: 25px;
 }
@@ -189,6 +192,7 @@ nav li:first-child {
   }
   nav a.second {
     font-size: 18px;
+    padding: 20px;
   }
 
   .sec {
