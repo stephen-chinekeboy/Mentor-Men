@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'inter';
+  font-family: 'poppins';
 }
 /* body {
   min-height: 100vh;
@@ -44,6 +44,7 @@ nav a.second {
   font-size: 20px;
   font-weight: bold;
   width: 200px;
+  color: #7B3f00;
 }
 nav a.second:hover {
   border: none;
@@ -132,13 +133,41 @@ nav li:first-child {
   border: none;
   border-radius: 10px;
 }
-.hero button:hover {
+.hero button :hover {
   color: #7B3f00;
-  background: #fff;
-  border: 1px solid #7B3f00;
-  /* transition:  0.5s ; */
+  background-color: #fff;
+   border: 1px solid #7B3f00; 
+  transition:  0.5s ;
   cursor: pointer;
+  /* color: red; */
 }
+.main {
+  background-color: white;
+}
+.testimony {
+  background-color: rgb(232, 223, 223);
+  padding: 50px;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+.testimony h3 {
+  text-align: center;
+  font-size: 25px;
+}
+.opinions {
+  background-color:#fff;
+  padding: 40px;
+  border-radius: 10px;
+}
+.stars {
+  padding-bottom: 20px;
+  font-size: 15px;
+  color: gold;
+}
+
 
 
 @media (max-width: 800px) {
@@ -189,11 +218,7 @@ nav li:first-child {
   }
 
 };
-/* @media(max-width: 267px) {
-  .hero h2 {
-    width: 300px;
-  }
-} */
+/* @media(max-width: 267px)
 
 /*
 @media (min-width: 480px) and (max-width: 780px) {
