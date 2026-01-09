@@ -277,7 +277,8 @@ nav li:first-child {
 
   .sec {
     background-position: right;
-    background-size: contain;
+    background-size: cover;
+    
   }
   .hero {
     display: flex;
