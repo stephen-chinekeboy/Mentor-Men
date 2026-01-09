@@ -277,13 +277,12 @@ nav li:first-child {
 
   .sec {
     background-position: right;
-    background-size: cover;
-    
+    background-size: contain;
   }
   .hero {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     text-align: flex-start;
     font-size: 30px;
@@ -298,7 +297,7 @@ nav li:first-child {
 }
 
 
-@media (max-width: 800px) {
+@media (max-width: 920px) {
   .hideOnMobile {
     display: none;
   }
