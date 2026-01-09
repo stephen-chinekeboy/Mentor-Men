@@ -223,7 +223,7 @@ nav li:first-child {
     font-size: 15px;
   }
   .testimony {
-    padding: 5px;
+    padding: 35px;
     display: grid;
     flex-direction: row;
     justify-content: center;
