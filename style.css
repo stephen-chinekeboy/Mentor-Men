@@ -143,6 +143,8 @@ nav li:first-child {
   cursor: pointer;
   /* color: red; */
 }
+
+/* testimony section */
 .main {
   background-color: white;
 }
@@ -152,7 +154,7 @@ nav li:first-child {
 }
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr ;
   gap: 20px;
 }
 .testimony h3 {
@@ -219,6 +221,34 @@ nav li:first-child {
   }
   .hero button {
     font-size: 15px;
+  }
+  .testimony {
+    padding: 5px;
+    display: grid;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .testimony h3 {
+    font-size: 30px;
+  }
+  .opinions {
+    padding: 20px 0px;
+  }
+  .grid-container {
+    padding: 0px;
+  }
+  .opinions .stars {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+  }
+  .opinions .texts {
+    font-size: 15px;
+    text-align: center;
   }
 
 };
