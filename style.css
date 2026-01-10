@@ -51,9 +51,18 @@ nav a.second:hover {
   border: none;
   color: none;
 }
-nav li:first-child {
+nav .logo:first-child {
   /* margin-right: auto; */
    margin-right: auto;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.logo img {
+  width: 40px;
+  height: auto;
 }
 .sidebar { 
   position: fixed;
@@ -214,9 +223,9 @@ nav li:first-child {
   }
 
   .sec {
-    background-position: center;
-    background-size: cover;
-    height: 70vh;
+    background-position: right;
+    background-size: contain;
+    height: 50vh;
   }
   .hero {
     display: flex;
@@ -294,6 +303,8 @@ nav li:first-child {
   .hero p {
     font-size: 15px;
   }
+
+
 }
 
 
