@@ -447,6 +447,18 @@ strong {
   .opinions .stars {
     font-size: 10px;
   }
+  .vision {
+    padding: 20px;
+  }
+  .mentor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .img {
+    padding: 0px;
+  }
 
 }
 
