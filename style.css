@@ -395,6 +395,9 @@ strong {
   .img img {
     padding: 0px;
   }
+  .vision ul {
+    padding: 10px;
+  }
   .vision-text ul .list-1,
   .list-2,
   .list-3 {
