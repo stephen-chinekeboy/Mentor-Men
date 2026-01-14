@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'poppins';
+  font-family: 'Roboto';
 }
 /* body {
   min-height: 100vh;
@@ -492,6 +492,23 @@ strong {
   .vision-text ul .list-1,
   .list-2,
   .list-3 {
+    font-size: 14px;
+  }
+  /* about section */
+  .about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .about-mentor {
+    padding: 0px;
+    padding-top: 50px;
+  }
+  .img-about img{
+    width: 100%;
+  }
+  .about-text p{
     font-size: 14px;
   }
 }
