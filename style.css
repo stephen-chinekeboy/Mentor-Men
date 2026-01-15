@@ -234,6 +234,7 @@ main {
 /* vision section */
 .vision {
   /* background-color: #f7f9fb; */
+  background-color: rgb(232, 223, 223);
   padding: 50px;
   padding-top: 70px;
 }
@@ -507,6 +508,7 @@ strong {
   }
   .img-about img{
     width: 100%;
+    height: 100%;
   }
   .about-text p{
     font-size: 14px;
