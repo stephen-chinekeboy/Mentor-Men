@@ -266,13 +266,6 @@ main {
   font-size: 30px;
   text-transform: capitalize;
 }
-.mentor {
- display: flex;
- flex-direction: row;
- justify-content: center;
- /* align-items: center; */
- gap: 20px;
-}
 .mentor h3 {
   text-align: center;
   font-size: 25px;
@@ -283,21 +276,9 @@ main {
   color: #545957;
   line-height: 30px;
   font-size: 15px;
-}
-.img {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-}
-.img img {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
-.raising {
-  width: 100%;
-  height: 100%;
-  align-self: center;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
 }
 .forum {
   text-transform: capitalize;
