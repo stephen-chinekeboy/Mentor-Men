@@ -169,9 +169,8 @@ main {
 }
 /* about section begins*/
 .about-mentor {
-  /* background-color: rgb(232, 223, 223); */
-  padding-top: 70px;
-  padding-left: 40px;
+  background-color: rgb(232, 223, 223);
+  padding: 40px;
   background-color: none;
 }
 .about {
@@ -194,8 +193,9 @@ main {
 }
 .dots-horizontal-3 {
   display: flex;
-  justify-content: start;
-  align-items: start;
+  flex-direction: row;
+  justify-content: left;
+  align-items: right;
   gap: 5px;
   padding-bottom: 10px;
   padding-left: 5px;
@@ -211,13 +211,13 @@ main {
 }
 .img-about img {
   width: 100%;
-  height: 80vh;
-  border-radius: 10px;
+  height: 100%;
+  gap: 10px;
 }
 .about-text {
   width: 100%;
   height: 100%;
-  padding-left: 20px;
+  /* align-self: center; */
 }
 .about-text p {
   font-family: 'Roboto';
@@ -234,9 +234,16 @@ main {
 /* vision section */
 .vision {
   /* background-color: #f7f9fb; */
-  background-color: rgb(232, 223, 223);
-  padding: 50px;
-  padding-top: 70px;
+  /* background-color: rgb(232, 223, 223); */
+  padding: 20px;
+  padding-top: 40px;
+}
+ .vision-p {
+  text-transform: capitalize;
+}
+.vision-text h3 {
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 .dots-line {
   display: flex;
@@ -292,30 +299,26 @@ main {
   height: 100%;
   align-self: center;
 }
-.raising p {
-  padding-left: 18px;
-}
 .forum {
   text-transform: capitalize;
 }
+.vision-p-2 {
+  text-transform: capitalize;
+}
 .vision-text {
-  padding-left: 30px;
+  font-size: 16px;
 }
-.vision-text ul .list-1{
-  padding-bottom: 10px;
-  line-height: 27px;
-  font-family: 'Roboto';
-  color: #545957;
+.vision-text h3 {
+  padding-top: 20px;
 }
-.vision-text ul .list-2 {
-  padding-bottom: 10px;
-  line-height: 27px;
-  font-family: 'Roboto';
-  color: #545957;
+.be {
+  line-height: 25px;
 }
-.vision-text ul .list-3 {
+.vision-text ul .list-1, 
+.vision-text ul .list-2,
+.vision-text ul .list-3{
   padding-bottom: 10px;
-  line-height: 27px;
+  line-height: 25px;
   font-family: 'Roboto';
   color: #545957;
 }
@@ -327,6 +330,9 @@ main {
 strong {
   color: #333;
 }
+/* .be {
+  padding-left: 30px;
+} */
 
 /* testimony section */
 
@@ -409,6 +415,7 @@ strong {
   .sec {
     background-position: right;
     background-size: contain;
+
     height: 50vh;
   }
   .hero {
@@ -431,7 +438,7 @@ strong {
   .hero button {
     font-size: 15px;
   }
-  .testimony {
+  /* .testimony {
     padding: 35px;
     display: grid;
     flex-direction: row;
@@ -460,20 +467,47 @@ strong {
   .texts {
     font-size: 15px;
     display: flex;
-  }
-  /* vision section */
-  .vision {
-    padding: 10px;
-  }
-  .mentor {
-    padding-top: 30px;
+  } */
+
+  /* about section */
+  .about {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+  }
+  .about-mentor {
+    padding: 20px;
+    padding-top: 40px;
+  }
+  .img-about img{
+    width: 100%;
+    height: 100%;
+  }
+  .about-text p{
+    font-size: 14px;
+  }
+  .about-text h3 {
+    font-size: 22px;
+  }
+  .about-text 
+
+    /* vision section */
+  .vision {
+   padding-top: 0px;
+   padding: 0;
+  }
+  .vision-text h3 {
+    padding-bottom: 5px;
+  }
+  .mentor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .mentor h3 {
-    font-size: 20px;
+    font-size: 22px;
   }
   .mentor p {
     font-size: 14px;
@@ -490,27 +524,12 @@ strong {
   .vision ul {
     padding: 10px;
   }
+  /* .vision-text h3 {
+
+  } */
   .vision-text ul .list-1,
   .list-2,
   .list-3 {
-    font-size: 14px;
-  }
-  /* about section */
-  .about {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .about-mentor {
-    padding: 0px;
-    padding-top: 50px;
-  }
-  .img-about img{
-    width: 100%;
-    height: 100%;
-  }
-  .about-text p{
     font-size: 14px;
   }
 }
