@@ -559,8 +559,20 @@ strong {
   .hero p {
     font-size: 15px;
   }
+  /* about section */
+  .about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
-  .testimony {
+  /* vision section */
+  .mentor .img img {
+    height: 100%;
+  }
+
+  /* .testimony {
     padding: 40px;
   }
   .testimony h3 {
@@ -587,7 +599,7 @@ strong {
   }
   .img {
     padding: 0px;
-  }
+  } */
 
 }
 
