@@ -351,11 +351,11 @@ strong {
 }
 .convener-img {
   width: 100%;
-  height: 120vh;
+  height: 100%;
 }
 .convener-img img {
   width: 100%;
-  height: 120vh;
+  height: 100%;
 }
 .convener-img-2 {
   display: none;
