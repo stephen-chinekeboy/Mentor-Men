@@ -229,6 +229,10 @@ main {
 .about-span {
   text-transform: capitalize;
 }
+.about-text ul {
+  padding-left: 20px;
+}
+
 
 
 /* vision section */
@@ -245,6 +249,9 @@ main {
   padding-top: 20px;
   padding-bottom: 10px;
 }
+.vision-text {
+  padding-left: 30px;
+}
 .dots-line {
   display: flex;
   flex-direction: column;
@@ -258,6 +265,18 @@ main {
   gap: 5px;
   padding-bottom: 10px;
 
+}
+.line {
+  width: 40px;
+  height: 4px;
+  background-color: #7B3f00;
+  border-radius: 10px;
+}
+.dots {
+  background-color: #7B3f00;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
 }
 .dots {
   background-color: #7B3f00;
@@ -294,6 +313,7 @@ main {
 }
 .be {
   line-height: 25px;
+  padding-left: 20px;
 }
 .vision-text ul .list-1, 
 .vision-text ul .list-2,
@@ -315,10 +335,87 @@ strong {
   padding-left: 30px;
 } */
 
+/* convener section */
+.about-convener {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 40px;
+}
+.convener .convener-text {
+  width: 100%;
+  height: 100%;
+}
+.convener-img {
+  width: 100%;
+  height: 120vh;
+}
+.convener-img img {
+  width: 100%;
+  height: 120vh;
+}
+.convener-text h3 {
+  font-size: 25px;
+}
+.convener-strong {
+  text-transform: capitalize;
+  font-weight: bold;
+  color: black;
+}
+.convener-text p {
+  color: #545957;
+  padding-bottom: 10px;
+  line-height: 25px;
+  font-size: 15px;
+}
+.dots-line {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dots-horizontal-4 {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5px;
+  padding-bottom: 10px;
+
+}
+.line {
+  width: 40px;
+  height: 4px;
+  background-color: #7B3f00;
+  border-radius: 10px;
+}
+.dots {
+  background-color: #7B3f00;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.dots {
+  background-color: #7B3f00;
+}
+.convener-2 {
+  text-transform: capitalize;
+}
+.convener-text ul li{
+  padding-top: 10px;
+  line-height: 25px;
+}
+.convener-text ul li {
+  color: #545957;
+}
+.convener-text li {
+  font-size: 16px;
+}
+
 /* testimony section */
 
-.testimony {
-  /* background-color: rgb(232, 223, 223); */
+/* .testimony {
+  background-color: rgb(232, 223, 223); 
   padding: 50px;
 }
 .header {
@@ -371,7 +468,7 @@ strong {
   padding-bottom: 20px;
   font-size: 15px;
   color: gold;
-}
+} */
 /* testimony ends */
 
 
@@ -502,17 +599,27 @@ strong {
   .img img {
     padding: 0px;
   }
-  .vision ul {
+  /* .vision ul {
     padding: 10px;
-  }
-  /* .vision-text h3 {
-
   } */
   .vision-text ul .list-1,
   .list-2,
   .list-3 {
     font-size: 14px;
   }
+   /* convener section */
+   .about-convener {
+    display: flex;
+    flex-direction: column;
+   }
+   .convener-img {
+    width: 100%;
+    height: 100%;
+   }
+   .convener-img img {
+    width: 100%;
+    height: 100%;
+   }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
