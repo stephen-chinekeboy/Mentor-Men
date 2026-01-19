@@ -4,6 +4,21 @@
   box-sizing: border-box;
   font-family: 'Roboto';
 }
+.feature {
+  display: flex;
+  align-items: stretch; /* 🔑 forces equal height */
+}
+
+.feature-img,
+.feature-text {
+  flex: 1;
+}
+
+.feature-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔑 prevents image distortion */
+}
 /* body {
   min-height: 100vh;
 } */
@@ -116,7 +131,7 @@ nav .logo:first-child {
   background-image: url('/assets/FB_IMG_17579665013496388.jpg');
   background-position: right;
   background-repeat: no-repeat;
-  height: 90vh;
+  height: 80vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -295,7 +310,7 @@ main {
 .mentor p {
   color: #545957;
   line-height: 30px;
-  font-size: 15px;
+  font-size: 16px;
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
@@ -332,32 +347,27 @@ main {
 strong {
   color: #333;
 }
-/* .be {
-  padding-left: 30px;
-} */
-
-/* convener section */
 .about-convener {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  align-items: stretch;
   gap: 10px;
   padding: 40px;
   padding-top: 20px;
 }
-.convener .convener-text {
-  width: 100%;
-  height: 100%;
-}
+.convener .convener-text ,
 .convener-img {
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
+  /* display: none; */
+  flex: 1;
 }
 .convener-img img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
-.convener-img-2 {
+.convener-img-3 {
   display: none;
 }
 .convener-text h3 {
@@ -372,7 +382,7 @@ strong {
   color: #545957;
   padding-bottom: 10px;
   line-height: 25px;
-  font-size: 15px;
+  font-size: 16px;
 }
 .dots-line {
   display: flex;
@@ -416,6 +426,9 @@ strong {
 }
 .convener-text li {
   font-size: 16px;
+}
+.convener-strong-2 {
+  text-transform: capitalize;
 }
 
 /* testimony section */
@@ -654,7 +667,7 @@ strong {
     justify-content: flex-start;
     align-items: flex-start;
     text-align: flex-start;
-    font-size: 30px;
+    font-size: 40px;
   }
   .hero h2 {
     font-size: 35px;
@@ -710,30 +723,59 @@ strong {
     width: 100%;
     height: 100%;
     padding: 0px;
-    display: none;
+    /* display: none; */
   }
   .convener-img img {
     width: 100%;
     height: 100%;
     padding: 0px;
   }
-     .convener-img-2 {
-    display: block;
-    background-size: cover;
-   }
-   .convener-img-2 img{
+  .convener-img-3 {
+    display: flex;
     width: 100%;
     height: 100%;
-    padding-top: 5px;
-   }
+    display: none;
+  }
+  .convener-img-3 img {
+    width: 100%;
+    height: 100%;
+  }
+
 }
 @media (min-width: 769px) and (max-width: 1024px) {
-
+    .sec {
+    background-position: right;
+    background-size: contain;
+    height: 70vh;
+  }
+  .hero h2 {
+    font-size: 45px;
+    width: 600px;
+  }
+  /* about section */
+  .about {
+    display: flex;
+    flex-direction: column;
+  }
+  /* convener section */
+  .about-convener {
+    flex-direction: row;
+  }
+  .convener-img-2 {
+    height: auto;
+  }
 }
 
-/* @media (min-width: 1025px) and (max-width: 1199px) {
-
-} */
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .sec {
+    background-position: right;
+    /* background-size: contain; */
+    height: 80vh;
+  }
+  .hero h2 {
+    width: 500px;
+  }
+}
 
 @media (max-width: 920px) {
   .hideOnMobile {
@@ -742,8 +784,7 @@ strong {
   .menu-button {
     display: block;
   }
-}
-
+};
 
 
 
