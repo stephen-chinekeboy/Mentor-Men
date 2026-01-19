@@ -634,14 +634,10 @@ strong {
    .convener-img {
     width: 100%;
     height: 100%;
-    display: none;
    }
    .convener-img img {
     width: 100%;
     height: 100%;
-   }
-   .convener-img-2 {
-    display: block;
    }
    .convener-img-2 img{
     width: 100%;
