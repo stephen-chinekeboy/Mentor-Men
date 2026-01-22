@@ -4,20 +4,9 @@
   box-sizing: border-box;
   font-family: 'Roboto';
 }
-.feature {
-  display: flex;
-  align-items: stretch; /* 🔑 forces equal height */
-}
-
-.feature-img,
-.feature-text {
-  flex: 1;
-}
-
-.feature-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 🔑 prevents image distortion */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 /* body {
   min-height: 100vh;
@@ -170,14 +159,18 @@ nav .logo:first-child {
   color: white;
   padding: 10px 30px;
   border: none;
+  z-index: 999;
+  position: relative;
   border-radius: 10px;
 }
-.hero .register :hover {
+.hero .register:hover {
   color: #7B3f00;
   background-color: #fff;
   border: 1px solid #7B3f00; 
   transition:  0.5s ;
   cursor: pointer;
+  z-index: 999;
+  position: relative;
 }
 /* nav ends */
 main {
@@ -185,15 +178,14 @@ main {
 }
 /* about section begins*/
 .about-mentor {
-  background-color: rgb(232, 223, 223);
+  /* background-color: rgb(232, 223, 223); */
   padding: 40px;
   background-color: none;
 }
 .about {
   display: flex;
-  flex-direction: row;
+  align-items: stretch;
   gap: 10px;
-  justify-content: center;
 }
 .about-text h3 {
   padding-left: 5px;
@@ -219,21 +211,14 @@ main {
 .dots {
   background-color: #7B3f00;
 }
-.img-about {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  align-self: center;
+.img-about,
+.about-text {
+  flex: 1;
 }
 .img-about img {
   width: 100%;
-  height: 100%;
-  gap: 10px;
-}
-.about-text {
-  width: 100%;
-  height: 100%;
-  /* align-self: center; */
+  height: auto;
+  object-fit: contain;
 }
 .about-text p {
   font-family: 'Roboto';
@@ -248,7 +233,6 @@ main {
 .about-text ul {
   padding-left: 20px;
 }
-
 
 
 /* vision section */
@@ -401,17 +385,17 @@ strong {
 .line {
   width: 40px;
   height: 4px;
-  background-color: #7B3f00;
+  background-color: #4b0082;
   border-radius: 10px;
 }
 .dots {
-  background-color: #7B3f00;
+  background-color: #4b0082;
   width: 6px;
   height: 6px;
   border-radius: 50%;
 }
 .dots {
-  background-color: #7B3f00;
+  background-color: #4b0082;
 }
 .convener-2 {
   text-transform: capitalize;
@@ -490,8 +474,116 @@ strong {
 } */
 /* testimony ends */
 
+/* contact section */
 
+.flex-container {
+  /* background-image: url('/assets/IMG-20250725-WA0000.jpg');
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh; */
+  display: flex;
+  background-color: #333;
+  /* justify-content: center; */
+  /* align-items: center; */
+  gap: 50px;
+  color: white;
+  z-index: 999;
+  /* padding: 40px; */
+}
+.left, 
+.right {
+  flex: 1;
+  padding: 70px;
+}
+/* .backdrop-2 {
+  background-color: rgba(255, 217, 0, 0.251);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+} */
+.get {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.get .straight-line {
+  width: 300px;
+  height: 3px;
+  background-color: red;
+}
+.location  ul li{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+}
+.location ul .location-icon {
+  display: inline-block;
+  width: 20px;
+}
+.span-text {
+  font-size: 15px;
+  width: 300px;
+  line-height: 20px;
+}
+.follow {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+}
+.follow .straight-line {
+  width: 300px;
+  height: 3px;
+  background-color: red;
+  align-items: center;
+}
 
+/* contact ends */
+
+/* gallery begins */
+.gallery {
+  padding: 30px;
+}
+.gallery-heading {
+  font-weight: lighter;
+}
+.mentor-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  animation: fadeIn 0.8s ease both;
+}
+.mentor-images .img {
+  height: 90px;
+}
+.mentor-images .img-4 img {
+  height: 155px;
+}
+.mentor-images .img-5 {
+  width: 100%;
+  height: 100%;
+}
+.mentor-images .img-6 img {
+  height: 155px;
+}
+.mentor-images img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.img-12 img{
+  height: 155px;
+}
+.img-15 img {
+  height: 155px;
+}
+.dots-horizontal-5 {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+}
 
 
 
@@ -512,7 +604,6 @@ strong {
   .sec {
     background-position: right;
     background-size: contain;
-
     height: 50vh;
   }
   .hero {
@@ -618,9 +709,6 @@ strong {
   .img img {
     padding: 0px;
   }
-  /* .vision ul {
-    padding: 10px;
-  } */
   .vision-text ul .list-1,
   .list-2,
   .list-3 {
@@ -634,17 +722,54 @@ strong {
    .convener-img {
     width: 100%;
     height: 100%;
+    display: none;
    }
    .convener-img img {
     width: 100%;
     height: 100%;
    }
-   .convener-img-2 img{
+   .convener-img-3 {
     width: 100%;
     height: 100%;
     padding-top: 5px;
+    display: flex;
+   }
+   .convener-img-3 img{
+    width: 100%;
+    height: 100%;
    }
 
+   /* gallery section */
+   .mentor-images {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+   }
+   .mentor-images .img {
+    width: 100%;
+    height: auto;
+   }
+   /* .mentor-images .img-4  {
+    width: 100%;
+   } */
+   /* .mentor-images .img-6{
+    width: 100%;
+    height: 100%;
+   }.mentor-images .img-6 img {
+    width: 100%;
+    height: 250px;
+   }
+   .mentor-images .img-7 img {
+    height: 270px;
+   }
+   .mentor-images .img-12 img {
+    height: 270px;
+   }.mentor-images .img-14 img {
+    height: 250px;
+   }.mentor-images .img-15 img {
+    height: 270px;
+   } */
+   
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
@@ -721,16 +846,17 @@ strong {
     padding: 0px;
     /* display: none; */
   }
-  .convener-img img {
+  .convener-img  {
     width: 100%;
     height: 100%;
     padding: 0px;
+    display: none;
   }
   .convener-img-3 {
     display: flex;
     width: 100%;
     height: 100%;
-    display: none;
+    display: flex;
   }
   .convener-img-3 img {
     width: 100%;
@@ -754,14 +880,13 @@ strong {
     flex-direction: column;
   }
   /* convener section */
-  .about-convener {
+  /* .about-convener {
     flex-direction: row;
   }
   .convener-img-2 {
     height: auto;
-  }
+  } */
 }
-
 @media (min-width: 1025px) and (max-width: 1199px) {
   .sec {
     background-position: right;
@@ -772,7 +897,6 @@ strong {
     width: 500px;
   }
 }
-
 @media (max-width: 920px) {
   .hideOnMobile {
     display: none;
