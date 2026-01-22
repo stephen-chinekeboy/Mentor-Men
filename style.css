@@ -861,6 +861,32 @@ strong {
     height: 100%;
   }
 
+  /* gallery section */
+  .mentor-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr
+  }
+
+
+  .mentor-images .img-4  {
+    display: none;
+   }
+   .mentor-images .img-6{
+    display: none;
+   }
+   .mentor-images .img-6 img {
+    display: none;
+   }
+   .mentor-images .img-7 img {
+    display: none;
+   }
+   .mentor-images .img-12 img {
+    display: none;
+   }
+   .mentor-images .img-15 img {
+    display: none;
+   }
+
 }
 @media (min-width: 769px) and (max-width: 1024px) {
     .sec {
