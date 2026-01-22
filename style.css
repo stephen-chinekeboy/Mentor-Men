@@ -749,26 +749,24 @@ strong {
     width: 100%;
     height: auto;
    }
-   /* .mentor-images .img-4  {
-    width: 100%;
-   } */
-   /* .mentor-images .img-6{
-    width: 100%;
-    height: 100%;
-   }.mentor-images .img-6 img {
-    width: 100%;
-    height: 250px;
+   .mentor-images .img-4  {
+    display: none;
+   }
+   .mentor-images .img-6{
+    display: none;
+   }
+   .mentor-images .img-6 img {
+    display: none;
    }
    .mentor-images .img-7 img {
-    height: 270px;
+    display: none;
    }
    .mentor-images .img-12 img {
-    height: 270px;
-   }.mentor-images .img-14 img {
-    height: 250px;
-   }.mentor-images .img-15 img {
-    height: 270px;
-   } */
+    display: none;
+   }
+   .mentor-images .img-15 img {
+    display: none;
+   }
    
 }
 
