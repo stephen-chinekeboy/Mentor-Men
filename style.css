@@ -751,6 +751,7 @@ form .inputs {
   padding-bottom: 10px;
   padding-left: 5px;
   width: 100%;
+  outline: none;
 }
 .input::placeholder{
   color:
