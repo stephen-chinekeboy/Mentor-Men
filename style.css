@@ -45,7 +45,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #000;
+  background: #7B3f00;
   color: #fff;
   border: none;
   width: 36px;
@@ -73,8 +73,12 @@
   cursor: pointer;
 }
 
+.stars {
+  color: #7B3f00;
+}
+
 .dots-testimonials button.active {
-  background: #000;
+  background: #7B3f00;
 }
 
 @keyframes fadeIn {
