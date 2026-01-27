@@ -103,7 +103,7 @@ nav ul {
   list-style: none;
 }
 nav li {
-  height: 50px;
+  height: 30px;
 }
 nav a {
   height: 100%;
@@ -123,9 +123,9 @@ nav a.first:hover {
   color: #ffd84d;
 }
 nav a.second {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  width: 200px;
+  width: 150px;
   color: #7B3f00;
   line-height: 20px;
 }
@@ -141,12 +141,12 @@ nav .logo:first-child {
   display: flex;
   align-items: center;
 }
-.logo img {
+/* .logo img {
   width: 70px;
   height: auto;
   background: none;
   padding: none;
-}
+} */
 .sidebar { 
   position: fixed;
   top: 0;
@@ -237,7 +237,7 @@ nav .logo:first-child {
   color: white;
   padding: 10px 30px;
   border: none;
-  z-index: 999;
+  z-index: 700;
   position: relative;
   border-radius: 10px;
 }
@@ -718,7 +718,8 @@ strong {
 }
 .youtube-svg:hover,
 .facebook-svg:hover,
-.instagram-svg:hover 
+.instagram-svg:hover,
+.whatsapp-icon:hover
 {
   background-color: #ffffff5d;
 }
