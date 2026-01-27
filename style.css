@@ -957,8 +957,9 @@ label {
    /* contact section */
    .flex-contact {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: center;
+    padding-top: 50px;
     gap: 20px;
    }
    .left {
@@ -985,7 +986,7 @@ label {
     font-size: 14px;
    }
    .follow {
-    padding-top: 100px;
+    padding-top: 120px;
     padding-left: 5px; 
     gap: 10px;
    }
