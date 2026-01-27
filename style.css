@@ -104,6 +104,11 @@ nav ul {
 }
 nav li {
   height: 30px;
+  /* padding-top: 20px; */
+}
+nav li svg {
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 nav a {
   height: 100%;
@@ -113,6 +118,9 @@ nav a {
   align-items: center;
   color: white;
   font-size: 16px;
+}
+nav a.first {
+  padding-top: 70px;
 }
 nav a.first:hover {
   background-color: #F0F0F0;
@@ -124,6 +132,7 @@ nav a.first:hover {
 }
 nav a.second {
   font-size: 18px;
+  margin-top: 30px;
   font-weight: bold;
   width: 150px;
   color: #7B3f00;
