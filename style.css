@@ -103,7 +103,7 @@ nav ul {
   list-style: none;
 }
 nav li {
-  height: 30px;
+  height: 40px;
   /* padding-top: 20px; */
 }
 /* nav li svg {
@@ -143,6 +143,17 @@ nav a.second:hover {
 nav .logo:first-child {
   /* margin-right: auto; */
    margin-right: auto;
+}
+.first-1 {
+  padding-top: 60px;
+}
+nav a.second-1 {
+  padding-top: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  width: 150px;
+  color: #7B3f00;
+  line-height: 20px;
 }
 .logo {
   display: flex;
@@ -185,6 +196,8 @@ nav .logo:first-child {
   border-radius: 10px;
   margin-left: 20px;
   margin-bottom: 20px;
+  margin-top: 60px;
+  z-index: 999;
 }
 .menu-button {
   display: none;
@@ -267,6 +280,9 @@ main {
   /* background-color: rgb(232, 223, 223); */
   padding: 40px;
   background-color: none;
+}
+.about-mentor span{
+  text-align: center;
 }
 .about {
   display: flex;
@@ -444,7 +460,7 @@ main {
 .Godly-icons:hover svg{
   background-color: #7B3f00;
   color: white;
-  transform: scale(1.);
+  transform: scale(1.1);
   transition: transform 0.3s, color 0.3s;
 }
 .responsible-icons:hover svg{
@@ -975,6 +991,36 @@ label {
   .list-2,
   .list-3 {
     font-size: 14px;
+  }
+  .flex-vision-icons {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+  }
+  .vision-icons svg {
+    padding: 20px;
+    margin: 2px;
+    border-radius: 50%;
+  }
+  .Godly-icons,
+  .responsible-icons,
+  .intentional-icons{
+    width: 100%;
+    width: 128%;
+    
+    gap: 20px;
+    align-items: normal;
+  }
+  .vision-icons p {
+    font-size: 14px;
+    width: 100%;
+    /* width: 100%; */
+  }
+  .flex-vision-icons svg {
+    width: 65px;
+    height: 65px;
   }
    /* convener section */
    .about-convener {
