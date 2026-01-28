@@ -878,6 +878,10 @@ label {
     font-size: 18px;
     padding: 20px;
   }
+  nav a.second-1 {
+    font-size: 18px;
+    padding: 20px;
+  }
 
   .sec {
     background-position: right;
