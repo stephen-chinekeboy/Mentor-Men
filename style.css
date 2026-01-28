@@ -106,10 +106,10 @@ nav li {
   height: 30px;
   /* padding-top: 20px; */
 }
-nav li svg {
+/* nav li svg {
   margin-top: 40px;
   margin-bottom: 20px;
-}
+} */
 nav a {
   height: 100%;
   padding: 0 20px;
@@ -119,9 +119,7 @@ nav a {
   color: white;
   font-size: 16px;
 }
-nav a.first {
-  padding-top: 70px;
-}
+
 nav a.first:hover {
   background-color: #F0F0F0;
   background: none;
@@ -132,7 +130,7 @@ nav a.first:hover {
 }
 nav a.second {
   font-size: 18px;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   font-weight: bold;
   width: 150px;
   color: #7B3f00;
@@ -229,6 +227,7 @@ nav .logo:first-child {
   list-style: 50px;
 }
 .hero h2 {
+  font-family: "Poppins";
   font-size: 50px;
   width: 600px;
   margin-bottom: 5px;
@@ -275,6 +274,7 @@ main {
   gap: 10px;
 }
 .about-text h3 {
+  font-family: "Poppins";
   padding-left: 5px;
   font-size: 25px;
   color: #0f1f2a;
@@ -373,6 +373,7 @@ main {
   text-transform: capitalize;
 }
 .mentor h3 {
+  font-family: "Poppins";
   text-align: center;
   font-size: 25px;
   color: #0f1f2a;
@@ -397,27 +398,88 @@ main {
 }
 .vision-text h3 {
   padding-top: 20px;
+  font-family: "Poppins";
 }
 .be {
   line-height: 25px;
   padding-left: 20px;
 }
-.vision-text ul .list-1, 
+.vision-icons {
+  padding: 30px;
+}
+.vision-header {
+  text-align: center;
+  padding-bottom: 20px;
+}
+.vision-icons h3 {
+  font-family: "Poppins";
+  font-size: 18px;
+}
+.flex-vision-icons {
+  display: flex;
+  gap: 20px;
+}
+.Godly-icons,
+.responsible-icons,
+.intentional-icons  {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #fff;
+  padding: 20px;
+  transition: transform 0.3s, color 0.3s;
+
+}
+.vision-icons svg {
+  background: whitesmoke;
+  padding: 20px;
+  border-radius: 50%;
+}
+.vision-icons p {
+  font-size: 16px;
+  color: #545957;
+  line-height: 25px;
+}
+.Godly-icons:hover svg{
+  background-color: #7B3f00;
+  color: white;
+  transform: scale(1.);
+  transition: transform 0.3s, color 0.3s;
+}
+.responsible-icons:hover svg{
+  background-color: #7B3f00;
+  color: white;
+  transform: scale(1.);
+  transition: transform 0.3s, color 0.3s;
+}
+.intentional-icons:hover svg {
+  background-color: #7B3f00;
+  color: white;
+  transform: scale(1.);
+  transition: transform 0.3s, color 0.3s;
+}
+
+
+
+/* .vision-text ul .list-1, 
 .vision-text ul .list-2,
 .vision-text ul .list-3{
   padding-bottom: 10px;
   line-height: 25px;
   font-family: 'Roboto';
   color: #545957;
-}
-.strong-1,
+} */
+/* .strong-1,
 .strong-2,
 .strong-3 {
   color: #333;
-}
+} */
 strong {
   color: #333;
 }
+
+/* convener */
 .about-convener {
   display: flex;
   /* justify-content: center; */
@@ -426,7 +488,7 @@ strong {
   padding: 40px;
   padding-top: 20px;
 }
-.convener .convener-text ,
+.convener .convener-text,
 .convener-img {
   /* width: 100%;
   height: 100%; */
@@ -472,17 +534,17 @@ strong {
 .line {
   width: 40px;
   height: 4px;
-  background-color: #4b0082;
+  background-color: #7B3f00;
   border-radius: 10px;
 }
 .dots {
-  background-color: #4b0082;
+  background-color: #7B3f00;
   width: 6px;
   height: 6px;
   border-radius: 50%;
 }
 .dots {
-  background-color: #4b0082;
+  background-color: #7B3f00;
 }
 .convener-2 {
   text-transform: capitalize;
@@ -739,7 +801,7 @@ strong {
 } */
 /* registration section */
 .registration {
-  background: #4b0082;
+  background: #7B3f00;
   display: flex;
   flex-direction: column;
   justify-content: center;
