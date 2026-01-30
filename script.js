@@ -56,6 +56,15 @@ setInterval(() => {
 }, 6000);
 
 
+// const observer = new IntersectionObserver((entries)=>{
+//   entries.forEach((entry)=>{
+//     if(entry.isIntersecting){
+//       console.log(entry.target)
+//     }
+//   })
+// }, {})
+// const todoElement = document.querySelector(".about")
+// todoElement.forEach(el => observer.observe(el))
 
 // document.querySelector('.js-register').addEventListener('click' , () => {
 //   window.location.href="/register.html"

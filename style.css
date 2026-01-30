@@ -5,6 +5,9 @@
   font-family: 'Roboto';
 }
 .testimonials {
+  animation: side both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
   max-width: 600px;
   margin: 4rem auto;
   padding: 0 1rem;
@@ -225,6 +228,27 @@ nav a.second-1 {
 }
 
 
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes side {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  }
 /* about section */
 
 .sec {
@@ -290,6 +314,9 @@ main {
 }
 /* about section begins*/
 .about-mentor {
+   animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
   /* background-color: rgb(232, 223, 223); */
   padding: 40px;
   background-color: none;
@@ -303,6 +330,7 @@ main {
   gap: 10px;
 }
 .about-text h3 {
+
   font-family: "Poppins";
   padding-left: 5px;
   font-size: 25px;
@@ -331,6 +359,16 @@ main {
 .about-text {
   flex: 1;
 }
+/* .img-about {
+    animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+.about-text {
+   animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+} */
 .img-about img {
   width: 100%;
   height: auto;
@@ -353,6 +391,9 @@ main {
 
 /* vision section */
 .vision {
+   animation: side linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
   /* background-color: #f7f9fb; */
   /* background-color: rgb(232, 223, 223); */
   padding: 20px;
@@ -514,6 +555,9 @@ strong {
 
 /* convener */
 .about-convener {
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
   display: flex;
   /* justify-content: center; */
   align-items: stretch;
@@ -668,7 +712,7 @@ strong {
 
 
 /* gallery begins */
-.gallery {
+/* .gallery {
   padding: 30px;
 }
 .gallery-heading {
@@ -714,11 +758,14 @@ strong {
   display: flex;
   gap: 5px;
   padding: 10px;
-}
+} */
 
 /* contact section */
 
 .flex-contact {
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
   /* background-image: url('/assets/IMG-20250725-WA0000.jpg');
   background-position: center;
   background-size: cover;
@@ -902,7 +949,7 @@ label {
   .sec {
     background-position: right;
     background-size: contain;
-    height: 50vh;
+    height: 90vh;
   }
   .hero {
     display: flex;
