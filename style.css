@@ -72,7 +72,20 @@
   background: #ccc;
   cursor: pointer;
 }
-
+.testimonials h3 {
+  text-align: center;
+  font-size: 25px;
+  font-family: 'Poppins';
+}
+.dots-horizontal-6 {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+/* .dots-horizontal-5 .dots {
+  display: flex;
+} */
 .stars {
   color: gold;
 }
@@ -443,9 +456,13 @@ main {
   align-items: center;
   gap: 20px;
   background: #fff;
-  padding: 20px;
+  padding: 10px;
   transition: transform 0.3s, color 0.3s;
 
+}
+.flex-vision-icons svg {
+  width: 65px;
+  height: 65px;
 }
 .vision-icons svg {
   background: whitesmoke;
@@ -466,13 +483,13 @@ main {
 .responsible-icons:hover svg{
   background-color: #7B3f00;
   color: white;
-  transform: scale(1.);
+  transform: scale(1.1);
   transition: transform 0.3s, color 0.3s;
 }
 .intentional-icons:hover svg {
   background-color: #7B3f00;
   color: white;
-  transform: scale(1.);
+  transform: scale(1.1);
   transition: transform 0.3s, color 0.3s;
 }
 
@@ -823,7 +840,6 @@ strong {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  width:  400px;
   width: 100%;
 }
 .registration h4 {
@@ -834,7 +850,7 @@ form .inputs {
   padding: 10px;
 }
 .inputs input {
-  padding-right: 180px;
+  padding-right: 200px;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 5px;
@@ -1023,7 +1039,7 @@ label {
     /* width: 100%; */
   }
   .flex-vision-icons svg {
-    width: 65px;
+    width: 60px;
     height: 65px;
   }
    /* convener section */
@@ -1121,6 +1137,12 @@ label {
    .follow-svg {
     padding-top: 30px;
    }
+   .youtube-svg:hover,
+   .facebook-svg:hover,
+   .instagram-svg:hover,
+   .whatsapp-icon:hover {
+    background-color: none;
+   }
    /* registration section */
    .right {
     padding-top: 0px;
@@ -1129,7 +1151,7 @@ label {
     font-size: 20px;
    }
    .inputs input{
-    padding-right: 50px;
+    padding-right: 130px;
   }
   .inputs button {
     padding: 10px;
@@ -1170,23 +1192,7 @@ label {
     justify-content: center;
     align-items: center;
   }
-
-  /* .testimony {
-    padding: 40px;
-  }
-  .testimony h3 {
-    padding-bottom: 10px;
-  }
-  .testimony .texts {
-    text-align: start;
-    font-size: 15px;
-  }
-  .opinions {
-    padding: 20px;
-  }
-  .opinions .stars {
-    font-size: 10px;
-  }
+  /* vision section */
   .vision {
     padding: 20px;
   }
@@ -1196,9 +1202,10 @@ label {
     justify-content: center;
     align-items: center;
   }
-  .img {
-    padding: 0px;
-  } */
+  .flex-vision-icons {
+    display: flex;
+    flex-direction: column;
+  }
 
   /* convener section */
 
@@ -1240,52 +1247,8 @@ label {
     flex-direction: column;
   }
 
-  /* .mentor-images .img-3  {
-    display: none;
-   }
-   .mentor-images .img-4{
-    display: none;
-   }
-   .mentor-images .img-6 img {
-    display: none;
-   }
-   .mentor-images .img-7 img {
-    display: none;
-   }
-   .mentor-images .img-12 img {
-    display: none;
-   }
-   .mentor-images .img-15 img {
-    display: none;
-   } */
-    /* .mentor-images .img-3 img{
-      height: 100%;
-    }
-    .mentor-images .img-4 img {
-      height: 100%;
-    }
-    .mentor-images .img-5 img {
-      height: 36.5vh;
-      height: 100%;
-    }
-    .mentor-images .img-6 img {
-      height: 100%; 
-      
-    }
-    .mentor-images .img-7 img {
-      height: 100%;
-    }
-    .mentor-images .img-8 img {
-      height: 100%;
-    }
-    .mentor-images .img-11 img {
-      height: 100%;
-    }
-    .mentor-images .img-12 img {
-      height: 100%;
-    } */
 }
-  @media (min-width: 520px) and (max-width: 674px ) {
+@media (min-width: 520px) and (max-width: 674px ) {
     .mentor-images {
       gap: 5px;
     }
@@ -1307,7 +1270,7 @@ label {
     .img-15 img {
       height: 97%;
     }
-  }
+}
   /* @media (min-width: 675px) and (max-width: 768px) {
     .mentor-images {
       gap: 5px;
@@ -1331,23 +1294,10 @@ label {
     display: flex;
     flex-direction: column;
   }
-  /* convener section */
-  /* .about-convener {
-    flex-direction: row;
+  .flex-vision-icons {
+    display: flex;
+    flex-direction: column;
   }
-  .convener-img-2 {
-    height: auto;
-  } */
-   /* gallery section */
-   /* .mentor-images {
-    gap: 5px;
-   }
-   .img-7 img {
-    height: 97%;
-   }
-   .img-15 img {
-    height: 97%;
-   } */
 }
 @media (min-width: 875px) and (max-width: 1025px) {
   /* .img-4 img {
