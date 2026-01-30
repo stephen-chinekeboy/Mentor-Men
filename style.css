@@ -949,10 +949,10 @@ label {
   .sec {
     background-position: right;
     background-size: contain;
-    height: 90vh;
+    height: 70vh;
   }
   .hero {
-    display: flex;
+    display: flex6
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
