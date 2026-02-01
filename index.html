@@ -260,6 +260,13 @@
         </div>
     </section>
 
+    <!-- <section class="mentor-upcoming">
+      <div class="upcoming">
+        <h3>Upcoming Meeting</h3>
+        <img src="" alt="">
+      </div>
+    </section> -->
+
     <!-- <section class="gallery">
       <div class="dots-line">
         <h3 class="gallery-heading">Photo Speaks</h3>
@@ -330,51 +337,6 @@
     </section> -->
 
       <!-- testimony section -->
-    <!-- <section class="testimony" id="testimonies">
-
-
-      <h3>Testimonies</h3>
-        <div class="dots-horizontal">
-          <span class="dots"></span>
-          <span class="dots"></span>
-          <span class="dots"></span>
-          <span class="line"></span>
-        </div>
-      <div class="grid-container">
-        <div class="opinions">
-          <div class="stars">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <div class="texts">
-            <p>The Mentor Men Forum is a global brand because of the value that is coming from it, i regretted not coming for previous editions because of a business that took me out of Enugu.
-            The value i got today is worth more than a million dollars, i have really gained a lot in terms of investments, how to leverage an
-            opportunity, and to be mentally tough to pursue my goals, dreams, and aspirations in life.
-            </p>
-          </div>
-        </div>
-
-        <div class="opinions">
-          <div class="stars">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <div class="texts">
-            <P>Mentor men Forum has really opened my eyes when it comes to my role, and the obligation i owe to my family as an husband, and a father. The forum greatly admonishes men to take certain steps, and make decisions that greatly deepens, and fosters love, and oneness in  our homes. I am really grateful, and happy that i was able to be under the voice of the convener. Thanks to Pastor Gentle Nwobi.
-            </P>
-          </div>
-        </div>
-
-        
-      </div>
-    </section> -->
-
      <section id="testimonies" class="testimonials" aria-label="Client testimonials">
       <h3>Testimonies</h3>
       <div class="dots-horizontal-6">
@@ -469,45 +431,53 @@
       <section class="right">
         <div class="registration">
           <h4>Register Here</h4>
-          <form action="https://api.web3forms.com/submit"   method="POST">
+          <form id="mentorForm" action="https://api.web3forms.com/submit"   method="POST">
              <input type="hidden" name="access_key" value="879aaa2b-c1a4-49ab-9172-354c8673fddc">
+
             <div class="inputs">
-              <label for="f-name">Full Name</label> <br>
-              <input id="f-name" type="text" name="Full Name" placeholder="Enter Name" required>
+              <label for="fname">Full Name</label> <br>
+              <input id="fname" type="text" name="Full Name" 
+              pattern="[A-Za-z ]+" 
+              placeholder="Enter Name" required>
+              <span class="error">Please enter ur name</span>
             </div>
 
             <div class="inputs">
               <label for="mail">Email</label> <br>
-              <input id="mail" type="email" name="Email" placeholder="Enter Email" required>
+              <input id="email" type="email" name="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+              placeholder="Enter Email" required>
+              <span class="error">Please enter a valid email</span>
             </div>
 
             <div class="inputs">
               <label for="work">Occupation</label> <br>
-              <input id="work" type="text" name="Occupation" placeholder=" Enter Ur Occupation" required>
+              <input id="work" type="text" name="Occupation" pattern="[A-Za-z ]+" placeholder="Enter Ur Occupation" required>
+              <span class="error">Please enter ur occupation</span>
             </div>
 
             <div class="inputs">
               <label for="number">Phone Number(WhatsApp)</label> <br>
-              <input type="text" name="Phone-Number" id="Phone" placeholder=" Enter Phone Number" required>
+              <input type="text" name="Phone-Number" id="phone" pattern="[0-9]+"  placeholder=" Enter Phone Number" required>
+              <span class="error">Please enter phone Number</span>
             </div>
 
-            <!-- <div class="inputs">
-              <label for="gender">Gender</label>
-              <input type="checkbox" name="check" id="gender">
-            </div> -->
+
 
             <div class="inputs">
-              <button>Send</button>
+              <button type="submit">Send</button>
             </div>
-          </form>
+          </form> 
+        </div>
         </div>
       </section>
     </div>
+
   </main>
   
 
 
   <script src="/script.js"></script>
+
 
 </body>
 </html>
