@@ -494,9 +494,10 @@ main {
 .intentional-icons  {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 20px;
-  background: #fff;
+  /* background: #fff; */
   padding: 10px;
   transition: transform 0.3s, color 0.3s;
 
@@ -514,6 +515,7 @@ main {
   font-size: 16px;
   color: #545957;
   line-height: 25px;
+  width: 250px;
 }
 .Godly-icons:hover svg{
   background-color: #7B3f00;
@@ -1123,9 +1125,10 @@ label {
   .Godly-icons,
   .responsible-icons,
   .intentional-icons{
-    width: 100%;
-    width: 128%;
-    
+    background-color: #fff;
+    /* width: 100%;
+    width: 128%; */
+    background: none;
     gap: 20px;
     align-items: normal;
   }
@@ -1342,10 +1345,20 @@ label {
     display: flex;
     flex-direction: column;
   }
-
+  .flex-vision-icons svg {
+    width: 70px;
+    height: 70px;
+  }
 }
 @media (min-width: 520px) and (max-width: 674px ) {
-    .mentor-images {
+  /* .flex-vision-icons {
+    display: flex;
+    flex-direction: row;
+  }
+  .vision-icons p {
+    
+  } */
+    /* .mentor-images {
       gap: 5px;
     }
     .mentor-images .img-3 img{
@@ -1365,16 +1378,23 @@ label {
     }
     .img-15 img {
       height: 97%;
-    }
+    } */
 }
-  /* @media (min-width: 675px) and (max-width: 768px) {
-    .mentor-images {
+  @media (min-width: 700px) and (max-width: 768px) {
+    /* .mentor-images {
       gap: 5px;
     }
     .img-15 img {
       height: 99%;
-    }
-  } */
+    } */
+     .flex-vision-icons {
+      display: flex;
+      flex-direction: row;
+     }
+     .vision-icons p {
+      width: 100%;
+     }
+  }
 @media (min-width: 769px) and (max-width: 1024px) {
     .sec {
     background-position: right;
@@ -1392,7 +1412,14 @@ label {
   }
   .flex-vision-icons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%;
+  }
+  .vision-icons p {
+    width: 100%;
+  }
+  .god-span p {
+    width: 200px;
   }
 }
 @media (min-width: 875px) and (max-width: 1025px) {

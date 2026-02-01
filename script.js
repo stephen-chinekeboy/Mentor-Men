@@ -55,76 +55,76 @@ setInterval(() => {
   updateCarousel();
 }, 6000);
 
-const form = document.getElementById('mentorForm');
-const name = document.getElementById('fname');
-const email = document.getElementById('email');
-const work = document.getElementById('work');
-const phone = document.getElementById('phone');
+// const form = document.getElementById('mentorForm');
+// const name = document.getElementById('fname');
+// const email = document.getElementById('email');
+// const work = document.getElementById('work');
+// const phone = document.getElementById('phone');
 
 
-form.addEventListener('submit', e => {
-  e.preventDefault();
+// form.addEventListener('submit', e => {
+//   e.preventDefault();
 
-  validateInputs();
-});
+//   validateInputs();
+// });
 
-const setError = (element, message) => {
-  const inputControl = element.parentElement;
-  const errorDisplay = inputControl.querySelector('.error');
+// const setError = (element, message) => {
+//   const inputControl = element.parentElement;
+//   const errorDisplay = inputControl.querySelector('.error');
 
-  errorDisplay.innerText = message;
-  inputControl.classlist.add('error');
-  inputControl.classlist.remove('success')
-}
+//   errorDisplay.innerText = message;
+//   inputControl.classlist.add('error');
+//   inputControl.classlist.remove('success')
+// }
 
-const setSuccess = element => {
-  const inputControl = element.parentElement;
-  const errorDisplay = inputControl.querySelector('.error');
+// const setSuccess = element => {
+//   const inputControl = element.parentElement;
+//   const errorDisplay = inputControl.querySelector('.error');
   
-  errorDisplay.innerText = '';
-  inputControl.classlist.add('success')
-  inputControl.classList.remove('error')
-}
+//   errorDisplay.innerText = '';
+//   inputControl.classlist.add('success')
+//   inputControl.classList.remove('error')
+// }
 
-const isValidEmail =  email => {
-  const re = "[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-  return re.test(string(email).toLowerCase());
-}
+// const isValidEmail =  email => {
+//   const re = "[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+//   return re.test(string(email).toLowerCase());
+// }
 
-const validateInputs = () => {
-  const nameValue = fname.value.trim();
-  const emailValue = email.value.trim();
-  const workValue = work.value.trim();
-  const phoneValue = phone.value.trim();
+// const validateInputs = () => {
+//   const nameValue = fname.value.trim();
+//   const emailValue = email.value.trim();
+//   const workValue = work.value.trim();
+//   const phoneValue = phone.value.trim();
 
-  if(nameValue === '') {
-    setError(fname, 'Full Name Is Required');
-  } else {
-    setSuccess(fname)
-  }
+//   if(nameValue === '') {
+//     setError(fname, 'Full Name Is Required');
+//   } else {
+//     setSuccess(fname)
+//   }
 
-  if(emailValue === '') {
-    setError(email, 'Valid e-mail address required')
-  } else if(!isValidEmail(emailValue)) {
-    setError(email, 'Provide a valid email address')
-  } else {
-    setSuccess(email);
-  }
+//   if(emailValue === '') {
+//     setError(email, 'Valid e-mail address required')
+//   } else if(!isValidEmail(emailValue)) {
+//     setError(email, 'Provide a valid email address')
+//   } else {
+//     setSuccess(email);
+//   }
 
-  if(workValue === '') {
-    setError(work, 'Occupation required')
-  } else {
-    setSuccess(work)
-  }
+//   if(workValue === '') {
+//     setError(work, 'Occupation required')
+//   } else {
+//     setSuccess(work)
+//   }
 
-  if(phoneValue === '') {
-    setError(phone, 'Phone-Number is required');
-  } else if (phoneValue.length >1 <11) {
-    setError(phone, 'Phone-Number must not be less than 11 characters')
-  } else {
-    setSuccess(phone);
-  }
-}
+//   if(phoneValue === '') {
+//     setError(phone, 'Phone-Number is required');
+//   } else if (phoneValue.length >1 <11) {
+//     setError(phone, 'Phone-Number must not be less than 11 characters')
+//   } else {
+//     setSuccess(phone);
+//   }
+// }
 
 
 // window.addEventListener("scroll", function() {
