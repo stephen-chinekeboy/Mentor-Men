@@ -231,7 +231,7 @@ nav a.second-1 {
 @keyframes appear-1 {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -299,6 +299,7 @@ nav a.second-1 {
   width: 600px;
   margin-bottom: 5px;
   text-transform: capitalize;
+  width: 100%;
 }
 .hero .register {
   font-size: 18px;
