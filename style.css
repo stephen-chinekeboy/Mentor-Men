@@ -1116,9 +1116,10 @@ label {
     padding: 5px;
     align-items: center;
     justify-content: center;
+    gap: 5px;
   }
   .vision-icons svg {
-    padding: 20px;
+    padding: 10px;
     margin: 2px;
     border-radius: 50%;
   }
@@ -1129,7 +1130,7 @@ label {
     /* width: 100%;
     width: 128%; */
     background: none;
-    gap: 20px;
+    gap: 0px;
     align-items: normal;
   }
   .vision-icons p {
@@ -1138,8 +1139,9 @@ label {
     /* width: 100%; */
   }
   .flex-vision-icons svg {
-    width: 60px;
-    height: 65px;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 5px;
   }
    /* convener section */
    .about-convener {
@@ -1336,18 +1338,24 @@ label {
   }
 
   /* gallery section */
-  .mentor-images {
+  /* .mentor-images {
     display: grid;
     grid-template-columns: repeat(auto-fit , minmax(200px, 1fr));
     gap: 5px;
-  }
+  } */
   .flex-contact {
     display: flex;
     flex-direction: column;
   }
+  .Godly-icons,
+  .responsible-icons,
+  .intentional-icons {
+    gap: 0px;
+  }
   .flex-vision-icons svg {
-    width: 70px;
-    height: 70px;
+    padding: 15px;
+    width: 60px;
+    height: 60px;
   }
 }
 @media (min-width: 520px) and (max-width: 674px ) {
@@ -1414,6 +1422,17 @@ label {
     display: flex;
     flex-direction: row;
     width: 100%;
+  }
+  .Godly-icons,
+  .responsible-icons,
+  .intentional-icons {
+    gap: 10px;
+  }
+  .vision-icons svg {
+    padding: 15px;
+    width: 70px;
+    height: 70px;
+    /* align-items: normal; */
   }
   .vision-icons p {
     width: 100%;
