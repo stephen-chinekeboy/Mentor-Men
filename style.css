@@ -228,10 +228,21 @@ nav a.second-1 {
 }
 
 
+@keyframes appear-1 {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
 @keyframes appear {
   from {
     opacity: 0;
-    transform: translateY(150px);
+    transform: translateY(100px);
   }
   to {
     opacity: 1;
@@ -314,7 +325,7 @@ main {
 }
 /* about section begins*/
 .about-mentor {
-   animation: appear linear;
+   animation: appear-1 linear;
   animation-timeline: view();
   animation-range: entry 0% cover 40%;
   /* background-color: rgb(232, 223, 223); */
