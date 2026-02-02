@@ -1375,13 +1375,12 @@ label {
     height: 60px;
   }
 }
-@media (max-width: 768px) {
+@media (hover: hover) {
   .youtube-svg:hover,
-  .whatsapp-icon:hover,
+  .facebook-svg:hover,
   .instagram-svg:hover,
-  .facebook-svg:hover {
-    background: initial;
-    transform: none;
+  .whatsapp-icon:hover {
+    background-color: #ffffff5d;
   }
 }
 @media (min-width: 520px) and (max-width: 674px ) {
