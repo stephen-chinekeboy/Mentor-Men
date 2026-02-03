@@ -342,7 +342,6 @@ main {
   gap: 10px;
 }
 .about-text h3 {
-
   font-family: "Poppins";
   padding-left: 5px;
   font-size: 25px;
@@ -451,7 +450,7 @@ main {
   background-color: #7B3f00;
 }
 .dots-line h3 {
-  font-size: 30px;
+  font-size: 25px;
   text-transform: capitalize;
 }
 .mentor h3 {
@@ -482,10 +481,6 @@ main {
   padding-top: 20px;
   font-family: "Poppins";
 }
-.be {
-  line-height: 25px;
-  padding-left: 20px;
-}
 .vision-icons {
   padding: 30px;
 }
@@ -495,11 +490,11 @@ main {
 }
 .vision-icons h3 {
   font-family: "Poppins";
-  font-size: 18px;
+  font-size: 20px;
 }
 .flex-vision-icons {
   display: flex;
-  gap: 20px;
+  gap:20px;
 }
 .Godly-icons,
 .responsible-icons,
@@ -655,6 +650,25 @@ strong {
   text-transform: capitalize;
 }
 
+/* upcoming section */
+.mentor-upcoming {
+  padding-top: 40px;
+}
+.mentor-upcoming h3{
+  background-color: #7B3f00;
+  background-position: center;
+  font-size: 30px;
+  padding: 30px;
+  font-family: 'Poppins';
+}
+.mentor-upcoming .mentor-img {
+  width: 100%;
+  height: 100%;
+}
+.mentor-img img {
+  width: 100%;
+  height: 100%;
+}
 /* testimony section */
 
 /* .testimony {
@@ -1298,7 +1312,7 @@ label {
   }
   .hero h2 {
     font-size: 35px;
-    width: 0px;
+    width: 400px;
   }
   .hero p {
     font-size: 15px;
