@@ -652,6 +652,9 @@ strong {
 
 /* upcoming section */
 .mentor-upcoming {
+   animation: side linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
   padding-top: 40px;
 }
 .mentor-upcoming h3{
