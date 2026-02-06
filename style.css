@@ -124,10 +124,6 @@ nav li {
   height: 40px;
   /* padding-top: 20px; */
 }
-/* nav li svg {
-  margin-top: 40px;
-  margin-bottom: 20px;
-} */
 nav a {
   height: 100%;
   padding: 0 20px;
@@ -284,7 +280,6 @@ nav a.second-1 {
   text-align: start;
   word-spacing: 5px;
   position: relative;
-  
 }
 .backdrop {
   background-color: rgba(245, 141, 30, 0.15);
