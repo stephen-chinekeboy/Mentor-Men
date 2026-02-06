@@ -136,6 +136,7 @@ nav a {
   align-items: center;
   color: white;
   font-size: 16px;
+  font-weight: bold;
 }
 
 nav a.first:hover {
@@ -283,7 +284,7 @@ nav a.second-1 {
   text-align: start;
   word-spacing: 5px;
   position: relative;
-  opacity: 0.9;
+  
 }
 .backdrop {
   background-color: rgba(245, 141, 30, 0.15);
@@ -1072,6 +1073,9 @@ label {
   .hero button {
     font-size: 15px;
   }
+  .backdrop {
+    opacity: 0.1;
+  }
   /* .testimony {
     padding: 35px;
     display: grid;
@@ -1135,6 +1139,10 @@ label {
   }
   .about-text h3 {
     font-size: 22px;
+    display: none;
+  }
+  .dots-horizontal-3 {
+    display: none;
   }
   .about-text 
 
@@ -1331,7 +1339,7 @@ label {
   .sec {
     background-position: right;
     background-size: contain;
-    height: 60vh;
+    height: 70vh;
   }
   .hero {
     display: flex;
@@ -1344,9 +1352,14 @@ label {
   .hero h2 {
     font-size: 35px;
     width: 400px;
+    margin-left: -40px;
   }
   .hero p {
     font-size: 15px;
+    margin-left: -40px;
+  }
+  .hero  .register {
+    margin-left: -40px;
   }
   /* about section */
   .about {
