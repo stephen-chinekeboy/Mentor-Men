@@ -317,7 +317,6 @@ nav a.second-1 {
   color: white;
   padding: 10px 30px;
   border: none;
-  /* z-index: 999; */
   position: relative;
   border-radius: 10px;
   margin-top: 30px;
@@ -340,7 +339,6 @@ main {
    animation: appear-1 linear;
   animation-timeline: view();
   animation-range: entry 0% cover 40%;
-  /* background-color: rgb(232, 223, 223); */
   padding: 40px;
   background-color: none;
 }
@@ -399,16 +397,6 @@ main {
 .about-text {
   flex: 1;
 }
-/* .img-about {
-    animation: appear linear;
-  animation-timeline: view();
-  animation-range: entry 0% cover 40%;
-}
-.about-text {
-   animation: appear linear;
-  animation-timeline: view();
-  animation-range: entry 0% cover 40%;
-} */
 .img-about img {
   width: 100%;
   height: auto;
@@ -434,8 +422,6 @@ main {
    animation: side linear;
   animation-timeline: view();
   animation-range: entry 0% cover 40%;
-  /* background-color: #f7f9fb; */
-  /* background-color: rgb(232, 223, 223); */
   padding: 20px;
   padding-top: 40px;
 }
@@ -571,22 +557,6 @@ main {
   transform: scale(1.1);
   transition: transform 0.3s, color 0.3s;
 }
-
-
-
-/* .vision-text ul .list-1, 
-.vision-text ul .list-2,
-.vision-text ul .list-3{
-  padding-bottom: 10px;
-  line-height: 25px;
-  font-family: 'Roboto';
-  color: #545957;
-} */
-/* .strong-1,
-.strong-2,
-.strong-3 {
-  color: #333;
-} */
 strong {
   color: #333;
 }
@@ -605,9 +575,6 @@ strong {
 }
 .convener .convener-text,
 .convener-img {
-  /* width: 100%;
-  height: 100%; */
-  /* display: none; */
   flex: 1;
 }
 .convener-img img {
@@ -701,75 +668,6 @@ strong {
   width: 100%;
   height: 100%;
 }
-/* testimony section */
-
-/* .testimony {
-  background-color: rgb(232, 223, 223); 
-  padding: 50px;
-}
-.header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.dots-horizontal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  padding-bottom: 50px;
-}
-.dots {
-  background-color: #7B3f00;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-.line {
-  width: 40px;
-  height: 4px;
-  background-color: #7B3f00;
-  border-radius: 10px;
-}
-.grid-container {
-  display: flex;
-  gap: 20px;
-}
-.opinions::-webkit-scrollbar {
-  display: none;
-}
-.texts, .stars {
-  overflow-x: auto;
-  margin: 3em auto ;
-  width: 100%;
-  flex: 0 0 20em;
-}
-.testimony h3 {
-  padding-bottom: 30px;
-  text-align: center;
-  font-size: 25px;
-}
-.opinions {
-  background-color:#fff;
-  font-family: 'Roboto';
-  padding: 40px;
-  border-radius: 10px;
-}
-.texts p{
-  font-family: 'Roboto';
-  line-height: 25px;
-  color: #545957;
-}
-.stars {
-  padding-bottom: 20px;
-  font-size: 15px;
-  color: gold;
-} */
-
-
-/* testimony ends */
-
 
 /* gallery begins */
 .gallery {
@@ -814,32 +712,18 @@ strong {
   animation: appear linear;
   animation-timeline: view();
   animation-range: entry 0% cover 40%;
-  /* background-image: url('/assets/IMG-20250725-WA0000.jpg');
-  background-position: center;
-  background-size: cover;
-  width: 100%;
-  height: 100vh; */
   display: flex;
   background-color: #333;
-  /* justify-content: center; */
-  /* align-items: center; */
   gap: 60px;
   color: white;
   z-index: 999;
   width: 100%;
-  /* padding: 40px; */
 }
 .left, 
 .right {
   flex: 1;
   padding: 30px;
 }
-/* .backdrop-2 {
-  background-color: rgba(255, 217, 0, 0.251);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-} */
 .get {
   display: flex;
   flex-direction: row;
@@ -860,8 +744,6 @@ strong {
   background-color: #f5f5f5;
 }
 .location {
-  /* width: 100%;
-  height: 100%; */
   padding: 5px;
 }
 .location  ul li{
@@ -923,13 +805,6 @@ strong {
 {
   background-color: #ffffff5d;
 }
-
-/* {
-  background-color: white;
-  padding: 15px;
-} */
-
-/* registration section */
 .right {
   display: flex;
   justify-content: center;
@@ -937,10 +812,6 @@ strong {
 .registration {
   background: #7B3f00;
   max-width: 500px;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
   padding: 20px;
   width: 100%;
 }
@@ -950,10 +821,8 @@ strong {
   text-align: center;
 }
 form .inputs {
-  /* padding:5px 10px; */
   position: relative;
   margin-bottom: 15px;
-  /* width: 90%; */
   margin: 8px auto;
 }
 .inputs input {
@@ -984,26 +853,24 @@ label {
   color: #ffd84d;
   transition: 0.5s all;
 }
-/* .inputs.success input{
-  border-color: green;
-}
-.inputs.error input{
-  border-color: red;
-}
 
-.inputs .error {
-  color: #ffd84d;
-  font-size: 10px;
-  height: 13px;
-} */
 /* contact ends */
 
 .error {
   display: none;
   color: #ffdddd;
-  font-size: 12px;
+  font-size: 15px;
   margin-top: 4px;
+  color: red;
+
 }
+
+/* .error {
+  color: red;
+  font-size: 0.85rem;
+  height: 1rem; 
+  display: block;
+} */
 
 .inputs input:invalid:not(:placeholder-shown) + .error {
   display: block;
@@ -1012,15 +879,7 @@ label {
 .inputs input:valid + .error {
   display: none;
 }
-/* .reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease;
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-} */
+
 
 
 
@@ -1072,9 +931,6 @@ label {
   }
   .hero button {
     font-size: 15px;
-  }
-  .backdrop {
-    /* opacity: 0.1; */
   }
   /* .testimony {
     padding: 35px;
@@ -1141,10 +997,6 @@ label {
     font-size: 22px;
     display: none;
   }
-  /* .dots-horizontal-3 {
-    display: none;
-  } */
-  .about-text 
 
     /* vision section */
   .vision {
@@ -1197,8 +1049,6 @@ label {
   .responsible-icons,
   .intentional-icons{
     background-color: #fff;
-    /* width: 100%;
-    width: 128%; */
     background: none;
     gap: 0px;
     align-items: normal;
@@ -1206,7 +1056,6 @@ label {
   .vision-icons p {
     font-size: 14px;
     width: 100%;
-    /* width: 100%; */
   }
   .flex-vision-icons svg {
     width: 58px;
@@ -1314,6 +1163,7 @@ label {
    .whatsapp-icon:hover {
     background-color: none;
    }
+
    /* registration section */
    .right {
     padding-top: 0px;
@@ -1321,9 +1171,6 @@ label {
    .right h4{
     font-size: 20px;
    }
-   /* .inputs input{
-    padding-right: 130px;
-  } */
   .inputs button {
     padding: 10px;
     font-size: 15px;
@@ -1361,6 +1208,7 @@ label {
   .hero  .register {
     margin-left: -40px;
   }
+
   /* about section */
   .about {
     display: flex;
@@ -1368,6 +1216,7 @@ label {
     justify-content: center;
     align-items: center;
   }
+
   /* vision section */
   .vision {
     padding: 20px;
@@ -1393,7 +1242,6 @@ label {
     width: 100%;
     height: 100%;
     padding: 0px;
-    /* display: none; */
   }
   .convener-img  {
     width: 100%;
@@ -1411,13 +1259,6 @@ label {
     width: 100%;
     height: 100%;
   }
-
-  /* gallery section */
-  /* .mentor-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fit , minmax(200px, 1fr));
-    gap: 5px;
-  } */
   .flex-contact {
     display: flex;
     flex-direction: column;
@@ -1441,51 +1282,15 @@ label {
     background-color: #ffffff5d;
   }
 }
-@media (min-width: 520px) and (max-width: 674px ) {
-  /* .flex-vision-icons {
-    display: flex;
-    flex-direction: row;
-  }
-  .vision-icons p {
-    
-  } */
-    /* .mentor-images {
-      gap: 5px;
-    }
-    .mentor-images .img-3 img{
-      height: 97%;
-    }
-    .mentor-images .img-4 img {
-      height: 97%;
-    }
-    .mentor-images .img-5 img {
-      height: 97%;
-    }
-    .mentor-images .img-9 img {
-      height: 100%;
-    }
-    .img-10 img {
-      height: 99.5%;
-    }
-    .img-15 img {
-      height: 97%;
-    } */
+@media (min-width: 700px) and (max-width: 768px) {
+.flex-vision-icons {
+  display: flex;
+  flex-direction: row;
 }
-  @media (min-width: 700px) and (max-width: 768px) {
-    /* .mentor-images {
-      gap: 5px;
-    }
-    .img-15 img {
-      height: 99%;
-    } */
-     .flex-vision-icons {
-      display: flex;
-      flex-direction: row;
-     }
-     .vision-icons p {
-      width: 100%;
-     }
-  }
+.vision-icons p {
+  width: 100%;
+}
+}
 @media (min-width: 769px) and (max-width: 1024px) {
     .sec {
     background-position: right;
@@ -1515,7 +1320,6 @@ label {
     padding: 15px;
     width: 70px;
     height: 70px;
-    /* align-items: normal; */
   }
   .vision-icons p {
     width: 100%;
@@ -1524,16 +1328,9 @@ label {
     width: 200px;
   }
 }
-@media (min-width: 875px) and (max-width: 1025px) {
-  /* .img-4 img {
-    height: 0%;
-    /* width: 100%; 
-  } */
-}
 @media (min-width: 1025px) and (max-width: 1199px) {
   .sec {
     background-position: right;
-    /* background-size: contain; */
     height: 80vh;
   }
   .hero h2 {
@@ -1548,15 +1345,4 @@ label {
     display: block;
   }
 };
-
-
-
-
-.error {
-  color: red;
-  font-size: 0.85rem;
-  height: 1rem; /* keeps space even when empty */
-  display: block;
-  /* margin-top: 3px; */
-}
 
