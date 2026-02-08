@@ -269,8 +269,9 @@ nav a.second-1 {
 /* hero section */
 
 .sec {
-  background-image: url('/assets/FB_IMG_17579665013496388.jpg');
+  background-image: url('assets/FB_IMG_17579665013496388.jpg');
   background-position: right;
+  background-size: contain;
   background-repeat: no-repeat;
   height: 80vh;
   width: 100%;
@@ -1339,6 +1340,7 @@ label {
 @media (min-width: 1025px) and (max-width: 1199px) {
   .sec {
     background-position: right;
+    /* background-size: contain; */
     height: 80vh;
   }
   .hero h2 {
@@ -1352,5 +1354,5 @@ label {
   .menu-button {
     display: block;
   }
-};
+}
 
