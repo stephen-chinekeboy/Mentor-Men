@@ -1003,8 +1003,8 @@ label {
 
     /* vision section */
   .vision {
-   padding-top: 0px;
-   padding: 0;
+   padding-top: 30px;
+   padding: 30px;
   }
   .vision-text h3 {
     padding-bottom: 5px;
@@ -1088,6 +1088,11 @@ label {
    .convener-img-3 img{
     width: 100%;
     height: 100%;
+   }
+
+   .mentor-upcoming h3 {
+    font-size: 22px;
+    padding: 20px;
    }
 
    /* gallery section */
