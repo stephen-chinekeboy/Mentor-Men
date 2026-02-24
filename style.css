@@ -669,6 +669,29 @@ strong {
   width: 100%;
   height: 100%;
 }
+/* view section */
+.view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.view button {
+  background-color: #7B3f00;
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-family: 'inter' , sans-serif;
+  color: white;
+}
+
+.view button:hover {
+  color: #7B3f00;
+  background-color: #fff;
+  border: 1px solid #7B3f00; 
+  transition:  0.5s ;
+}
+
 
 /* gallery begins */
 .gallery {
@@ -718,12 +741,13 @@ strong {
   gap: 60px;
   color: white;
   z-index: 999;
+  padding: 30px;
   width: 100%;
 }
 .left, 
 .right {
   flex: 1;
-  padding: 30px;
+  
 }
 .get {
   display: flex;
@@ -818,7 +842,7 @@ strong {
 }
 .registration h4 {
   font-size: 25px;
-  font-family: 'Roboto';
+  font-family: 'Roboto' , sans-serif;
   text-align: center;
 }
 form .inputs {
@@ -880,12 +904,11 @@ label {
 .inputs input:valid + .error {
   display: none;
 }
-
-.straight-line-2 {
-  background-color: #F0F0F0;
-  width: 100%;
-  height: 1px;
+.straight-line {
   
+}
+hr {
+  width: 90%;
 }
 footer {
   padding: 30px;

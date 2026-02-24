@@ -51,8 +51,7 @@
       <div class="logo">
         <!-- <img src="assets/MENTOR MEN FORUM LOGO 1 (2).jpg" alt="logo"> -->
         <li><a class="second" href="#">Mentor Men Leadership Forum</a></li>
-      </div>
-      
+      </div> 
       <li class="hideOnMobile"><a class="first" href="#About">About</a></li>
       <!-- <li class="hideOnMobile"><a  class="first"  href="#">Mission</a></li> -->
       <li class="hideOnMobile"><a class="first"  href="#vision">Vision</a></li>
@@ -350,10 +349,14 @@
           <img src="/assets/WhatsApp Image 2026-01-14 at 9.07.33 AM.jpeg" alt="" loading="lazy">
         </div>
       
-        
       </div>
     </section>
 
+    <div class="view" onclick="
+    window.location.href='/little.html'
+    ">
+      <button>View More</button>
+    </div>
       <!-- testimony section -->
      <section id="testimonies" class="testimonials" aria-label="Client testimonials">
       <h3>Testimonies</h3>
@@ -449,51 +452,52 @@
 
         <section class="right">
           <div class="registration">
-            <h4>Register Here</h4>
-            <form id="mentorForm" action="https://api.web3forms.com/submit"   method="POST">
-              <input type="hidden" name="access_key" value="879aaa2b-c1a4-49ab-9172-354c8673fddc">
+              <h4>Register Here</h4>
+              <form id="mentorForm" action="https://api.web3forms.com/submit"   method="POST">
+                <input type="hidden" name="access_key" value="879aaa2b-c1a4-49ab-9172-354c8673fddc">
 
-              <div class="inputs">
-                <label for="fname">Full Name</label> <br>
-                <input id="fname" type="text" name="Full Name" 
-                pattern="[A-Za-z ]+" 
-                placeholder="Enter Name" required>
-                <span class="error">Please enter ur name</span>
-              </div>
+                <div class="inputs">
+                  <label for="fname">Full Name</label> <br>
+                  <input id="fname" type="text" name="Full Name" 
+                  pattern="[A-Za-z ]+" 
+                  placeholder="Enter Name" required>
+                  <span class="error">Please enter ur name</span>
+                </div>
 
-              <div class="inputs">
-                <label for="mail">Email</label> <br>
-                <input id="email" type="email" name="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-                placeholder="Enter Email" required>
-                <span class="error">Please enter a valid email</span>
-              </div>
+                <div class="inputs">
+                  <label for="mail">Email</label> <br>
+                  <input id="email" type="email" name="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                  placeholder="Enter Email" required>
+                  <span class="error">Please enter a valid email</span>
+                </div>
 
-              <div class="inputs">
-                <label for="work">Occupation</label> <br>
-                <input id="work" type="text" name="Occupation" pattern="[A-Za-z ]+" placeholder="Enter Ur Occupation" required>
-                <span class="error">Please enter ur occupation</span>
-              </div>
+                <div class="inputs">
+                  <label for="work">Occupation</label> <br>
+                  <input id="work" type="text" name="Occupation" pattern="[A-Za-z ]+" placeholder="Enter Ur Occupation" required>
+                  <span class="error">Please enter ur occupation</span>
+                </div>
 
-              <div class="inputs">
-                <label for="number">Phone Number(WhatsApp)</label> <br>
-                <input type="text" name="Phone-Number" id="phone" pattern="[0-9]+"  placeholder=" Enter Phone Number" required>
-                <span class="error">Please enter phone Number</span>
-              </div>
+                <div class="inputs">
+                  <label for="number">Phone Number(WhatsApp)</label> <br>
+                  <input type="text" name="Phone-Number" id="phone" pattern="[0-9]+"  placeholder=" Enter Phone Number" required>
+                  <span class="error">Please enter phone Number</span>
+                </div>
 
 
 
-              <div class="inputs">
-                <button>Send</button>
-              </div>
-            </form> 
-          </div>
+                <div class="inputs">
+                  <button>Send</button>
+                </div>
+              </form> 
+            </div>
+
           </div>
         </section>
-        <div class="straight-line-2"></div>
+        
       </div>
+      <hr>
   </main>
 
-  <div class="straight-line-2"></div>
 
   <footer>
     <p class="copy-button">&copy; 2026 Mentor Men Leadership Forum. All rights reserved.</p>
