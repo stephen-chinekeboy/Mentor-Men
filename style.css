@@ -949,7 +949,7 @@ footer {
   .sec {
     background-position: right;
     background-size: contain;
-    height: 100vh;
+    height: 80vh;
   }
   .hero {
     display: flex;
