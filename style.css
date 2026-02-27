@@ -278,7 +278,7 @@ nav a.second-1 {
   background-position: right;
   background-size: contain;
   background-repeat: no-repeat;
-  height: 80vh;
+  height: 120vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -949,7 +949,7 @@ footer {
   .sec {
     background-position: right;
     background-size: contain;
-    height: 55vh;
+    height: 100vh;
   }
   .hero {
     display: flex;
@@ -1233,7 +1233,7 @@ footer {
   .sec {
     background-position: right;
     background-size: contain;
-    height: 70vh;
+    height: 100vh;
   }
   .hero {
     display: flex;
@@ -1342,7 +1342,7 @@ footer {
     .sec {
     background-position: right;
     background-size: contain;
-    height: 70vh;
+    height: 120vh;
   }
   .hero h2 {
     font-size: 45px;
@@ -1379,7 +1379,7 @@ footer {
   .sec {
     background-position: right;
     /* background-size: contain; */
-    height: 80vh;
+    height: 120vh;
   }
   .hero h2 {
     width: 500px;
