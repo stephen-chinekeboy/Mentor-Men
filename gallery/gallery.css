@@ -8,6 +8,10 @@ nav {
   background-color: #2f2f2f;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 999;
 }
 nav ul {
   display: flex;
