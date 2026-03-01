@@ -179,6 +179,9 @@ nav a.second-1 {
 .gallery {
   padding: 40px;
 }
+.gallery-heading {
+  text-align: start;
+}
 .mentor-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -207,9 +210,9 @@ footer {
 
 
 @media (max-width: 480px) {
-  .gallery-heading h1{
+  .gallery-heading {
     text-align: center;
-    font-size: 40px; 
+    font-size: 25px; 
   }
   .gallery {
     height: 10vh;
