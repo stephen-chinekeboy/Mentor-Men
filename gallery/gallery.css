@@ -212,6 +212,7 @@ footer {
     font-size: 40px; 
   }
   .gallery {
+    height: 10vh;
     width: 100%;
     align-items: center;
   }
