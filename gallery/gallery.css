@@ -214,11 +214,11 @@ footer {
     text-align: center;
     font-size: 25px; 
   }
-  .gallery {
+  /* .gallery {
     height: 10vh;
     width: 100%;
     align-items: center;
-  }
+  } */
 }
 @media (max-width: 920px) {
   .hideOnMobile {
