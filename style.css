@@ -78,7 +78,7 @@ body {
   background: #ccc;
   cursor: pointer;
 }
-.testimonials h3 {
+.testimonials h3{
   text-align: center;
   font-size: 25px;
   font-family: 'Poppins';
@@ -185,12 +185,13 @@ nav a.second-1 {
   display: flex;
   align-items: center;
 }
-/* .logo img {
-  width: 70px;
-  height: auto;
+.logo img {
+  width: 50px;
+  height: 50px;
   background: none;
-  padding: none;
-} */
+  border-radius: 50%;
+  margin-right: -10px;
+}
 .sidebar { 
   position: absolute;
   top: 0;
