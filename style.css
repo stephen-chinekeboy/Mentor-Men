@@ -288,6 +288,7 @@ nav a.second-1 {
   text-align: start;
   word-spacing: 5px;
   position: relative;
+  padding-top: 90px;
 }
 .backdrop {
   background-color: rgba(245, 141, 30, 0.15);
@@ -299,8 +300,7 @@ nav a.second-1 {
   left: 0;
 }
 .hero {
-  max-width: 600px;
-  margin-top: 80px;
+  /* margin-top: 80px; */
   padding-left: 70px;
   width: 100%;
   list-style: 50px;
@@ -1238,6 +1238,7 @@ footer {
   .sec {
     background-position: right;
     background-size: contain;
+
   }
   .hero {
     display: flex;
