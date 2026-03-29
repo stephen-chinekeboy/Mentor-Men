@@ -410,6 +410,10 @@
               <form id="mentorForm" action="https://api.web3forms.com/submit"   method="POST">
                 <input type="hidden" name="access_key" value="879aaa2b-c1a4-49ab-9172-354c8673fddc">
 
+                <input type="hidden" name="redirect" value="https://mentormenforum.org.com/thank-you.html">
+
+                <input type="checkbox" name="botcheck" style="display: none;">
+
                 <div class="inputs">
                   <label for="fname">Full Name</label> <br>
                   <input id="fname" type="text" name="Full Name" 
@@ -436,8 +440,6 @@
                   <input type="text" name="Phone-Number" id="phone" pattern="[0-9]+"  placeholder=" Enter Phone Number" required>
                   <span class="error">Please enter phone Number</span>
                 </div>
-
-
 
                 <div class="inputs">
                   <button>Send</button>
