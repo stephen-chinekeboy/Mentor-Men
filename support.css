@@ -1,0 +1,165 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+main {
+  background: #0f172a;
+  padding: 60px 70px;
+  height: 100%;
+}
+.div-wrapper {
+  background: #1e293b;
+  padding: 40px;
+  border-radius: 20px;
+}
+.our{
+  text-align: center;
+  background-color: #020617;
+  padding: 20px 30px;
+  font-family: "Poppins" , sans-serif;
+  font-size: 20px;
+  color: #D4AF37;
+  border-radius: 20px;
+}
+.support {
+  text-align: center;
+  margin-top: 30px;
+}
+.mission h1{
+  font-size: 40px;
+  font-family: "Poppins" , sans-serif;
+  color: #D4AF37;
+}
+.mission p {
+  margin-top: 20px;
+  color: #CBD5F5;
+  font-family: "inter" , sans-serif;
+  word-spacing: 5px;
+}
+.mission span {
+  color: white;
+}
+
+/* bank details */
+
+.bank {
+  background: #020617;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  color: #fff;
+  margin-top: 30px;
+  width: 100%;
+}
+.flex-bank {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+}
+.flex-bank h2 {
+  font-family: "Poppins" , sans-serif;
+  color: #ffffff;;
+}
+.flex-bank p {
+  font-family: "inter" , sans-serif;
+  color: #94a3b8;
+}
+.flex-bank h3 {
+  font-family: "Poppins" , sans-serif;
+  color: #ffffff;
+}
+hr {
+  margin-bottom: 20px;
+  /* border: 0.3px solid #94a3b8; */
+  opacity: 0.3;
+}
+
+.proof {
+  margin-top: 40px;
+}
+
+.importance {
+  background: #020617;
+  padding: 40px 60px;
+  font-family: "inter" , sans-serif;
+  border-radius: 30px;
+}
+
+.importance span {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.light svg{
+  background: #fff;
+  padding: 40px;
+  border-radius: 50%;
+}
+
+.light strong {
+  font-size: 30px;
+  font-family: 'Poppins' , sans-serif;
+  color: #D4AF37;
+}
+.light p {
+  color: #fff;
+  font-family: "inter" , sans-serif;
+  word-spacing: 5px;
+  line-height: 30px;
+}
+
+.send {
+  margin-top: 40px;
+}
+
+.payment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: #fff;
+  font-family: "Poppins" , sans-serif;
+  background: #22c55e;
+  padding: 20px 50px;
+  margin: 30px 200px;
+  border-radius: 20px;
+}
+
+.payment:hover {
+  background: #16a34a;
+}
+
+.payment a {
+  text-decoration: none;
+  color: #fff;
+  font-family: "Poppins" , sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+
+@media (max-width: 480px) {
+  .our {
+    font-size: 15px;
+    padding: 10px 30px;
+  }
+
+  .mission h1 {
+    font-size: 30px;
+  }
+  .mission p {
+    font-size: 15px;
+  }
+
+  .transfer {
+    font-size: 20px;
+  }
+
+  .flex-bank h3 {
+    font-size: 15px;
+  }
+}

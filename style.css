@@ -740,6 +740,20 @@ strong {
   padding: 10px;
 }
 
+.support-button {
+  text-align: center;
+  padding: 40px;
+}
+.support-button button {
+  padding: 20px;
+  font-size: 18px;
+  font-family: "inter" , sans-serif;
+  border-radius: 10px;
+  border: none;
+  background-color: #7B3f00;
+  color: white;
+}
+
 /* contact section */
 
 .flex-contact {
@@ -900,12 +914,6 @@ label {
 
 }
 
-/* .error {
-  color: red;
-  font-size: 0.85rem;
-  height: 1rem; 
-  display: block;
-} */
 
 .inputs input:invalid:not(:placeholder-shown) + .error {
   display: block;
