@@ -70,6 +70,9 @@ main {
   font-family: "Poppins" , sans-serif;
   color: #ffffff;
 }
+.flex-bank p {
+  padding-bottom: 5px;
+}
 hr {
   margin-bottom: 20px;
   /* border: 0.3px solid #94a3b8; */
@@ -194,4 +197,30 @@ hr {
     height: 50px;
   }
 
+}
+
+@media(min-width: 481px) and (max-width: 768px) {
+  .importance {
+    padding: 20px 40px;
+  }
+  .importance span {
+    padding-top: 20px;
+  }
+  .light svg {
+    width: 190px;
+    height: 120px;
+    padding: 10px;
+  }
+
+  .payment {
+    margin: 0;
+  }
+}
+
+@media(min-width: 769px) and (max-width: 1024px) {
+  .light svg {
+    width: 200px;
+    height: 90px;
+    padding: 15px;
+  }
 }
