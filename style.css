@@ -679,6 +679,30 @@ strong {
   width: 100%;
   height: 100%;
 }
+/* ministers section */
+.minister {
+  padding: 40px;
+}
+
+.minister h2 {
+  font-size: 35px;
+  color: black;
+  font-family: 'Poppins' , sans-serif;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.minister-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.minister-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 /* view section */
 .view {
   display: flex;
