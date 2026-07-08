@@ -453,7 +453,10 @@ nav a.second-1 {
 @media(max-width: 480px) {
   .support {
     padding: 350px 0;
-    
+  }
+
+  .hero-flex {
+    padding: 15px;
   }
 
   .text .text-1 h1 {
