@@ -773,6 +773,10 @@ main {
     width: 300px;
   }
 
+  .together {
+    padding: 40px 20px;
+  }
+
   .together-flex {
     flex-direction: column;
   }
