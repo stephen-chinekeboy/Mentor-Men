@@ -357,6 +357,10 @@ nav a.second-1 {
  color: #7B3f00;
 }
 
+main {
+  background-color: #f8fafc;
+}
+
 .support {
   background-color: black;
   background-image: url(/favicon/WhatsApp\ Image\ 2026-07-08\ at\ 8.25.32\ AM.jpeg);
@@ -391,6 +395,11 @@ nav a.second-1 {
   font-size: 45px;
   color: #fff;
   font-family: 'Poppins' ,sans-serif;
+}
+
+.text-1 span {
+  color: #d4af37;
+   font-family: 'Poppins' ,sans-serif;
 }
 
 .text .text-1 .raising {
@@ -449,6 +458,116 @@ nav a.second-1 {
   color: white;
   border: 1px solid #ddd;
 }
+/* support section */
+.why {
+  padding: 40px;
+}
+
+.why-flex {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.why-text,
+.why-2 {
+  flex: 1;
+}
+
+.why-text .text-1 span {
+  font-size: 16px;
+  font-family: 'Inter' , sans-serif;
+}
+
+.why-text .text-1 h2 {
+  font-family: 'Poppins' , sans-serif;
+  font-size: 25px;
+  text-transform: capitalize;
+  color: #0f172a;
+  padding-bottom: 10px;
+}
+
+.why-text .text-1 p {
+  font-size: 17px;
+  color: #1e293b;
+  font-family: 'Inter' , sans-serif;
+  width: 400px;
+  line-height: 25px;
+}
+
+.why-text .text-2 {
+  margin-top: 30px;
+  background-color: #ddd;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.why-text .text-2 h3 {
+  font-size: 25px;
+  font-family: 'Poppins', sans-serif;
+  color: #0f172a;
+}
+
+.why-text .text-2 p {
+  font-size: 18px;
+  font-family: 'Inter' , sans-serif;
+  width: 450px;
+  line-height: 25px;
+}
+
+.why-text .text-2 span {
+  font-family: 'Playfair Display' sans-serif;
+  font-size: 30px;
+}
+
+.why-2 {
+  padding: 20px;
+  background-color: #0f172a;
+}
+
+.people,
+.many,
+.why-target {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 30px;
+}
+
+.people {
+  padding: 20px 0;
+}
+
+.why-2 svg {
+  width: 60px;
+  height: 60px;
+  fill: #d4af37;
+}
+
+.why-target h3,
+.people h3,
+.many h3 {
+  font-size: 25px;
+  color: #f8fafc;
+  font-family: 'Poppins' , sans-serif;
+  text-transform: capitalize;
+}
+
+.why-target p,
+.people p,
+.many p {
+  font-size: 15px;
+  font-family: 'Inter' , sans-serif;
+  color: #ddd;
+}
+
+.why-line {
+  width: 100%;
+  height: 1px;
+  background: #d4af37;
+  margin: 20px 0;
+}
+
 
 @media(max-width: 480px) {
   .support {
@@ -470,5 +589,36 @@ nav a.second-1 {
 
   .button {
     flex-direction: column;
+  }
+  /* why section */
+  .why-flex {
+    flex-direction: column;
+  }
+
+  .why-text .text-1 span {
+    font-size: 15px;
+  }
+
+  .why .text-1 h2 {
+    font-size: 20px;
+  }
+
+  .why .text-1 p {
+    font-size: 15px;
+    width: 350px;
+  }
+
+  .why-2 span{
+    font-size: 20px;
+  }
+
+  .why-text .text-2 h2 {
+    font-size: 20px;
+    font-family: 'Poppins' , sans-serif;
+  }
+
+  .why-text .text-2 p {
+    font-size: 15px;
+    width: 350px;
   }
 }
