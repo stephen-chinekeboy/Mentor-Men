@@ -116,28 +116,52 @@ hr {
 }
 
 .payment {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+  background-color: #16a34a;
+  padding: 30px;
+  border-radius: 50px;
+}
+
+.payment h2 {
+  text-align: center;
+  font-family: 'Roboto' , sans-serif;
+  text-transform: capitalize;
   color: #fff;
-  font-family: "Poppins" , sans-serif;
-  background: #22c55e;
-  padding: 20px 50px;
-  margin: 30px 200px;
-  border-radius: 20px;
+}
+
+.payment-svg svg  {
+  width: 40px;
+  height: 40px;
+  fill: #D4AF37;
+}
+
+.payment-line {
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+  margin: 20px 0;
+}
+
+.payment-svg {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.whatsapp-text p {
+  color: #ddd;
+  font-family: 'Inter' , sans-serif;
+  font-size: 17px;
+}
+
+.whatsapp-text h3 {
+  padding-top: 5px;
+  font-size: 24px;
+  font-family: 'Roboto' , sans-serif;
+  color: #fff;
 }
 
 .payment:hover {
   background: #16a34a;
-}
-
-.payment a {
-  text-decoration: none;
-  color: #fff;
-  font-family: "Poppins" , sans-serif;
-  font-size: 20px;
-  font-weight: bold;
 }
 
 @media (max-width: 480px) {
