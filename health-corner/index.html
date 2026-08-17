@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="EMERGE 2026 Health Corner — register for the 30% healthcare discount benefit."
+  >
+
+  <title>
+    Health Corner - EMERGE 2026
+  </title>
+
+
+  <!-- Tailwind -->
+
+  <script
+    src="https://cdn.tailwindcss.com?plugins=forms,container-queries"
+  ></script>
+
+
+  <!-- Fonts -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- Material Symbols -->
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <script>
+
+    tailwind.config = {
+
+      darkMode:
+        "class",
+
+      theme: {
+
+        extend: {
+
+          colors: {
+
+            "background":
+              "#121414",
+
+            "surface":
+              "#121414",
+
+            "surface-container-lowest":
+              "#0d0f0f",
+
+            "surface-container-low":
+              "#1a1c1c",
+
+            "surface-container":
+              "#1e2020",
+
+            "surface-container-high":
+              "#282a2b",
+
+            "surface-variant":
+              "#333535",
+
+            "charcoal-surface":
+              "#1A1A1A",
+
+            "on-surface":
+              "#e2e2e2",
+
+            "on-surface-variant":
+              "#d0c5af",
+
+            "primary":
+              "#f2ca50",
+
+            "primary-container":
+              "#d4af37",
+
+            "outline":
+              "#99907c",
+
+            "outline-variant":
+              "#4d4635",
+
+            "secondary-container":
+              "#8e0f28",
+
+            "status-valid":
+              "#50C878",
+
+            "status-invalid":
+              "#B22222"
+
+          },
+
+
+          fontFamily: {
+
+            "display": [
+              "Libre Caslon Text",
+              "serif"
+            ],
+
+            "body": [
+              "Inter",
+              "sans-serif"
+            ]
+
+          }
+
+        }
+
+      }
+
+    };
+
+  </script>
+
+
+  <style>
+
+    html {
+      scroll-behavior:
+        smooth;
+    }
+
+
+    body {
+
+      font-family:
+        Inter,
+        sans-serif;
+
+    }
+
+
+    .health-background {
+
+      background-image:
+
+        radial-gradient(
+          circle at 10% 15%,
+          rgba(212, 175, 55, 0.06),
+          transparent 25%
+        ),
+
+        radial-gradient(
+          circle at 90% 80%,
+          rgba(142, 15, 40, 0.08),
+          transparent 28%
+        );
+
+    }
+
+
+    .dot-pattern {
+
+      background-image:
+
+        radial-gradient(
+          circle at 2px 2px,
+          rgba(212, 175, 55, 0.045) 1px,
+          transparent 0
+        );
+
+      background-size:
+        24px 24px;
+
+    }
+
+
+    .loader {
+
+      width:
+        40px;
+
+      height:
+        40px;
+
+      border:
+        3px solid rgba(242, 202, 80, 0.15);
+
+      border-top-color:
+        #f2ca50;
+
+      border-radius:
+        50%;
+
+      animation:
+        spin 0.8s linear infinite;
+
+    }
+
+
+    @keyframes spin {
+
+      to {
+
+        transform:
+          rotate(360deg);
+
+      }
+
+    }
+
+
+    .feature-card {
+
+      transition:
+        border-color 0.25s ease,
+        transform 0.25s ease;
+
+    }
+
+
+    .feature-card:hover {
+
+      border-color:
+        rgba(212, 175, 55, 0.45);
+
+      transform:
+        translateY(-3px);
+
+    }
+
+  </style>
+
+</head>
+
+
+<body
+  class="
+    bg-background
+    text-on-surface
+    min-h-screen
+    flex
+    flex-col
+    antialiased
+    health-background
+    dot-pattern
+  "
+>
+
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <header
+    class="
+      bg-background/95
+      backdrop-blur
+      border-b
+      border-surface-variant
+      sticky
+      top-0
+      z-50
+    "
+  >
+
+    <div
+      class="
+        w-full
+        max-w-[1200px]
+        mx-auto
+        h-20
+        px-5
+        md:px-6
+        flex
+        items-center
+        justify-between
+      "
+    >
+
+      <a
+        href="../index.html#emerge-2026"
+
+        class="
+          font-display
+          font-bold
+          text-primary
+          text-xl
+          md:text-2xl
+          tracking-wider
+        "
+      >
+        EMERGE 2026
+      </a>
+
+
+      <nav
+        class="
+          hidden
+          md:flex
+          items-center
+          gap-8
+        "
+      >
+
+        <a
+          href="index.html"
+
+          class="
+            text-primary
+            text-xs
+            uppercase
+            tracking-[0.14em]
+            font-bold
+            border-b
+            border-primary
+            pb-1
+          "
+        >
+          Health Corner
+        </a>
+
+
+        <a
+          id="headerRegisterLink"
+          href="register.html"
+
+          class="
+            hidden
+            text-on-surface-variant
+            hover:text-primary
+            text-xs
+            uppercase
+            tracking-[0.14em]
+            font-semibold
+            transition-colors
+          "
+        >
+          Register
+        </a>
+
+
+        <a
+          href="../index.html"
+
+          class="
+            text-on-surface-variant
+            hover:text-primary
+            text-xs
+            uppercase
+            tracking-[0.14em]
+            font-semibold
+            transition-colors
+          "
+        >
+          Mentor Men Website
+        </a>
+
+      </nav>
+
+
+      <a
+        href="../index.html"
+
+        class="
+          md:hidden
+          text-on-surface-variant
+          hover:text-primary
+          transition-colors
+        "
+
+        aria-label="Return to Mentor Men website"
+      >
+
+        <span
+          class="material-symbols-outlined"
+        >
+          home
+        </span>
+
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       STATUS CHECK
+       ===================================================== -->
+
+  <main
+    id="statusLoading"
+
+    class="
+      flex-grow
+      flex
+      items-center
+      justify-center
+      px-5
+      py-20
+    "
+  >
+
+    <div
+      class="
+        text-center
+        max-w-md
+      "
+    >
+
+      <div
+        class="
+          loader
+          mx-auto
+          mb-6
+        "
+      ></div>
+
+
+      <div
+        class="
+          text-primary
+          text-xs
+          uppercase
+          tracking-[0.18em]
+          font-bold
+        "
+      >
+        EMERGE 2026
+      </div>
+
+
+      <h1
+        class="
+          font-display
+          text-3xl
+          mt-3
+        "
+      >
+        Health Corner
+      </h1>
+
+
+      <p
+        class="
+          text-on-surface-variant
+          mt-4
+        "
+      >
+        Checking Health Corner registration status...
+      </p>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       REGISTRATION OPEN
+       ===================================================== -->
+
+  <main
+    id="registrationOpenPage"
+    class="
+      hidden
+      flex-grow
+    "
+  >
+
+
+    <!-- HERO -->
+
+    <section
+      class="
+        relative
+        overflow-hidden
+      "
+    >
+
+      <div
+        class="
+          w-full
+          max-w-[1200px]
+          mx-auto
+          px-5
+          md:px-6
+          pt-14
+          md:pt-20
+          pb-16
+          md:pb-24
+        "
+      >
+
+
+        <div
+          class="
+            flex
+            justify-center
+            mb-7
+          "
+        >
+
+          <div
+            class="
+              inline-flex
+              items-center
+              gap-2
+              border
+              border-status-valid/30
+              bg-status-valid/5
+              px-4
+              py-2
+              rounded-full
+            "
+          >
+
+            <span
+              class="
+                w-2
+                h-2
+                rounded-full
+                bg-status-valid
+                animate-pulse
+              "
+            ></span>
+
+
+            <span
+              class="
+                text-status-valid
+                text-xs
+                uppercase
+                tracking-[0.14em]
+                font-semibold
+              "
+            >
+              Registration Open
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="
+            text-center
+            max-w-3xl
+            mx-auto
+          "
+        >
+
+          <div
+            class="
+              text-primary-container
+              text-xs
+              uppercase
+              tracking-[0.2em]
+              font-bold
+              mb-5
+            "
+          >
+            EMERGE 2026
+          </div>
+
+
+          <h1
+            class="
+              font-display
+              text-[42px]
+              leading-[48px]
+              sm:text-5xl
+              md:text-6xl
+              font-bold
+            "
+          >
+            Health Corner
+          </h1>
+
+
+          <h2
+            class="
+              font-display
+              text-xl
+              md:text-2xl
+              text-on-surface-variant
+              mt-4
+            "
+          >
+            Men's Lives and the Curves
+          </h2>
+
+
+          <div
+            class="
+              inline-flex
+              items-center
+              gap-3
+              border
+              border-primary/30
+              bg-primary/5
+              px-5
+              md:px-7
+              py-4
+              mt-8
+              rounded-lg
+            "
+          >
+
+            <span
+              class="
+                material-symbols-outlined
+                text-primary
+              "
+            >
+              health_and_safety
+            </span>
+
+
+            <span
+              class="
+                text-primary
+                text-sm
+                sm:text-base
+                font-bold
+                tracking-[0.08em]
+              "
+            >
+              30% HEALTHCARE DISCOUNT
+            </span>
+
+          </div>
+
+
+          <p
+            class="
+              text-on-surface-variant
+              text-base
+              md:text-lg
+              leading-7
+              md:leading-8
+              max-w-2xl
+              mx-auto
+              mt-7
+            "
+          >
+            Eligible EMERGE 2026 participants can register for
+            the Health Corner benefit and receive a unique personal
+            QR credential for use at the participating hospital.
+          </p>
+
+
+          <div
+            class="
+              mt-9
+              flex
+              flex-col
+              sm:flex-row
+              justify-center
+              gap-3
+            "
+          >
+
+            <a
+              href="register.html"
+
+              class="
+                inline-flex
+                items-center
+                justify-center
+                gap-2
+                bg-primary-container
+                text-[#121414]
+                px-8
+                py-4
+                rounded
+                text-xs
+                uppercase
+                tracking-[0.14em]
+                font-bold
+                hover:bg-primary
+                transition-colors
+              "
+            >
+
+              Register for Health Corner
+
+              <span
+                class="
+                  material-symbols-outlined
+                  text-lg
+                "
+              >
+                arrow_forward
+              </span>
+
+            </a>
+
+
+            <a
+              href="#how-it-works"
+
+              class="
+                inline-flex
+                items-center
+                justify-center
+                border
+                border-outline-variant
+                text-on-surface
+                px-8
+                py-4
+                rounded
+                text-xs
+                uppercase
+                tracking-[0.14em]
+                font-bold
+                hover:border-primary
+                hover:text-primary
+                transition-colors
+              "
+            >
+              How It Works
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- HEALTH CURVE -->
+
+    <section
+      class="
+        bg-surface-container-low
+        border-y
+        border-surface-variant
+      "
+    >
+
+      <div
+        class="
+          max-w-[1000px]
+          mx-auto
+          px-5
+          md:px-6
+          py-11
+        "
+      >
+
+        <div
+          class="
+            grid
+            md:grid-cols-[0.7fr_1.3fr]
+            gap-8
+            md:gap-14
+            items-center
+          "
+        >
+
+          <div>
+
+            <div
+              class="
+                text-secondary-container
+                text-xs
+                uppercase
+                tracking-[0.18em]
+                font-bold
+              "
+            >
+              The Health Curve
+            </div>
+
+
+            <h2
+              class="
+                font-display
+                text-3xl
+                md:text-4xl
+                text-primary
+                mt-3
+              "
+            >
+              Men's Health Matters
+            </h2>
+
+          </div>
+
+
+          <div
+            class="
+              md:border-l
+              md:border-surface-variant
+              md:pl-12
+            "
+          >
+
+            <div
+              class="
+                text-xs
+                text-outline
+                uppercase
+                tracking-[0.16em]
+                mb-3
+              "
+            >
+              Focus
+            </div>
+
+
+            <p
+              class="
+                font-display
+                text-2xl
+                md:text-3xl
+                leading-snug
+              "
+            >
+              Libido, Erectile Dysfunction &amp; Prostate
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+
+    <section
+      id="how-it-works"
+    >
+
+      <div
+        class="
+          max-w-[1100px]
+          mx-auto
+          px-5
+          md:px-6
+          py-16
+          md:py-20
+        "
+      >
+
+        <div
+          class="
+            text-center
+            max-w-2xl
+            mx-auto
+            mb-10
+          "
+        >
+
+          <div
+            class="
+              text-primary-container
+              text-xs
+              uppercase
+              tracking-[0.18em]
+              font-bold
+            "
+          >
+            Simple &amp; Secure
+          </div>
+
+
+          <h2
+            class="
+              font-display
+              text-3xl
+              md:text-4xl
+              mt-3
+            "
+          >
+            How the Health Corner Benefit Works
+          </h2>
+
+        </div>
+
+
+        <div
+          class="
+            grid
+            md:grid-cols-3
+            gap-4
+          "
+        >
+
+
+          <article
+            class="
+              feature-card
+              bg-charcoal-surface
+              border
+              border-surface-variant
+              border-t-secondary-container
+              p-6
+              rounded-lg
+            "
+          >
+
+            <div
+              class="
+                text-primary
+                font-display
+                text-xl
+                mb-5
+              "
+            >
+              01
+            </div>
+
+
+            <h3
+              class="
+                font-display
+                text-2xl
+              "
+            >
+              Register
+            </h3>
+
+
+            <p
+              class="
+                text-on-surface-variant
+                text-sm
+                leading-6
+                mt-3
+              "
+            >
+              Complete the Health Corner form and select
+              your applicable VIP or Standard tier.
+            </p>
+
+          </article>
+
+
+          <article
+            class="
+              feature-card
+              bg-charcoal-surface
+              border
+              border-surface-variant
+              border-t-primary-container
+              p-6
+              rounded-lg
+            "
+          >
+
+            <div
+              class="
+                text-primary
+                font-display
+                text-xl
+                mb-5
+              "
+            >
+              02
+            </div>
+
+
+            <h3
+              class="
+                font-display
+                text-2xl
+              "
+            >
+              Receive Your QR
+            </h3>
+
+
+            <p
+              class="
+                text-on-surface-variant
+                text-sm
+                leading-6
+                mt-3
+              "
+            >
+              Your registration receives a unique personal
+              QR credential that can be stored on your phone.
+            </p>
+
+          </article>
+
+
+          <article
+            class="
+              feature-card
+              bg-charcoal-surface
+              border
+              border-surface-variant
+              border-t-status-valid
+              p-6
+              rounded-lg
+            "
+          >
+
+            <div
+              class="
+                text-primary
+                font-display
+                text-xl
+                mb-5
+              "
+            >
+              03
+            </div>
+
+
+            <h3
+              class="
+                font-display
+                text-2xl
+              "
+            >
+              Present at Hospital
+            </h3>
+
+
+            <p
+              class="
+                text-on-surface-variant
+                text-sm
+                leading-6
+                mt-3
+              "
+            >
+              Hospital personnel scan your QR and securely
+              authorise your one-time 30% benefit.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- EVENT DETAILS -->
+
+    <section
+      class="
+        bg-surface-container-lowest
+        border-t
+        border-surface-variant
+      "
+    >
+
+      <div
+        class="
+          max-w-[1000px]
+          mx-auto
+          px-5
+          md:px-6
+          py-14
+        "
+      >
+
+        <div
+          class="
+            grid
+            lg:grid-cols-2
+            gap-10
+          "
+        >
+
+          <div>
+
+            <div
+              class="
+                text-primary-container
+                text-xs
+                uppercase
+                tracking-[0.18em]
+                font-bold
+              "
+            >
+              The Conference
+            </div>
+
+
+            <h2
+              class="
+                font-display
+                text-4xl
+                text-primary
+                mt-3
+              "
+            >
+              EMERGE 2026
+            </h2>
+
+
+            <p
+              class="
+                font-display
+                text-2xl
+                mt-3
+              "
+            >
+              Men's Lives and the Curves
+            </p>
+
+          </div>
+
+
+          <div
+            class="
+              border-t
+              border-surface-variant
+            "
+          >
+
+            <div
+              class="
+                py-4
+                border-b
+                border-surface-variant
+                flex
+                justify-between
+                gap-5
+              "
+            >
+
+              <span
+                class="
+                  text-xs
+                  text-outline
+                  uppercase
+                "
+              >
+                Dates
+              </span>
+
+
+              <strong>
+                22 &amp; 23 August 2026
+              </strong>
+
+            </div>
+
+
+            <div
+              class="
+                py-4
+                border-b
+                border-surface-variant
+                flex
+                justify-between
+                gap-5
+              "
+            >
+
+              <span
+                class="
+                  text-xs
+                  text-outline
+                  uppercase
+                "
+              >
+                Venue
+              </span>
+
+
+              <strong
+                class="text-right"
+              >
+                AMADEO Event Centre
+                <br>
+
+                <span
+                  class="
+                    text-sm
+                    font-normal
+                    text-on-surface-variant
+                  "
+                >
+                  Enugu, Enugu State
+                </span>
+              </strong>
+
+            </div>
+
+
+            <div
+              class="
+                py-4
+                border-b
+                border-surface-variant
+                flex
+                justify-between
+              "
+            >
+
+              <span
+                class="
+                  text-xs
+                  text-outline
+                  uppercase
+                "
+              >
+                Saturday
+              </span>
+
+
+              <strong>
+                9:00 AM &amp; 4:00 PM
+              </strong>
+
+            </div>
+
+
+            <div
+              class="
+                py-4
+                flex
+                justify-between
+              "
+            >
+
+              <span
+                class="
+                  text-xs
+                  text-outline
+                  uppercase
+                "
+              >
+                Sunday
+              </span>
+
+
+              <strong>
+                4:00 PM
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       REGISTRATION CLOSED
+       ===================================================== -->
+
+  <main
+    id="registrationClosedPage"
+
+    class="
+      hidden
+      flex-grow
+      flex
+      items-center
+      justify-center
+      px-5
+      py-16
+    "
+  >
+
+    <div
+      class="
+        w-full
+        max-w-2xl
+        bg-charcoal-surface
+        border
+        border-surface-variant
+        border-t-status-invalid
+        p-8
+        md:p-12
+        text-center
+      "
+    >
+
+      <div
+        class="
+          w-20
+          h-20
+          rounded-full
+          border
+          border-status-invalid/40
+          bg-status-invalid/5
+          flex
+          items-center
+          justify-center
+          mx-auto
+        "
+      >
+
+        <span
+          class="
+            material-symbols-outlined
+            text-status-invalid
+            text-4xl
+          "
+        >
+          event_busy
+        </span>
+
+      </div>
+
+
+      <div
+        class="
+          text-primary-container
+          text-xs
+          uppercase
+          tracking-[0.18em]
+          font-bold
+          mt-7
+        "
+      >
+        EMERGE 2026 Health Corner
+      </div>
+
+
+      <h1
+        class="
+          font-display
+          text-3xl
+          md:text-4xl
+          mt-4
+        "
+      >
+        Registration Has Closed
+      </h1>
+
+
+      <p
+        class="
+          text-on-surface-variant
+          leading-7
+          mt-6
+          max-w-lg
+          mx-auto
+        "
+      >
+        Registration for the EMERGE 2026 Health Corner
+        programme is no longer accepting new participants.
+      </p>
+
+
+      <div
+        class="
+          border
+          border-primary/20
+          bg-primary/5
+          p-5
+          mt-8
+          text-left
+        "
+      >
+
+        <div
+          class="
+            flex
+            gap-3
+            items-start
+          "
+        >
+
+          <span
+            class="
+              material-symbols-outlined
+              text-primary
+            "
+          >
+            qr_code_2
+          </span>
+
+
+          <p
+            class="
+              text-sm
+              text-on-surface-variant
+              leading-6
+            "
+          >
+            Participants who already registered can continue
+            using their personal Health Corner QR for verification
+            and redemption.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <a
+        href="../index.html#emerge-2026"
+
+        class="
+          inline-flex
+          items-center
+          justify-center
+          gap-2
+          border
+          border-outline-variant
+          text-primary
+          px-7
+          py-4
+          mt-8
+          rounded
+          text-xs
+          uppercase
+          tracking-[0.14em]
+          font-bold
+          hover:border-primary
+          transition-colors
+        "
+      >
+
+        <span
+          class="
+            material-symbols-outlined
+            text-base
+          "
+        >
+          arrow_back
+        </span>
+
+        Return to EMERGE 2026
+
+      </a>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       STATUS SERVICE ERROR
+       ===================================================== -->
+
+  <main
+    id="statusErrorPage"
+
+    class="
+      hidden
+      flex-grow
+      flex
+      items-center
+      justify-center
+      px-5
+      py-16
+    "
+  >
+
+    <div
+      class="
+        max-w-xl
+        text-center
+        bg-charcoal-surface
+        border
+        border-surface-variant
+        border-t-status-invalid
+        p-9
+      "
+    >
+
+      <span
+        class="
+          material-symbols-outlined
+          text-status-invalid
+          text-5xl
+        "
+      >
+        error_outline
+      </span>
+
+
+      <h1
+        class="
+          font-display
+          text-3xl
+          mt-5
+        "
+      >
+        Registration Status Unavailable
+      </h1>
+
+
+      <p
+        class="
+          text-on-surface-variant
+          mt-4
+          leading-7
+        "
+      >
+        We could not safely confirm whether registration is
+        currently open. Please refresh the page or try again later.
+      </p>
+
+    </div>
+
+  </main>
+
+
+  <!-- BACKEND RECEIVER -->
+
+  <iframe
+    id="statusReceiver"
+    class="hidden"
+    title="Registration Status"
+  ></iframe>
+
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <footer
+    class="
+      bg-surface-container-lowest
+      border-t
+      border-surface-variant
+    "
+  >
+
+    <div
+      class="
+        max-w-[1200px]
+        mx-auto
+        px-5
+        md:px-6
+        py-7
+        flex
+        flex-col
+        md:flex-row
+        items-center
+        justify-between
+        gap-4
+      "
+    >
+
+      <div
+        class="
+          font-display
+          text-primary
+          text-xl
+          font-bold
+        "
+      >
+        EMERGE 2026
+      </div>
+
+
+      <div
+        class="
+          text-xs
+          text-on-surface-variant
+          text-center
+        "
+      >
+        © 2026 Mentor Men Leadership Forum.
+        All Rights Reserved.
+      </div>
+
+
+      <a
+        href="https://mentormenforum.org"
+
+        class="
+          text-xs
+          text-on-surface-variant
+          hover:text-primary
+        "
+      >
+        mentormenforum.org
+      </a>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =====================================================
+       REGISTRATION STATUS LOGIC
+       ===================================================== -->
+
+  <script>
+
+    const APPS_SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec";
+
+
+    const statusLoading =
+      document.getElementById(
+        "statusLoading"
+      );
+
+
+    const registrationOpenPage =
+      document.getElementById(
+        "registrationOpenPage"
+      );
+
+
+    const registrationClosedPage =
+      document.getElementById(
+        "registrationClosedPage"
+      );
+
+
+    const statusErrorPage =
+      document.getElementById(
+        "statusErrorPage"
+      );
+
+
+    const statusReceiver =
+      document.getElementById(
+        "statusReceiver"
+      );
+
+
+    const headerRegisterLink =
+      document.getElementById(
+        "headerRegisterLink"
+      );
+
+
+    let statusNonce =
+      "";
+
+
+    let statusTimeout =
+      null;
+
+
+    function createNonce() {
+
+      if (
+        window.crypto &&
+        window.crypto.getRandomValues
+      ) {
+
+        const values =
+          new Uint32Array(
+            4
+          );
+
+
+        window.crypto.getRandomValues(
+          values
+        );
+
+
+        return Array
+          .from(
+            values
+          )
+          .map(
+            value =>
+              value
+                .toString(16)
+                .padStart(8, "0")
+          )
+          .join("");
+
+      }
+
+
+      return (
+        Date.now().toString(36) +
+        Math.random().toString(36).slice(2)
+      );
+
+    }
+
+
+    function hideAllStates() {
+
+      statusLoading.classList.add(
+        "hidden"
+      );
+
+
+      registrationOpenPage.classList.add(
+        "hidden"
+      );
+
+
+      registrationClosedPage.classList.add(
+        "hidden"
+      );
+
+
+      statusErrorPage.classList.add(
+        "hidden"
+      );
+
+
+      headerRegisterLink.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    function showOpenState() {
+
+      hideAllStates();
+
+
+      registrationOpenPage.classList.remove(
+        "hidden"
+      );
+
+
+      headerRegisterLink.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    function showClosedState() {
+
+      hideAllStates();
+
+
+      registrationClosedPage.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    function showStatusError() {
+
+      hideAllStates();
+
+
+      statusErrorPage.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    function checkRegistrationStatus() {
+
+      statusNonce =
+        createNonce();
+
+
+      const statusUrl =
+
+        APPS_SCRIPT_URL +
+
+        "?action=registrationStatus" +
+
+        "&callbackNonce=" +
+
+        encodeURIComponent(
+          statusNonce
+        ) +
+
+        "&_=" +
+
+        Date.now();
+
+
+      statusReceiver.src =
+        statusUrl;
+
+
+      statusTimeout =
+        window.setTimeout(
+          function () {
+
+            showStatusError();
+
+          },
+          20000
+        );
+
+    }
+
+
+    window.addEventListener(
+      "message",
+      function (
+        event
+      ) {
+
+        const data =
+          event.data;
+
+
+        if (
+          !data ||
+          typeof data !==
+          "object"
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          data.source !==
+          "EMERGE_HEALTH_CORNER"
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          data.type !==
+          "REGISTRATION_STATUS_RESULT"
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          !statusNonce ||
+          data.callbackNonce !==
+          statusNonce
+        ) {
+
+          return;
+
+        }
+
+
+        window.clearTimeout(
+          statusTimeout
+        );
+
+
+        statusNonce =
+          "";
+
+
+        if (
+          data.registrationOpen ===
+          true
+        ) {
+
+          showOpenState();
+
+        }
+
+        else {
+
+          showClosedState();
+
+        }
+
+      }
+    );
+
+
+    checkRegistrationStatus();
+
+  </script>
+
+</body>
+
+</html>

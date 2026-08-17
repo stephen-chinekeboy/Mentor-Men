@@ -1,0 +1,4663 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Health Corner Benefit Verification - EMERGE 2026
+    </title>
+
+
+    <!-- Tailwind -->
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+    <!-- Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- Material Symbols -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+
+    <!--
+    DOWNLOAD LIBRARIES
+
+    html2canvas:
+    turns our dedicated redemption confirmation into PNG.
+
+    jsPDF:
+    places that confirmation inside a proper PDF.
+  -->
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+
+    <script>
+
+        tailwind.config = {
+
+            darkMode:
+                "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        "background":
+                            "#121414",
+
+                        "surface":
+                            "#121414",
+
+                        "surface-container":
+                            "#1e2020",
+
+                        "surface-container-lowest":
+                            "#0d0f0f",
+
+                        "surface-container-high":
+                            "#282a2b",
+
+                        "surface-variant":
+                            "#333535",
+
+                        "charcoal-surface":
+                            "#1A1A1A",
+
+                        "on-surface":
+                            "#e2e2e2",
+
+                        "on-surface-variant":
+                            "#d0c5af",
+
+                        "primary":
+                            "#f2ca50",
+
+                        "primary-container":
+                            "#d4af37",
+
+                        "outline":
+                            "#99907c",
+
+                        "outline-variant":
+                            "#4d4635",
+
+                        "secondary-container":
+                            "#8e0f28",
+
+                        "status-valid":
+                            "#50C878",
+
+                        "status-pending":
+                            "#FFBF00",
+
+                        "status-redeemed":
+                            "#6B7280",
+
+                        "status-invalid":
+                            "#B22222"
+
+                    },
+
+
+                    fontFamily: {
+
+                        "display": [
+                            "Libre Caslon Text",
+                            "serif"
+                        ],
+
+                        "body": [
+                            "Inter",
+                            "sans-serif"
+                        ]
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    </script>
+
+
+    <style>
+        body {
+
+            font-family:
+                Inter,
+                sans-serif;
+
+        }
+
+
+        .loader {
+
+            width:
+                38px;
+
+            height:
+                38px;
+
+            border:
+                3px solid rgba(242, 202, 80, 0.18);
+
+            border-top-color:
+                #f2ca50;
+
+            border-radius:
+                50%;
+
+            animation:
+                spin 0.8s linear infinite;
+
+        }
+
+
+        @keyframes spin {
+
+            to {
+
+                transform:
+                    rotate(360deg);
+
+            }
+
+        }
+
+
+        .modal-backdrop {
+
+            background:
+                rgba(0, 0, 0, 0.78);
+
+            backdrop-filter:
+                blur(6px);
+
+        }
+
+
+        .pin-box {
+
+            width:
+                46px;
+
+            height:
+                56px;
+
+            text-align:
+                center;
+
+            font-size:
+                24px;
+
+            font-weight:
+                700;
+
+            color:
+                #f2ca50;
+
+            background:
+                #121414;
+
+            border:
+                1px solid #3a3a3a;
+
+            border-radius:
+                6px;
+
+            outline:
+                none;
+
+        }
+
+
+        .pin-box:focus {
+
+            border-color:
+                #d4af37;
+
+            box-shadow:
+                0 0 0 2px rgba(212, 175, 55, 0.12);
+
+        }
+
+
+        @media (max-width: 390px) {
+
+            .pin-box {
+
+                width:
+                    40px;
+
+                height:
+                    52px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+       EXPORT CONFIRMATION
+
+       This is deliberately NOT the browser UI.
+
+       It lives far outside the visible viewport and is
+       rendered only when PNG/PDF is requested.
+
+       Fixed size:
+       1080 × 1350px.
+       ===================================================== */
+
+        #confirmationExportCard {
+
+            position:
+                fixed;
+
+            left:
+                -20000px;
+
+            top:
+                0;
+
+            width:
+                1080px;
+
+            height:
+                1350px;
+
+            box-sizing:
+                border-box;
+
+            background:
+                #121414;
+
+            color:
+                #f4f2ea;
+
+            font-family:
+                Inter,
+                Arial,
+                sans-serif;
+
+            overflow:
+                hidden;
+
+            z-index:
+                -9999;
+
+        }
+
+
+        .export-serif {
+
+            font-family:
+                "Libre Caslon Text",
+                Georgia,
+                serif;
+
+        }
+
+
+        .download-format-card {
+
+            transition:
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                transform 0.2s ease;
+
+        }
+
+
+        .download-format-card:hover {
+
+            border-color:
+                #d4af37;
+
+            background:
+                rgba(212, 175, 55, 0.05);
+
+        }
+    </style>
+
+</head>
+
+
+<body class="
+    bg-background
+    text-on-surface
+    min-h-screen
+    flex
+    flex-col
+    antialiased
+  ">
+
+
+    <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+    <header class="
+      bg-background
+      border-b
+      border-surface-variant
+      w-full
+    ">
+
+        <div class="
+        flex
+        justify-between
+        items-center
+        w-full
+        px-5
+        md:px-6
+        max-w-[1200px]
+        mx-auto
+        h-20
+      ">
+
+            <a href="index.html" class="
+          font-display
+          font-bold
+          uppercase
+          tracking-widest
+          text-primary
+          text-lg
+        ">
+                EMERGE 2026
+            </a>
+
+
+            <a href="../index.html" class="
+          text-on-surface-variant
+          hover:text-primary
+          transition-colors
+          text-xs
+          uppercase
+          tracking-widest
+          font-semibold
+        ">
+                Mentor Men Website
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
+    <main class="
+      flex-grow
+      px-5
+      py-12
+    ">
+
+        <div class="
+        w-full
+        max-w-md
+        mx-auto
+      ">
+
+
+            <div class="
+          text-center
+          mb-10
+        ">
+
+                <h1 class="
+            font-display
+            text-2xl
+            uppercase
+            tracking-wider
+          ">
+                    Health Corner
+                </h1>
+
+
+                <p class="
+            text-xs
+            text-on-surface-variant
+            uppercase
+            tracking-[0.15em]
+            mt-2
+          ">
+                    Benefit Verification
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+           LOADING
+           ================================================= -->
+
+            <section id="loadingState" class="
+          bg-charcoal-surface
+          border-t
+          border-primary
+          rounded-lg
+          p-10
+          text-center
+        ">
+
+                <div class="
+            loader
+            mx-auto
+            mb-6
+          "></div>
+
+
+                <h2 class="
+            font-display
+            text-2xl
+            text-primary
+            mb-3
+          ">
+                    VERIFYING BENEFIT
+                </h2>
+
+
+                <p class="
+            text-on-surface-variant
+          ">
+                    Please wait while we verify this Health Corner QR.
+                </p>
+
+            </section>
+
+
+            <!-- =================================================
+           VERIFICATION RESULT
+           ================================================= -->
+
+            <section id="resultState" class="hidden">
+
+                <div id="resultCard" class="
+            bg-charcoal-surface
+            border-t
+            rounded-lg
+            p-6
+            text-center
+          ">
+
+
+                    <div id="statusIconCircle" class="
+              w-24
+              h-24
+              rounded-full
+              border
+              flex
+              items-center
+              justify-center
+              mx-auto
+              mb-6
+            ">
+
+                        <span id="statusIcon" class="
+                material-symbols-outlined
+                text-5xl
+              ">
+                            check_circle
+                        </span>
+
+                    </div>
+
+
+                    <h2 id="statusTitle" class="
+              font-display
+              text-3xl
+              uppercase
+              mb-3
+            "></h2>
+
+
+                    <p id="statusMessage" class="
+              text-on-surface-variant
+              leading-6
+              mb-8
+            "></p>
+
+
+                    <div id="participantDetails" class="
+              border-t
+              border-surface-variant
+            ">
+
+
+                        <div class="
+                flex
+                justify-between
+                gap-5
+                py-4
+                border-b
+                border-surface-variant
+              ">
+
+                            <span class="
+                  text-xs
+                  text-on-surface-variant
+                  uppercase
+                ">
+                                Participant
+                            </span>
+
+
+                            <strong id="participantName" class="text-right"></strong>
+
+                        </div>
+
+
+                        <div class="
+                flex
+                justify-between
+                gap-5
+                py-4
+                border-b
+                border-surface-variant
+              ">
+
+                            <span class="
+                  text-xs
+                  text-on-surface-variant
+                  uppercase
+                ">
+                                Registration
+                            </span>
+
+
+                            <strong id="registrationId" class="text-primary"></strong>
+
+                        </div>
+
+
+                        <div class="
+                flex
+                justify-between
+                gap-5
+                py-4
+                border-b
+                border-surface-variant
+              ">
+
+                            <span class="
+                  text-xs
+                  text-on-surface-variant
+                  uppercase
+                ">
+                                Tier
+                            </span>
+
+
+                            <strong id="tier"></strong>
+
+                        </div>
+
+
+                        <div class="
+                flex
+                justify-between
+                gap-5
+                py-4
+                border-b
+                border-surface-variant
+              ">
+
+                            <span class="
+                  text-xs
+                  text-on-surface-variant
+                  uppercase
+                ">
+                                Benefit
+                            </span>
+
+
+                            <strong>
+                                30% Discount
+                            </strong>
+
+                        </div>
+
+
+                        <div class="
+                flex
+                justify-between
+                gap-5
+                py-4
+              ">
+
+                            <span class="
+                  text-xs
+                  text-on-surface-variant
+                  uppercase
+                ">
+                                Status
+                            </span>
+
+
+                            <strong id="statusValue"></strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VALID ACTION -->
+
+                <button id="redeemButton" type="button" class="
+            hidden
+            w-full
+            mt-6
+            bg-primary-container
+            text-[#121414]
+            py-4
+            rounded
+            text-xs
+            uppercase
+            tracking-[0.15em]
+            font-bold
+            hover:bg-primary
+            transition-colors
+          ">
+                    Redeem Benefit
+                </button>
+
+
+                <!-- ALREADY REDEEMED DETAILS -->
+
+                <div id="redeemedDetails" class="
+            hidden
+            bg-surface-container
+            border
+            border-surface-variant
+            p-5
+            mt-6
+          ">
+
+                    <div class="
+              flex
+              justify-between
+              gap-4
+              mb-4
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Redeemed
+                        </span>
+
+
+                        <strong id="redeemedAt" class="text-right"></strong>
+
+                    </div>
+
+
+                    <div class="
+              flex
+              justify-between
+              gap-4
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Reference
+                        </span>
+
+
+                        <strong id="redemptionReference" class="
+                text-primary
+                text-right
+              "></strong>
+
+                    </div>
+
+                </div>
+
+
+                <!--
+          IMPORTANT:
+
+          If an already-redeemed QR is opened again,
+          the confirmation can still be downloaded.
+
+          This DOES NOT perform a new redemption.
+        -->
+
+                <button id="downloadRedeemedButton" type="button" class="
+            hidden
+            w-full
+            mt-4
+            border
+            border-primary/60
+            text-primary
+            py-4
+            rounded
+            text-xs
+            uppercase
+            tracking-[0.15em]
+            font-bold
+            hover:bg-primary/5
+            transition-colors
+          ">
+                    Download Confirmation
+                </button>
+
+            </section>
+
+
+            <!-- =================================================
+           SYSTEM ERROR
+           ================================================= -->
+
+            <section id="systemError" class="
+          hidden
+          bg-charcoal-surface
+          border-t
+          border-status-invalid
+          rounded-lg
+          p-8
+          text-center
+        ">
+
+                <span class="
+            material-symbols-outlined
+            text-status-invalid
+            text-5xl
+          ">
+                    error_outline
+                </span>
+
+
+                <h2 class="
+            font-display
+            text-2xl
+            mt-4
+          ">
+                    VERIFICATION UNAVAILABLE
+                </h2>
+
+
+                <p id="systemErrorText" class="
+            text-on-surface-variant
+            mt-3
+          "></p>
+
+            </section>
+
+
+            <!-- =================================================
+           REDEMPTION SUCCESS
+           ================================================= -->
+
+            <section id="redemptionSuccess" class="
+          hidden
+          bg-charcoal-surface
+          border-t
+          border-status-valid
+          rounded-lg
+          p-7
+          text-center
+        ">
+
+                <div class="
+            w-20
+            h-20
+            rounded-full
+            border
+            border-status-valid
+            bg-status-valid/10
+            flex
+            items-center
+            justify-center
+            mx-auto
+            mb-6
+          ">
+
+                    <span class="
+              material-symbols-outlined
+              text-status-valid
+              text-5xl
+            ">
+                        check_circle
+                    </span>
+
+                </div>
+
+
+                <div class="
+            text-xs
+            uppercase
+            tracking-[0.15em]
+            text-status-valid
+            font-bold
+          ">
+                    Redemption Complete
+                </div>
+
+
+                <h2 class="
+            font-display
+            text-3xl
+            text-primary
+            mt-3
+          ">
+                    BENEFIT REDEEMED SUCCESSFULLY
+                </h2>
+
+
+                <p id="successParticipant" class="
+            text-lg
+            mt-4
+          "></p>
+
+
+                <div class="
+            mt-7
+            bg-surface-container
+            border
+            border-surface-variant
+            text-left
+            p-5
+            space-y-4
+          ">
+
+                    <div class="
+              flex
+              justify-between
+              gap-5
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Registration ID
+                        </span>
+
+
+                        <strong id="successRegistration" class="text-primary"></strong>
+
+                    </div>
+
+
+                    <div class="
+              flex
+              justify-between
+              gap-5
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Tier
+                        </span>
+
+
+                        <strong id="successTier"></strong>
+
+                    </div>
+
+
+                    <div class="
+              flex
+              justify-between
+              gap-5
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Benefit
+                        </span>
+
+
+                        <strong>
+                            30% Discount
+                        </strong>
+
+                    </div>
+
+
+                    <div class="
+              flex
+              justify-between
+              gap-5
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Status
+                        </span>
+
+
+                        <strong class="text-status-valid">
+                            REDEEMED
+                        </strong>
+
+                    </div>
+
+
+                    <div class="
+              flex
+              justify-between
+              gap-5
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Redeemed
+                        </span>
+
+
+                        <strong id="successRedeemedAt" class="text-right"></strong>
+
+                    </div>
+
+
+                    <div class="
+              flex
+              justify-between
+              gap-5
+            ">
+
+                        <span class="
+                text-xs
+                uppercase
+                text-on-surface-variant
+              ">
+                            Redemption Reference
+                        </span>
+
+
+                        <strong id="successReference" class="
+                text-primary
+                text-right
+              "></strong>
+
+                    </div>
+
+                </div>
+
+
+                <p class="
+            text-sm
+            text-on-surface-variant
+            mt-6
+          ">
+                    This benefit cannot be redeemed again.
+                </p>
+
+
+                <!-- DOWNLOAD CONFIRMATION -->
+
+                <button id="downloadSuccessButton" type="button" class="
+            w-full
+            mt-7
+            bg-primary-container
+            text-[#121414]
+            py-4
+            rounded
+            text-xs
+            uppercase
+            tracking-[0.15em]
+            font-bold
+            hover:bg-primary
+            transition-colors
+            flex
+            items-center
+            justify-center
+            gap-2
+          ">
+
+                    <span class="
+              material-symbols-outlined
+              text-lg
+            ">
+                        download
+                    </span>
+
+                    Download Confirmation
+
+                </button>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+       HOSPITAL AUTHORISATION MODAL
+       ===================================================== -->
+
+    <div id="authModal" class="
+      hidden
+      fixed
+      inset-0
+      z-50
+      modal-backdrop
+      px-5
+      items-end
+      sm:items-center
+      justify-center
+    ">
+
+        <div class="
+        bg-charcoal-surface
+        border
+        border-surface-variant
+        border-t-primary-container
+        w-full
+        max-w-md
+        p-6
+        sm:rounded-lg
+      ">
+
+            <div class="
+          flex
+          justify-between
+          items-start
+          gap-4
+        ">
+
+                <div>
+
+                    <div class="
+              text-xs
+              uppercase
+              tracking-[0.15em]
+              text-primary
+              font-semibold
+            ">
+                        Hospital Authorisation
+                    </div>
+
+
+                    <h3 class="
+              font-display
+              text-2xl
+              mt-2
+            ">
+                        Enter Authorisation Code
+                    </h3>
+
+                </div>
+
+
+                <button id="closeAuthModal" type="button" class="
+            text-on-surface-variant
+            hover:text-primary
+          ">
+
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <p class="
+          text-sm
+          text-on-surface-variant
+          mt-4
+          leading-6
+        ">
+                This step is for authorised hospital personnel only.
+                The participant does not need to know or provide this code.
+            </p>
+
+
+            <div id="pinInputs" class="
+          flex
+          justify-between
+          gap-2
+          mt-7
+        ">
+
+                <input class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+
+            </div>
+
+
+            <div id="authMessage" class="
+          hidden
+          mt-5
+          p-3
+          border
+          text-sm
+        "></div>
+
+
+            <button id="verifyAuthCodeButton" type="button" class="
+          w-full
+          bg-primary-container
+          text-[#121414]
+          py-4
+          rounded
+          mt-6
+          text-xs
+          uppercase
+          tracking-[0.15em]
+          font-bold
+        ">
+                Verify Code
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+       FINAL REDEMPTION CONFIRMATION MODAL
+       ===================================================== -->
+
+    <div id="confirmationModal" class="
+      hidden
+      fixed
+      inset-0
+      z-50
+      modal-backdrop
+      px-5
+      items-end
+      sm:items-center
+      justify-center
+    ">
+
+        <div class="
+        bg-charcoal-surface
+        border
+        border-surface-variant
+        border-t-primary
+        w-full
+        max-w-md
+        p-6
+        sm:rounded-lg
+      ">
+
+            <div class="
+          text-xs
+          uppercase
+          tracking-[0.15em]
+          text-primary
+          font-semibold
+        ">
+                Final Confirmation
+            </div>
+
+
+            <h3 class="
+          font-display
+          text-2xl
+          mt-2
+        ">
+                Confirm Redemption
+            </h3>
+
+
+            <p class="
+          text-sm
+          text-on-surface-variant
+          mt-4
+          leading-6
+        ">
+                Please confirm the participant and benefit before completing
+                redemption. This action cannot be reversed.
+            </p>
+
+
+            <div class="
+          bg-surface-container
+          border
+          border-surface-variant
+          mt-6
+          p-5
+          space-y-4
+        ">
+
+                <div class="
+            flex
+            justify-between
+            gap-4
+          ">
+
+                    <span class="
+              text-xs
+              text-on-surface-variant
+              uppercase
+            ">
+                        Participant
+                    </span>
+
+
+                    <strong id="confirmParticipant" class="text-right"></strong>
+
+                </div>
+
+
+                <div class="
+            flex
+            justify-between
+            gap-4
+          ">
+
+                    <span class="
+              text-xs
+              text-on-surface-variant
+              uppercase
+            ">
+                        Registration
+                    </span>
+
+
+                    <strong id="confirmRegistration" class="text-primary"></strong>
+
+                </div>
+
+
+                <div class="
+            flex
+            justify-between
+            gap-4
+          ">
+
+                    <span class="
+              text-xs
+              text-on-surface-variant
+              uppercase
+            ">
+                        Tier
+                    </span>
+
+
+                    <strong id="confirmTier"></strong>
+
+                </div>
+
+
+                <div class="
+            flex
+            justify-between
+            gap-4
+          ">
+
+                    <span class="
+              text-xs
+              text-on-surface-variant
+              uppercase
+            ">
+                        Benefit
+                    </span>
+
+
+                    <strong>
+                        30% Discount
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div id="confirmationError" class="
+          hidden
+          mt-4
+          border
+          border-status-invalid/50
+          bg-status-invalid/10
+          text-[#f0b8b8]
+          p-3
+          text-sm
+        "></div>
+
+
+            <div class="
+          grid
+          grid-cols-2
+          gap-3
+          mt-6
+        ">
+
+                <button id="cancelConfirmation" type="button" class="
+            border
+            border-surface-variant
+            text-on-surface
+            py-4
+            rounded
+            text-xs
+            uppercase
+            font-bold
+          ">
+                    Cancel
+                </button>
+
+
+                <button id="confirmRedemptionButton" type="button" class="
+            bg-primary-container
+            text-[#121414]
+            py-4
+            rounded
+            text-xs
+            uppercase
+            font-bold
+          ">
+                    Confirm Redemption
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+       DOWNLOAD FORMAT MODAL
+       ===================================================== -->
+
+    <div id="downloadModal" class="
+      hidden
+      fixed
+      inset-0
+      z-[60]
+      modal-backdrop
+      px-5
+      items-end
+      sm:items-center
+      justify-center
+    ">
+
+        <div class="
+        bg-charcoal-surface
+        border
+        border-surface-variant
+        border-t-primary
+        w-full
+        max-w-md
+        p-6
+        sm:rounded-lg
+      ">
+
+            <div class="
+          flex
+          justify-between
+          items-start
+          gap-4
+        ">
+
+                <div>
+
+                    <div class="
+              text-xs
+              uppercase
+              tracking-[0.15em]
+              text-primary
+              font-semibold
+            ">
+                        Redemption Confirmation
+                    </div>
+
+
+                    <h3 class="
+              font-display
+              text-2xl
+              mt-2
+            ">
+                        Download Confirmation
+                    </h3>
+
+                </div>
+
+
+                <button id="closeDownloadModal" type="button" class="
+            text-on-surface-variant
+            hover:text-primary
+          ">
+
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <p class="
+          text-sm
+          text-on-surface-variant
+          mt-4
+          leading-6
+        ">
+                Choose the format you would like to save.
+            </p>
+
+
+            <div class="
+          space-y-3
+          mt-6
+        ">
+
+
+                <!-- PNG -->
+
+                <button id="downloadPngButton" type="button" class="
+            download-format-card
+            w-full
+            border
+            border-surface-variant
+            p-5
+            text-left
+            flex
+            items-center
+            gap-4
+          ">
+
+                    <div class="
+              w-11
+              h-11
+              border
+              border-primary/40
+              flex
+              items-center
+              justify-center
+              text-primary
+              shrink-0
+            ">
+
+                        <span class="material-symbols-outlined">
+                            image
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="
+                font-semibold
+                text-on-surface
+              ">
+                            Save as Image
+                        </div>
+
+
+                        <div class="
+                text-sm
+                text-on-surface-variant
+                mt-1
+              ">
+                            PNG · Ideal for phones, WhatsApp and email.
+                        </div>
+
+                    </div>
+
+                </button>
+
+
+                <!-- PDF -->
+
+                <button id="downloadPdfButton" type="button" class="
+            download-format-card
+            w-full
+            border
+            border-surface-variant
+            p-5
+            text-left
+            flex
+            items-center
+            gap-4
+          ">
+
+                    <div class="
+              w-11
+              h-11
+              border
+              border-primary/40
+              flex
+              items-center
+              justify-center
+              text-primary
+              shrink-0
+            ">
+
+                        <span class="material-symbols-outlined">
+                            picture_as_pdf
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="
+                font-semibold
+                text-on-surface
+              ">
+                            Save as PDF
+                        </div>
+
+
+                        <div class="
+                text-sm
+                text-on-surface-variant
+                mt-1
+              ">
+                            PDF · Suitable for records and printing.
+                        </div>
+
+                    </div>
+
+                </button>
+
+            </div>
+
+
+            <div id="downloadMessage" class="
+          hidden
+          mt-5
+          border
+          border-primary/30
+          bg-primary/5
+          p-3
+          text-sm
+          text-on-surface-variant
+        "></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+       BACKEND RECEIVER
+       ===================================================== -->
+
+    <iframe id="backendReceiver" name="backendReceiver" class="hidden" title="Health Corner Backend"></iframe>
+
+
+    <!-- =====================================================
+       HIDDEN EXPORT CARD
+       ===================================================== -->
+
+    <div id="confirmationExportCard">
+
+        <!-- TOP GOLD LINE -->
+
+        <div style="
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:12px;
+        background:#d4af37;
+      "></div>
+
+
+        <!-- BURGUNDY DETAIL -->
+
+        <div style="
+        position:absolute;
+        top:12px;
+        right:0;
+        width:220px;
+        height:8px;
+        background:#8e0f28;
+      "></div>
+
+
+        <!-- CONTENT -->
+
+        <div style="
+        position:absolute;
+        inset:0;
+        padding:92px 94px 82px 94px;
+        display:flex;
+        flex-direction:column;
+      ">
+
+
+            <!-- BRAND -->
+
+            <div>
+
+                <div style="
+            color:#d4af37;
+            font-size:20px;
+            font-weight:700;
+            letter-spacing:5px;
+            text-transform:uppercase;
+          ">
+                    Mentor Men Leadership Forum
+                </div>
+
+
+                <div class="export-serif" style="
+            margin-top:18px;
+            color:#f2ca50;
+            font-size:58px;
+            line-height:1;
+            font-weight:700;
+          ">
+                    EMERGE 2026
+                </div>
+
+
+                <div style="
+            margin-top:14px;
+            color:#d0c5af;
+            font-size:20px;
+            letter-spacing:5px;
+            text-transform:uppercase;
+          ">
+                    Health Corner
+                </div>
+
+            </div>
+
+
+            <!-- DIVIDER -->
+
+            <div style="
+          width:100%;
+          height:1px;
+          background:#343535;
+          margin-top:52px;
+        "></div>
+
+
+            <!-- SUCCESS MARK -->
+
+            <div style="
+          margin-top:55px;
+          display:flex;
+          align-items:center;
+          gap:28px;
+        ">
+
+                <div style="
+            width:94px;
+            height:94px;
+            border-radius:50%;
+            border:2px solid #50C878;
+            background:rgba(80,200,120,0.08);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#50C878;
+            font-size:54px;
+            font-weight:600;
+          ">
+                    ✓
+                </div>
+
+
+                <div>
+
+                    <div style="
+              color:#50C878;
+              font-size:17px;
+              letter-spacing:4px;
+              font-weight:700;
+              text-transform:uppercase;
+            ">
+                        Redemption Confirmed
+                    </div>
+
+
+                    <div class="export-serif" style="
+              margin-top:10px;
+              color:#f4f2ea;
+              font-size:46px;
+              line-height:1.12;
+              font-weight:700;
+            ">
+                        Benefit Redeemed
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PARTICIPANT -->
+
+            <div style="
+          margin-top:58px;
+        ">
+
+                <div style="
+            color:#99907c;
+            font-size:17px;
+            letter-spacing:3px;
+            text-transform:uppercase;
+          ">
+                    Participant
+                </div>
+
+
+                <div id="exportParticipant" class="export-serif" style="
+            margin-top:12px;
+            color:#f2ca50;
+            font-size:48px;
+            line-height:1.15;
+            font-weight:700;
+          "></div>
+
+            </div>
+
+
+            <!-- DETAILS PANEL -->
+
+            <div style="
+          margin-top:52px;
+          border:1px solid #333535;
+          background:#1a1c1c;
+          padding:34px 38px;
+        ">
+
+
+                <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:30px;
+            padding-bottom:24px;
+            border-bottom:1px solid #333535;
+          ">
+
+                    <span style="
+              color:#99907c;
+              font-size:16px;
+              letter-spacing:3px;
+              text-transform:uppercase;
+            ">
+                        Registration ID
+                    </span>
+
+
+                    <strong id="exportRegistration" style="
+              color:#f2ca50;
+              font-size:24px;
+            "></strong>
+
+                </div>
+
+
+                <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:30px;
+            padding:24px 0;
+            border-bottom:1px solid #333535;
+          ">
+
+                    <span style="
+              color:#99907c;
+              font-size:16px;
+              letter-spacing:3px;
+              text-transform:uppercase;
+            ">
+                        Tier
+                    </span>
+
+
+                    <strong id="exportTier" style="
+              color:#f4f2ea;
+              font-size:24px;
+            "></strong>
+
+                </div>
+
+
+                <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-end;
+            gap:30px;
+            padding-top:24px;
+          ">
+
+                    <span style="
+              color:#99907c;
+              font-size:16px;
+              letter-spacing:3px;
+              text-transform:uppercase;
+            ">
+                        Healthcare Benefit
+                    </span>
+
+
+                    <div style="
+              text-align:right;
+            ">
+
+                        <div style="
+                color:#f2ca50;
+                font-size:50px;
+                line-height:1;
+                font-weight:700;
+              ">
+                            30%
+                        </div>
+
+
+                        <div style="
+                margin-top:5px;
+                color:#f4f2ea;
+                font-size:17px;
+                letter-spacing:2px;
+                font-weight:700;
+                text-transform:uppercase;
+              ">
+                            Healthcare Discount
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REDEMPTION DETAILS -->
+
+            <div style="
+          margin-top:42px;
+        ">
+
+                <div style="
+            color:#d4af37;
+            font-size:17px;
+            letter-spacing:4px;
+            font-weight:700;
+            text-transform:uppercase;
+          ">
+                    Redemption Details
+                </div>
+
+
+                <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:34px;
+            margin-top:27px;
+          ">
+
+
+                    <div>
+
+                        <div style="
+                color:#99907c;
+                font-size:15px;
+                letter-spacing:2px;
+                text-transform:uppercase;
+              ">
+                            Redeemed
+                        </div>
+
+
+                        <div id="exportRedeemedAt" style="
+                margin-top:9px;
+                color:#f4f2ea;
+                font-size:21px;
+                line-height:1.45;
+                font-weight:600;
+              "></div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div style="
+                color:#99907c;
+                font-size:15px;
+                letter-spacing:2px;
+                text-transform:uppercase;
+              ">
+                            Redemption Reference
+                        </div>
+
+
+                        <div id="exportReference" style="
+                margin-top:9px;
+                color:#f2ca50;
+                font-size:22px;
+                line-height:1.45;
+                font-weight:700;
+              "></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRMATION NOTICE -->
+
+            <div style="
+          margin-top:45px;
+          border-left:4px solid #50C878;
+          background:rgba(80,200,120,0.055);
+          padding:24px 28px;
+          color:#d0c5af;
+          font-size:18px;
+          line-height:1.55;
+        ">
+                This EMERGE 2026 Health Corner benefit has been successfully
+                redeemed and cannot be redeemed again.
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div style="
+          margin-top:auto;
+          border-top:1px solid #333535;
+          padding-top:27px;
+          display:flex;
+          justify-content:space-between;
+          align-items:flex-end;
+          gap:30px;
+        ">
+
+                <div>
+
+                    <div style="
+              color:#d4af37;
+              font-size:17px;
+              font-weight:700;
+              letter-spacing:2px;
+            ">
+                        mentormenforum.org
+                    </div>
+
+
+                    <div style="
+              margin-top:8px;
+              color:#777a78;
+              font-size:14px;
+            ">
+                        Official EMERGE 2026 Health Corner Redemption Confirmation
+                    </div>
+
+                </div>
+
+
+                <div style="
+            color:#50C878;
+            font-size:16px;
+            letter-spacing:3px;
+            font-weight:700;
+            text-transform:uppercase;
+          ">
+                    Redeemed
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ABSTRACT CIRCLES -->
+
+        <div style="
+        position:absolute;
+        right:-170px;
+        bottom:-180px;
+        width:500px;
+        height:500px;
+        border:1px solid rgba(212,175,55,0.08);
+        border-radius:50%;
+      "></div>
+
+
+        <div style="
+        position:absolute;
+        right:-95px;
+        bottom:-105px;
+        width:350px;
+        height:350px;
+        border:1px solid rgba(142,15,40,0.11);
+        border-radius:50%;
+      "></div>
+
+    </div>
+
+
+    <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+    <footer class="
+      bg-surface-container-lowest
+      border-t
+      border-surface-variant
+      py-6
+      text-center
+    ">
+
+        <div class="
+        font-display
+        text-primary
+        font-bold
+      ">
+            EMERGE 2026
+        </div>
+
+
+        <div class="
+        text-xs
+        text-on-surface-variant
+        mt-2
+      ">
+            Mentor Men Leadership Forum
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+    <script>
+
+        /* =====================================================
+           CONFIG
+           ===================================================== */
+
+        const APPS_SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec";
+
+
+        /* =====================================================
+           ELEMENTS
+           ===================================================== */
+
+        const loadingState =
+            document.getElementById(
+                "loadingState"
+            );
+
+
+        const resultState =
+            document.getElementById(
+                "resultState"
+            );
+
+
+        const systemError =
+            document.getElementById(
+                "systemError"
+            );
+
+
+        const systemErrorText =
+            document.getElementById(
+                "systemErrorText"
+            );
+
+
+        const resultCard =
+            document.getElementById(
+                "resultCard"
+            );
+
+
+        const statusIconCircle =
+            document.getElementById(
+                "statusIconCircle"
+            );
+
+
+        const statusIcon =
+            document.getElementById(
+                "statusIcon"
+            );
+
+
+        const statusTitle =
+            document.getElementById(
+                "statusTitle"
+            );
+
+
+        const statusMessage =
+            document.getElementById(
+                "statusMessage"
+            );
+
+
+        const participantDetails =
+            document.getElementById(
+                "participantDetails"
+            );
+
+
+        const participantName =
+            document.getElementById(
+                "participantName"
+            );
+
+
+        const registrationId =
+            document.getElementById(
+                "registrationId"
+            );
+
+
+        const tier =
+            document.getElementById(
+                "tier"
+            );
+
+
+        const statusValue =
+            document.getElementById(
+                "statusValue"
+            );
+
+
+        const redeemButton =
+            document.getElementById(
+                "redeemButton"
+            );
+
+
+        const redeemedDetails =
+            document.getElementById(
+                "redeemedDetails"
+            );
+
+
+        const redeemedAt =
+            document.getElementById(
+                "redeemedAt"
+            );
+
+
+        const redemptionReference =
+            document.getElementById(
+                "redemptionReference"
+            );
+
+
+        const downloadRedeemedButton =
+            document.getElementById(
+                "downloadRedeemedButton"
+            );
+
+
+        const downloadSuccessButton =
+            document.getElementById(
+                "downloadSuccessButton"
+            );
+
+
+        const authModal =
+            document.getElementById(
+                "authModal"
+            );
+
+
+        const confirmationModal =
+            document.getElementById(
+                "confirmationModal"
+            );
+
+
+        const downloadModal =
+            document.getElementById(
+                "downloadModal"
+            );
+
+
+        const authMessage =
+            document.getElementById(
+                "authMessage"
+            );
+
+
+        const verifyAuthCodeButton =
+            document.getElementById(
+                "verifyAuthCodeButton"
+            );
+
+
+        const confirmRedemptionButton =
+            document.getElementById(
+                "confirmRedemptionButton"
+            );
+
+
+        const confirmationError =
+            document.getElementById(
+                "confirmationError"
+            );
+
+
+        const redemptionSuccess =
+            document.getElementById(
+                "redemptionSuccess"
+            );
+
+
+        const downloadPngButton =
+            document.getElementById(
+                "downloadPngButton"
+            );
+
+
+        const downloadPdfButton =
+            document.getElementById(
+                "downloadPdfButton"
+            );
+
+
+        const downloadMessage =
+            document.getElementById(
+                "downloadMessage"
+            );
+
+
+        const confirmationExportCard =
+            document.getElementById(
+                "confirmationExportCard"
+            );
+
+
+        const pinBoxes =
+            Array.from(
+                document.querySelectorAll(
+                    ".pin-box"
+                )
+            );
+
+
+        /* =====================================================
+           QR TOKEN
+           ===================================================== */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const qrToken =
+            String(
+                params.get(
+                    "token"
+                ) || ""
+            ).trim();
+
+
+        /* =====================================================
+           STATE
+           ===================================================== */
+
+        let currentVerification =
+            null;
+
+
+        let currentDownloadData =
+            null;
+
+
+        let verificationNonce =
+            "";
+
+
+        let actionNonce =
+            "";
+
+
+        let redemptionAuthToken =
+            "";
+
+
+        let responseTimeout =
+            null;
+
+
+        let downloadInProgress =
+            false;
+
+
+        /* =====================================================
+           NONCE
+           ===================================================== */
+
+        function createNonce() {
+
+            if (
+                window.crypto &&
+                window.crypto.getRandomValues
+            ) {
+
+                const values =
+                    new Uint32Array(
+                        4
+                    );
+
+
+                window.crypto.getRandomValues(
+                    values
+                );
+
+
+                return Array
+                    .from(
+                        values
+                    )
+                    .map(
+                        value =>
+                            value
+                                .toString(
+                                    16
+                                )
+                                .padStart(
+                                    8,
+                                    "0"
+                                )
+                    )
+                    .join(
+                        ""
+                    );
+
+            }
+
+
+            return (
+
+                Date.now()
+                    .toString(
+                        36
+                    )
+
+                +
+
+                Math.random()
+                    .toString(
+                        36
+                    )
+                    .slice(
+                        2
+                    )
+
+            );
+
+        }
+
+
+        /* =====================================================
+           POST TO APPS SCRIPT
+           ===================================================== */
+
+        function postToBackend(
+            values
+        ) {
+
+            const form =
+                document.createElement(
+                    "form"
+                );
+
+
+            form.method =
+                "POST";
+
+
+            form.action =
+                APPS_SCRIPT_URL;
+
+
+            form.target =
+                "backendReceiver";
+
+
+            Object
+                .entries(
+                    values
+                )
+                .forEach(
+                    ([key, value]) => {
+
+                        const input =
+                            document.createElement(
+                                "input"
+                            );
+
+
+                        input.type =
+                            "hidden";
+
+
+                        input.name =
+                            key;
+
+
+                        input.value =
+                            value == null
+                                ? ""
+                                : String(
+                                    value
+                                );
+
+
+                        form.appendChild(
+                            input
+                        );
+
+                    }
+                );
+
+
+            document.body.appendChild(
+                form
+            );
+
+
+            form.submit();
+
+
+            form.remove();
+
+        }
+
+
+        /* =====================================================
+           INITIAL VERIFICATION
+           ===================================================== */
+
+        function beginVerification() {
+
+            if (
+                !qrToken
+            ) {
+
+                showVerification({
+
+                    verificationState:
+                        "INVALID"
+
+                });
+
+
+                return;
+
+            }
+
+
+            verificationNonce =
+                createNonce();
+
+
+            const url =
+
+                APPS_SCRIPT_URL +
+
+                "?action=verify" +
+
+                "&token=" +
+
+                encodeURIComponent(
+                    qrToken
+                ) +
+
+                "&callbackNonce=" +
+
+                encodeURIComponent(
+                    verificationNonce
+                );
+
+
+            document
+                .getElementById(
+                    "backendReceiver"
+                )
+                .src =
+                url;
+
+
+            responseTimeout =
+                setTimeout(
+                    function () {
+
+                        showSystemError(
+                            "Verification is taking longer than expected. Please check your connection and try again."
+                        );
+
+                    },
+                    30000
+                );
+
+        }
+
+
+        /* =====================================================
+           VERIFICATION THEMES
+           ===================================================== */
+
+        const THEMES = {
+
+            VALID: {
+
+                color:
+                    "#50C878",
+
+                icon:
+                    "check_circle",
+
+                title:
+                    "VALID BENEFIT",
+
+                message:
+                    "This Health Corner benefit is valid and has not yet been redeemed."
+
+            },
+
+
+            REDEEMED: {
+
+                color:
+                    "#6B7280",
+
+                icon:
+                    "history",
+
+                title:
+                    "ALREADY REDEEMED",
+
+                message:
+                    "This Health Corner benefit has already been redeemed and cannot be used again."
+
+            },
+
+
+            PENDING: {
+
+                color:
+                    "#FFBF00",
+
+                icon:
+                    "schedule",
+
+                title:
+                    "REGISTRATION PENDING",
+
+                message:
+                    "This Health Corner registration exists, but the benefit is not yet active."
+
+            },
+
+
+            EXPIRED: {
+
+                color:
+                    "#6B7280",
+
+                icon:
+                    "event_busy",
+
+                title:
+                    "BENEFIT EXPIRED",
+
+                message:
+                    "This Health Corner benefit is no longer available for redemption."
+
+            },
+
+
+            CANCELLED: {
+
+                color:
+                    "#B22222",
+
+                icon:
+                    "block",
+
+                title:
+                    "BENEFIT CANCELLED",
+
+                message:
+                    "This Health Corner benefit has been cancelled."
+
+            },
+
+
+            INVALID: {
+
+                color:
+                    "#B22222",
+
+                icon:
+                    "error_outline",
+
+                title:
+                    "INVALID QR",
+
+                message:
+                    "We could not verify this Health Corner QR."
+
+            }
+
+        };
+
+
+        /* =====================================================
+           DISPLAY VERIFICATION
+           ===================================================== */
+
+        function showVerification(
+            data
+        ) {
+
+            clearTimeout(
+                responseTimeout
+            );
+
+
+            currentVerification =
+                data;
+
+
+            loadingState.classList.add(
+                "hidden"
+            );
+
+
+            systemError.classList.add(
+                "hidden"
+            );
+
+
+            redemptionSuccess.classList.add(
+                "hidden"
+            );
+
+
+            resultState.classList.remove(
+                "hidden"
+            );
+
+
+            const state =
+                String(
+                    data.verificationState ||
+                    "INVALID"
+                ).toUpperCase();
+
+
+            const theme =
+                THEMES[state] ||
+                THEMES.INVALID;
+
+
+            resultCard.style.borderTopColor =
+                theme.color;
+
+
+            statusIconCircle.style.borderColor =
+                theme.color;
+
+
+            statusIconCircle.style.color =
+                theme.color;
+
+
+            statusIcon.textContent =
+                theme.icon;
+
+
+            statusTitle.style.color =
+                theme.color;
+
+
+            statusTitle.textContent =
+                theme.title;
+
+
+            statusMessage.textContent =
+                theme.message;
+
+
+            statusValue.style.color =
+                theme.color;
+
+
+            statusValue.textContent =
+                state;
+
+
+            if (
+                state ===
+                "INVALID"
+            ) {
+
+                participantDetails.classList.add(
+                    "hidden"
+                );
+
+            }
+
+            else {
+
+                participantDetails.classList.remove(
+                    "hidden"
+                );
+
+
+                participantName.textContent =
+                    data.participant ||
+                    "—";
+
+
+                registrationId.textContent =
+                    data.registrationId ||
+                    "—";
+
+
+                tier.textContent =
+                    data.tier ||
+                    "—";
+
+            }
+
+
+            redeemButton.classList.add(
+                "hidden"
+            );
+
+
+            redeemedDetails.classList.add(
+                "hidden"
+            );
+
+
+            downloadRedeemedButton.classList.add(
+                "hidden"
+            );
+
+
+            if (
+                state ===
+                "VALID"
+            ) {
+
+                redeemButton.classList.remove(
+                    "hidden"
+                );
+
+            }
+
+
+            if (
+                state ===
+                "REDEEMED"
+            ) {
+
+                redeemedAt.textContent =
+                    data.redeemedAt ||
+                    "—";
+
+
+                redemptionReference.textContent =
+                    data.redemptionReference ||
+                    "—";
+
+
+                redeemedDetails.classList.remove(
+                    "hidden"
+                );
+
+
+                /*
+                 * Allow the existing confirmation to be
+                 * downloaded again without changing redemption.
+                 */
+
+                if (
+                    data.redemptionReference
+                ) {
+
+                    setDownloadData(
+                        data
+                    );
+
+
+                    downloadRedeemedButton.classList.remove(
+                        "hidden"
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SYSTEM ERROR
+           ===================================================== */
+
+        function showSystemError(
+            message
+        ) {
+
+            clearTimeout(
+                responseTimeout
+            );
+
+
+            loadingState.classList.add(
+                "hidden"
+            );
+
+
+            resultState.classList.add(
+                "hidden"
+            );
+
+
+            redemptionSuccess.classList.add(
+                "hidden"
+            );
+
+
+            systemError.classList.remove(
+                "hidden"
+            );
+
+
+            systemErrorText.textContent =
+                message;
+
+        }
+
+
+        /* =====================================================
+           HOSPITAL AUTHORISATION
+           ===================================================== */
+
+        redeemButton.addEventListener(
+            "click",
+            function () {
+
+                resetPin();
+
+
+                authModal.classList.remove(
+                    "hidden"
+                );
+
+
+                authModal.classList.add(
+                    "flex"
+                );
+
+
+                setTimeout(
+                    () =>
+                        pinBoxes[0].focus(),
+                    100
+                );
+
+            }
+        );
+
+
+        document
+            .getElementById(
+                "closeAuthModal"
+            )
+            .addEventListener(
+                "click",
+                closeAuthModal
+            );
+
+
+        function closeAuthModal() {
+
+            authModal.classList.add(
+                "hidden"
+            );
+
+
+            authModal.classList.remove(
+                "flex"
+            );
+
+        }
+
+
+        function resetPin() {
+
+            pinBoxes.forEach(
+                box => {
+
+                    box.value =
+                        "";
+
+
+                    box.disabled =
+                        false;
+
+                }
+            );
+
+
+            authMessage.classList.add(
+                "hidden"
+            );
+
+
+            authMessage.textContent =
+                "";
+
+
+            verifyAuthCodeButton.disabled =
+                false;
+
+
+            verifyAuthCodeButton.textContent =
+                "Verify Code";
+
+        }
+
+
+        pinBoxes.forEach(
+            function (
+                box,
+                index
+            ) {
+
+                box.addEventListener(
+                    "input",
+                    function () {
+
+                        box.value =
+                            box.value.replace(
+                                /\D/g,
+                                ""
+                            );
+
+
+                        if (
+                            box.value &&
+                            index <
+                            pinBoxes.length - 1
+                        ) {
+
+                            pinBoxes[
+                                index + 1
+                            ].focus();
+
+                        }
+
+                    }
+                );
+
+
+                box.addEventListener(
+                    "keydown",
+                    function (
+                        event
+                    ) {
+
+                        if (
+                            event.key ===
+                            "Backspace" &&
+                            !box.value &&
+                            index > 0
+                        ) {
+
+                            pinBoxes[
+                                index - 1
+                            ].focus();
+
+                        }
+
+                    }
+                );
+
+
+                box.addEventListener(
+                    "paste",
+                    function (
+                        event
+                    ) {
+
+                        const pasted =
+
+                            event.clipboardData
+                                .getData(
+                                    "text"
+                                )
+                                .replace(
+                                    /\D/g,
+                                    ""
+                                )
+                                .slice(
+                                    0,
+                                    6
+                                );
+
+
+                        if (
+                            pasted.length ===
+                            6
+                        ) {
+
+                            event.preventDefault();
+
+
+                            pasted
+                                .split(
+                                    ""
+                                )
+                                .forEach(
+                                    function (
+                                        digit,
+                                        digitIndex
+                                    ) {
+
+                                        pinBoxes[
+                                            digitIndex
+                                        ].value =
+                                            digit;
+
+                                    }
+                                );
+
+
+                            pinBoxes[
+                                5
+                            ].focus();
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        function getPin() {
+
+            return pinBoxes
+                .map(
+                    box =>
+                        box.value
+                )
+                .join(
+                    ""
+                );
+
+        }
+
+
+        verifyAuthCodeButton.addEventListener(
+            "click",
+            function () {
+
+                const code =
+                    getPin();
+
+
+                if (
+                    !/^\d{6}$/.test(
+                        code
+                    )
+                ) {
+
+                    showAuthMessage(
+                        "Enter the complete 6-digit hospital authorisation code.",
+                        false
+                    );
+
+
+                    return;
+
+                }
+
+
+                actionNonce =
+                    createNonce();
+
+
+                verifyAuthCodeButton.disabled =
+                    true;
+
+
+                verifyAuthCodeButton.textContent =
+                    "Checking...";
+
+
+                showAuthMessage(
+                    "Checking hospital authorisation...",
+                    true
+                );
+
+
+                postToBackend({
+
+                    action:
+                        "authorizeRedemption",
+
+                    token:
+                        qrToken,
+
+                    hospitalCode:
+                        code,
+
+                    callbackNonce:
+                        actionNonce
+
+                });
+
+
+                clearTimeout(
+                    responseTimeout
+                );
+
+
+                responseTimeout =
+                    setTimeout(
+                        function () {
+
+                            verifyAuthCodeButton.disabled =
+                                false;
+
+
+                            verifyAuthCodeButton.textContent =
+                                "Verify Code";
+
+
+                            showAuthMessage(
+                                "The authorisation request is taking longer than expected. Please try again.",
+                                false
+                            );
+
+                        },
+                        30000
+                    );
+
+            }
+        );
+
+
+        function showAuthMessage(
+            message,
+            neutral
+        ) {
+
+            authMessage.classList.remove(
+                "hidden"
+            );
+
+
+            authMessage.textContent =
+                message;
+
+
+            if (
+                neutral
+            ) {
+
+                authMessage.className =
+                    "mt-5 p-3 border border-primary/30 bg-primary/5 text-sm text-on-surface-variant";
+
+            }
+
+            else {
+
+                authMessage.className =
+                    "mt-5 p-3 border border-status-invalid/50 bg-status-invalid/10 text-sm text-[#f0b8b8]";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           FINAL CONFIRMATION MODAL
+           ===================================================== */
+
+        function openConfirmation(
+            data
+        ) {
+
+            redemptionAuthToken =
+                data.redemptionAuthToken;
+
+
+            document
+                .getElementById(
+                    "confirmParticipant"
+                )
+                .textContent =
+                data.participant;
+
+
+            document
+                .getElementById(
+                    "confirmRegistration"
+                )
+                .textContent =
+                data.registrationId;
+
+
+            document
+                .getElementById(
+                    "confirmTier"
+                )
+                .textContent =
+                data.tier;
+
+
+            closeAuthModal();
+
+
+            confirmationError.classList.add(
+                "hidden"
+            );
+
+
+            confirmationModal.classList.remove(
+                "hidden"
+            );
+
+
+            confirmationModal.classList.add(
+                "flex"
+            );
+
+        }
+
+
+        document
+            .getElementById(
+                "cancelConfirmation"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    confirmationModal.classList.add(
+                        "hidden"
+                    );
+
+
+                    confirmationModal.classList.remove(
+                        "flex"
+                    );
+
+
+                    redemptionAuthToken =
+                        "";
+
+                }
+            );
+
+
+        confirmRedemptionButton.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    !redemptionAuthToken
+                ) {
+
+                    confirmationError.textContent =
+                        "Hospital authorisation has expired. Please enter the code again.";
+
+
+                    confirmationError.classList.remove(
+                        "hidden"
+                    );
+
+
+                    return;
+
+                }
+
+
+                actionNonce =
+                    createNonce();
+
+
+                confirmRedemptionButton.disabled =
+                    true;
+
+
+                confirmRedemptionButton.textContent =
+                    "Redeeming...";
+
+
+                postToBackend({
+
+                    action:
+                        "redeem",
+
+                    token:
+                        qrToken,
+
+                    redemptionAuthToken:
+                        redemptionAuthToken,
+
+                    callbackNonce:
+                        actionNonce
+
+                });
+
+
+                clearTimeout(
+                    responseTimeout
+                );
+
+
+                responseTimeout =
+                    setTimeout(
+                        function () {
+
+                            confirmRedemptionButton.disabled =
+                                false;
+
+
+                            confirmRedemptionButton.textContent =
+                                "Confirm Redemption";
+
+
+                            confirmationError.textContent =
+                                "The redemption request is taking longer than expected. Please check the connection before trying again.";
+
+
+                            confirmationError.classList.remove(
+                                "hidden"
+                            );
+
+                        },
+                        30000
+                    );
+
+            }
+        );
+
+
+        /* =====================================================
+           REDEMPTION SUCCESS
+           ===================================================== */
+
+        function showRedemptionSuccess(
+            data
+        ) {
+
+            confirmationModal.classList.add(
+                "hidden"
+            );
+
+
+            confirmationModal.classList.remove(
+                "flex"
+            );
+
+
+            resultState.classList.add(
+                "hidden"
+            );
+
+
+            systemError.classList.add(
+                "hidden"
+            );
+
+
+            redemptionSuccess.classList.remove(
+                "hidden"
+            );
+
+
+            document
+                .getElementById(
+                    "successParticipant"
+                )
+                .textContent =
+                data.participant;
+
+
+            document
+                .getElementById(
+                    "successRegistration"
+                )
+                .textContent =
+                data.registrationId;
+
+
+            document
+                .getElementById(
+                    "successTier"
+                )
+                .textContent =
+                data.tier;
+
+
+            document
+                .getElementById(
+                    "successRedeemedAt"
+                )
+                .textContent =
+                data.redeemedAt;
+
+
+            document
+                .getElementById(
+                    "successReference"
+                )
+                .textContent =
+                data.redemptionReference;
+
+
+            /*
+             * Save this exact redemption data for
+             * PNG/PDF generation.
+             */
+
+            setDownloadData(
+                data
+            );
+
+
+            window.scrollTo({
+
+                top:
+                    0,
+
+                behavior:
+                    "smooth"
+
+            });
+
+        }
+
+
+        /* =====================================================
+           DOWNLOAD DATA
+           ===================================================== */
+
+        function setDownloadData(
+            data
+        ) {
+
+            currentDownloadData = {
+
+                participant:
+                    data.participant ||
+                    "",
+
+                registrationId:
+                    data.registrationId ||
+                    "",
+
+                tier:
+                    data.tier ||
+                    "",
+
+                benefit:
+                    data.benefit ||
+                    "30% Discount",
+
+                redeemedAt:
+                    data.redeemedAt ||
+                    "",
+
+                redemptionReference:
+                    data.redemptionReference ||
+                    ""
+
+            };
+
+        }
+
+
+        /* =====================================================
+           OPEN / CLOSE DOWNLOAD MODAL
+           ===================================================== */
+
+        function openDownloadModal() {
+
+            if (
+                !currentDownloadData ||
+                !currentDownloadData.redemptionReference
+            ) {
+
+                return;
+
+            }
+
+
+            downloadMessage.classList.add(
+                "hidden"
+            );
+
+
+            downloadMessage.textContent =
+                "";
+
+
+            downloadModal.classList.remove(
+                "hidden"
+            );
+
+
+            downloadModal.classList.add(
+                "flex"
+            );
+
+        }
+
+
+        function closeDownloadModal() {
+
+            if (
+                downloadInProgress
+            ) {
+
+                return;
+
+            }
+
+
+            downloadModal.classList.add(
+                "hidden"
+            );
+
+
+            downloadModal.classList.remove(
+                "flex"
+            );
+
+        }
+
+
+        downloadSuccessButton.addEventListener(
+            "click",
+            openDownloadModal
+        );
+
+
+        downloadRedeemedButton.addEventListener(
+            "click",
+            openDownloadModal
+        );
+
+
+        document
+            .getElementById(
+                "closeDownloadModal"
+            )
+            .addEventListener(
+                "click",
+                closeDownloadModal
+            );
+
+
+        /* =====================================================
+           POPULATE EXPORT CARD
+           ===================================================== */
+
+        function populateExportCard() {
+
+            if (
+                !currentDownloadData
+            ) {
+
+                throw new Error(
+                    "No redemption confirmation is available."
+                );
+
+            }
+
+
+            document
+                .getElementById(
+                    "exportParticipant"
+                )
+                .textContent =
+                currentDownloadData.participant;
+
+
+            document
+                .getElementById(
+                    "exportRegistration"
+                )
+                .textContent =
+                currentDownloadData.registrationId;
+
+
+            document
+                .getElementById(
+                    "exportTier"
+                )
+                .textContent =
+                currentDownloadData.tier;
+
+
+            document
+                .getElementById(
+                    "exportRedeemedAt"
+                )
+                .textContent =
+                currentDownloadData.redeemedAt;
+
+
+            document
+                .getElementById(
+                    "exportReference"
+                )
+                .textContent =
+                currentDownloadData.redemptionReference;
+
+        }
+
+
+        /* =====================================================
+           SAFE FILE NAME
+           ===================================================== */
+
+        function getDownloadBaseName() {
+
+            const registration =
+                String(
+                    currentDownloadData &&
+                        currentDownloadData.registrationId
+                        ? currentDownloadData.registrationId
+                        : "Health-Corner"
+                )
+                    .replace(
+                        /[^a-zA-Z0-9-_]/g,
+                        "-"
+                    );
+
+
+            return (
+
+                "EMERGE-" +
+
+                registration +
+
+                "-Redemption"
+
+            );
+
+        }
+
+
+        /* =====================================================
+           RENDER 1080 × 1350 CONFIRMATION
+           ===================================================== */
+
+        async function renderConfirmationCanvas() {
+
+            populateExportCard();
+
+
+            /*
+             * Wait until the browser has loaded the fonts,
+             * otherwise the exported typography can differ
+             * from what is intended.
+             */
+
+            if (
+                document.fonts &&
+                document.fonts.ready
+            ) {
+
+                await document.fonts.ready;
+
+            }
+
+
+            const canvas =
+                await html2canvas(
+                    confirmationExportCard,
+                    {
+
+                        backgroundColor:
+                            "#121414",
+
+                        scale:
+                            1,
+
+                        width:
+                            1080,
+
+                        height:
+                            1350,
+
+                        windowWidth:
+                            1080,
+
+                        windowHeight:
+                            1350,
+
+                        useCORS:
+                            true,
+
+                        logging:
+                            false,
+
+                        removeContainer:
+                            true
+
+                    }
+                );
+
+
+            return canvas;
+
+        }
+
+
+        /* =====================================================
+           DOWNLOAD STATUS
+           ===================================================== */
+
+        function setDownloadLoading(
+            isLoading,
+            label
+        ) {
+
+            downloadInProgress =
+                isLoading;
+
+
+            downloadPngButton.disabled =
+                isLoading;
+
+
+            downloadPdfButton.disabled =
+                isLoading;
+
+
+            if (
+                isLoading
+            ) {
+
+                downloadPngButton.classList.add(
+                    "opacity-50",
+                    "cursor-wait"
+                );
+
+
+                downloadPdfButton.classList.add(
+                    "opacity-50",
+                    "cursor-wait"
+                );
+
+
+                downloadMessage.className =
+                    "mt-5 border border-primary/30 bg-primary/5 p-3 text-sm text-on-surface-variant";
+
+
+                downloadMessage.textContent =
+                    label;
+
+
+                downloadMessage.classList.remove(
+                    "hidden"
+                );
+
+            }
+
+            else {
+
+                downloadPngButton.classList.remove(
+                    "opacity-50",
+                    "cursor-wait"
+                );
+
+
+                downloadPdfButton.classList.remove(
+                    "opacity-50",
+                    "cursor-wait"
+                );
+
+            }
+
+        }
+
+
+        function showDownloadError(
+            message
+        ) {
+
+            downloadMessage.className =
+                "mt-5 border border-status-invalid/50 bg-status-invalid/10 p-3 text-sm text-[#f0b8b8]";
+
+
+            downloadMessage.textContent =
+                message;
+
+
+            downloadMessage.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        /* =====================================================
+           DOWNLOAD PNG
+           ===================================================== */
+
+        downloadPngButton.addEventListener(
+            "click",
+            async function () {
+
+                if (
+                    downloadInProgress
+                ) {
+
+                    return;
+
+                }
+
+
+                try {
+
+                    setDownloadLoading(
+                        true,
+                        "Preparing your PNG confirmation..."
+                    );
+
+
+                    const canvas =
+                        await renderConfirmationCanvas();
+
+
+                    const blob =
+                        await new Promise(
+                            function (
+                                resolve,
+                                reject
+                            ) {
+
+                                canvas.toBlob(
+                                    function (
+                                        generatedBlob
+                                    ) {
+
+                                        if (
+                                            generatedBlob
+                                        ) {
+
+                                            resolve(
+                                                generatedBlob
+                                            );
+
+                                        }
+
+                                        else {
+
+                                            reject(
+                                                new Error(
+                                                    "PNG could not be generated."
+                                                )
+                                            );
+
+                                        }
+
+                                    },
+
+                                    "image/png",
+
+                                    1
+
+                                );
+
+                            }
+                        );
+
+
+                    const url =
+                        URL.createObjectURL(
+                            blob
+                        );
+
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    link.href =
+                        url;
+
+
+                    link.download =
+                        getDownloadBaseName() +
+                        ".png";
+
+
+                    document.body.appendChild(
+                        link
+                    );
+
+
+                    link.click();
+
+
+                    link.remove();
+
+
+                    setTimeout(
+                        function () {
+
+                            URL.revokeObjectURL(
+                                url
+                            );
+
+                        },
+                        1500
+                    );
+
+
+                    setDownloadLoading(
+                        false,
+                        ""
+                    );
+
+
+                    closeDownloadModal();
+
+                }
+
+                catch (
+                error
+                ) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    setDownloadLoading(
+                        false,
+                        ""
+                    );
+
+
+                    showDownloadError(
+                        "The PNG confirmation could not be generated. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           DOWNLOAD PDF
+           ===================================================== */
+
+        downloadPdfButton.addEventListener(
+            "click",
+            async function () {
+
+                if (
+                    downloadInProgress
+                ) {
+
+                    return;
+
+                }
+
+
+                try {
+
+                    setDownloadLoading(
+                        true,
+                        "Preparing your PDF confirmation..."
+                    );
+
+
+                    const canvas =
+                        await renderConfirmationCanvas();
+
+
+                    const imageData =
+                        canvas.toDataURL(
+                            "image/png",
+                            1
+                        );
+
+
+                    const {
+                        jsPDF
+                    } =
+                        window.jspdf;
+
+
+                    /*
+                     * Standard A4 portrait page.
+                     */
+
+                    const pdf =
+                        new jsPDF({
+
+                            orientation:
+                                "portrait",
+
+                            unit:
+                                "mm",
+
+                            format:
+                                "a4",
+
+                            compress:
+                                true
+
+                        });
+
+
+                    /*
+                     * Warm off-white paper background.
+                     */
+
+                    pdf.setFillColor(
+                        248,
+                        247,
+                        243
+                    );
+
+
+                    pdf.rect(
+                        0,
+                        0,
+                        210,
+                        297,
+                        "F"
+                    );
+
+
+                    /*
+                     * Confirmation card is 1080 × 1350 = 0.8 ratio.
+                     *
+                     * Place it neatly in the centre of A4.
+                     */
+
+                    const margin =
+                        12;
+
+
+                    const imageWidth =
+                        210 -
+                        (
+                            margin *
+                            2
+                        );
+
+
+                    const imageHeight =
+                        imageWidth *
+                        (
+                            1350 /
+                            1080
+                        );
+
+
+                    const imageY =
+                        (
+                            297 -
+                            imageHeight
+                        ) /
+                        2;
+
+
+                    pdf.addImage(
+
+                        imageData,
+
+                        "PNG",
+
+                        margin,
+
+                        imageY,
+
+                        imageWidth,
+
+                        imageHeight,
+
+                        undefined,
+
+                        "FAST"
+
+                    );
+
+
+                    pdf.save(
+
+                        getDownloadBaseName() +
+                        ".pdf"
+
+                    );
+
+
+                    setDownloadLoading(
+                        false,
+                        ""
+                    );
+
+
+                    closeDownloadModal();
+
+                }
+
+                catch (
+                error
+                ) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    setDownloadLoading(
+                        false,
+                        ""
+                    );
+
+
+                    showDownloadError(
+                        "The PDF confirmation could not be generated. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           BACKEND RESPONSES
+           ===================================================== */
+
+        window.addEventListener(
+            "message",
+            function (
+                event
+            ) {
+
+                const data =
+                    event.data;
+
+
+                if (
+                    !data ||
+                    typeof data !==
+                    "object" ||
+                    data.source !==
+                    "EMERGE_HEALTH_CORNER"
+                ) {
+
+                    return;
+
+                }
+
+
+                /* -------------------------------------------------
+                   VERIFICATION
+                   ------------------------------------------------- */
+
+                if (
+                    data.type ===
+                    "VERIFICATION_RESULT"
+                ) {
+
+                    if (
+                        data.callbackNonce !==
+                        verificationNonce
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    verificationNonce =
+                        "";
+
+
+                    showVerification(
+                        data
+                    );
+
+
+                    return;
+
+                }
+
+
+                /* -------------------------------------------------
+                   HOSPITAL AUTHORISATION
+                   ------------------------------------------------- */
+
+                if (
+                    data.type ===
+                    "REDEMPTION_AUTH_RESULT"
+                ) {
+
+                    if (
+                        data.callbackNonce !==
+                        actionNonce
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    clearTimeout(
+                        responseTimeout
+                    );
+
+
+                    actionNonce =
+                        "";
+
+
+                    verifyAuthCodeButton.disabled =
+                        false;
+
+
+                    verifyAuthCodeButton.textContent =
+                        "Verify Code";
+
+
+                    if (
+                        data.success ===
+                        true &&
+                        data.code ===
+                        "AUTHORISED"
+                    ) {
+
+                        openConfirmation(
+                            data
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        data.code ===
+                        "INCORRECT_CODE"
+                    ) {
+
+                        const attempts =
+
+                            data.attemptsRemaining != null
+
+                                ? " " +
+                                data.attemptsRemaining +
+                                " attempt(s) remaining."
+
+                                : "";
+
+
+                        showAuthMessage(
+
+                            data.message +
+                            attempts,
+
+                            false
+
+                        );
+
+
+                        pinBoxes.forEach(
+                            box =>
+                                box.value =
+                                ""
+                        );
+
+
+                        pinBoxes[
+                            0
+                        ].focus();
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        data.code ===
+                        "AUTH_LOCKED"
+                    ) {
+
+                        showAuthMessage(
+
+                            data.message +
+
+                            (
+                                data.lockedUntil
+
+                                    ? " Locked until " +
+                                    data.lockedUntil +
+                                    "."
+
+                                    : ""
+                            ),
+
+                            false
+
+                        );
+
+
+                        pinBoxes.forEach(
+                            box =>
+                                box.disabled =
+                                true
+                        );
+
+
+                        verifyAuthCodeButton.disabled =
+                            true;
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        data.code ===
+                        "ALREADY_REDEEMED"
+                    ) {
+
+                        closeAuthModal();
+
+
+                        showVerification({
+
+                            verificationState:
+                                "REDEEMED",
+
+                            participant:
+                                data.participant,
+
+                            registrationId:
+                                data.registrationId,
+
+                            tier:
+                                data.tier,
+
+                            benefit:
+                                "30% Discount",
+
+                            redeemedAt:
+                                data.redeemedAt,
+
+                            redemptionReference:
+                                data.redemptionReference
+
+                        });
+
+
+                        return;
+
+                    }
+
+
+                    showAuthMessage(
+
+                        data.message ||
+                        "Hospital authorisation failed.",
+
+                        false
+
+                    );
+
+
+                    return;
+
+                }
+
+
+                /* -------------------------------------------------
+                   FINAL REDEMPTION
+                   ------------------------------------------------- */
+
+                if (
+                    data.type ===
+                    "REDEMPTION_RESULT"
+                ) {
+
+                    if (
+                        data.callbackNonce !==
+                        actionNonce
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    clearTimeout(
+                        responseTimeout
+                    );
+
+
+                    actionNonce =
+                        "";
+
+
+                    confirmRedemptionButton.disabled =
+                        false;
+
+
+                    confirmRedemptionButton.textContent =
+                        "Confirm Redemption";
+
+
+                    if (
+                        data.success ===
+                        true &&
+                        data.code ===
+                        "REDEEMED"
+                    ) {
+
+                        redemptionAuthToken =
+                            "";
+
+
+                        showRedemptionSuccess(
+                            data
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        data.code ===
+                        "ALREADY_REDEEMED"
+                    ) {
+
+                        confirmationModal.classList.add(
+                            "hidden"
+                        );
+
+
+                        confirmationModal.classList.remove(
+                            "flex"
+                        );
+
+
+                        showVerification({
+
+                            verificationState:
+                                "REDEEMED",
+
+                            participant:
+                                data.participant,
+
+                            registrationId:
+                                data.registrationId,
+
+                            tier:
+                                data.tier,
+
+                            benefit:
+                                "30% Discount",
+
+                            redeemedAt:
+                                data.redeemedAt,
+
+                            redemptionReference:
+                                data.redemptionReference
+
+                        });
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        data.code ===
+                        "AUTHORISATION_EXPIRED"
+                    ) {
+
+                        confirmationModal.classList.add(
+                            "hidden"
+                        );
+
+
+                        confirmationModal.classList.remove(
+                            "flex"
+                        );
+
+
+                        redemptionAuthToken =
+                            "";
+
+
+                        resetPin();
+
+
+                        authModal.classList.remove(
+                            "hidden"
+                        );
+
+
+                        authModal.classList.add(
+                            "flex"
+                        );
+
+
+                        showAuthMessage(
+                            data.message,
+                            false
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    confirmationError.textContent =
+
+                        data.message ||
+
+                        "Redemption could not be completed.";
+
+
+                    confirmationError.classList.remove(
+                        "hidden"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           START
+           ===================================================== */
+
+        beginVerification();
+
+    </script>
+
+</body>
+
+</html>
