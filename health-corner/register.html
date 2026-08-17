@@ -12,11 +12,15 @@
   </title>
 
 
+  <!-- TAILWIND -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
+
+  <!-- QR GENERATOR -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +33,7 @@
     rel="stylesheet">
 
 
+  <!-- TAILWIND CONFIG -->
   <script>
 
     tailwind.config = {
@@ -108,9 +113,11 @@
 
   <style>
     body {
+
       font-family:
         Inter,
         sans-serif;
+
     }
 
 
@@ -189,8 +196,10 @@
     @keyframes spin {
 
       to {
+
         transform:
           rotate(360deg);
+
       }
 
     }
@@ -222,10 +231,10 @@
       display:
         inline-flex;
 
-      justify-content:
+      align-items:
         center;
 
-      align-items:
+      justify-content:
         center;
 
       background:
@@ -273,12 +282,15 @@
 ">
 
 
-  <!-- HEADER -->
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
 
   <header class="
     bg-surface
     border-b
     border-surface-variant
+    z-50
   ">
 
     <div class="
@@ -309,6 +321,7 @@
       <a href="../index.html" class="
           text-on-surface-variant
           hover:text-primary
+          transition-colors
           text-xs
           uppercase
           tracking-widest
@@ -322,7 +335,9 @@
   </header>
 
 
-  <!-- STATUS LOADING -->
+  <!-- =====================================================
+       STATUS LOADING
+       ===================================================== -->
 
   <main id="registrationStatusLoading" class="
       flex-grow
@@ -333,13 +348,17 @@
       py-16
     ">
 
-    <div class="text-center">
+    <div class="
+      text-center
+      max-w-md
+    ">
 
       <div class="
         loader
         mx-auto
         mb-6
       "></div>
+
 
       <h1 class="
         font-display
@@ -348,6 +367,7 @@
       ">
         HEALTH CORNER
       </h1>
+
 
       <p class="
         text-on-surface-variant
@@ -361,7 +381,9 @@
   </main>
 
 
-  <!-- OPEN -->
+  <!-- =====================================================
+       REGISTRATION OPEN
+       ===================================================== -->
 
   <main id="registrationOpenContent" class="
       hidden
@@ -380,6 +402,8 @@
       mx-auto
     ">
 
+
+      <!-- INTRO -->
 
       <div id="registrationIntro">
 
@@ -407,6 +431,7 @@
               rounded-full
               bg-status-valid
             "></span>
+
 
             <span class="
               text-status-valid
@@ -451,7 +476,9 @@
       </div>
 
 
-      <!-- FORM -->
+      <!-- =================================================
+           FORM
+           ================================================= -->
 
       <div id="registrationFormCard" class="
           bg-charcoal-surface
@@ -466,8 +493,11 @@
 
         <form id="healthCornerForm" action="/api/health-corner" method="POST" class="space-y-6">
 
-          <input id="callbackNonce" name="callbackNonce" type="hidden">
 
+          <input id="callbackNonce" name="callbackNonce" type="hidden" value="">
+
+
+          <!-- FULL NAME -->
 
           <div>
 
@@ -483,7 +513,9 @@
               Full Name *
             </label>
 
-            <input id="fullName" name="fullName" type="text" autocomplete="name" required class="
+
+            <input id="fullName" name="fullName" type="text" autocomplete="name" autocapitalize="words"
+              spellcheck="false" required class="
                 w-full
                 bg-[#121212]
                 border
@@ -497,6 +529,8 @@
 
           </div>
 
+
+          <!-- EMAIL -->
 
           <div>
 
@@ -512,6 +546,7 @@
               Email Address *
             </label>
 
+
             <input id="email" name="email" type="email" autocomplete="email" required class="
                 w-full
                 bg-[#121212]
@@ -524,17 +559,20 @@
                 focus:ring-0
               ">
 
+
             <p class="
               text-sm
               text-outline
               mt-2
             ">
-              Your unique Health Corner QR will also be
-              sent to this email address.
+              Your unique Health Corner QR will also
+              be sent to this email address.
             </p>
 
           </div>
 
+
+          <!-- ADDRESS -->
 
           <div>
 
@@ -549,6 +587,7 @@
               ">
               Address *
             </label>
+
 
             <textarea id="address" name="address" autocomplete="street-address" rows="3" required class="
                 w-full
@@ -565,6 +604,8 @@
 
           </div>
 
+
+          <!-- DOB + SEX -->
 
           <div class="
             grid
@@ -586,6 +627,7 @@
                 ">
                 Date of Birth *
               </label>
+
 
               <input id="dateOfBirth" name="dateOfBirth" type="date" required class="
                   w-full
@@ -616,6 +658,7 @@
                 ">
                 Sex *
               </label>
+
 
               <select id="sex" name="sex" required class="
                   w-full
@@ -652,6 +695,8 @@
           </div>
 
 
+          <!-- OCCUPATION -->
+
           <div>
 
             <label for="occupation" class="
@@ -666,7 +711,8 @@
               Occupation *
             </label>
 
-            <input id="occupation" name="occupation" type="text" required class="
+
+            <input id="occupation" name="occupation" type="text" autocomplete="organization-title" required class="
                 w-full
                 bg-[#121212]
                 border
@@ -680,6 +726,8 @@
 
           </div>
 
+
+          <!-- TIER -->
 
           <div>
 
@@ -695,6 +743,7 @@
               Tier *
             </label>
 
+
             <div class="
               grid
               grid-cols-1
@@ -705,23 +754,26 @@
               <label for="tierVIP" class="
                   tier-card
                   flex
-                  gap-3
                   items-center
+                  gap-3
                   p-4
                   bg-[#121212]
                   border
                   border-[#333333]
                   rounded-lg
                   cursor-pointer
+                  hover:border-primary/70
+                  transition-all
                 ">
 
                 <input id="tierVIP" name="tier" type="radio" value="VIP" required class="
                     text-primary
                     bg-[#121212]
-                    border-[#555]
+                    border-[#555555]
                     focus:ring-primary
                     focus:ring-offset-0
                   ">
+
 
                 <div>
 
@@ -731,6 +783,7 @@
                   ">
                     VIP
                   </div>
+
 
                   <div class="
                     text-sm
@@ -747,23 +800,26 @@
               <label for="tierStandard" class="
                   tier-card
                   flex
-                  gap-3
                   items-center
+                  gap-3
                   p-4
                   bg-[#121212]
                   border
                   border-[#333333]
                   rounded-lg
                   cursor-pointer
+                  hover:border-primary/70
+                  transition-all
                 ">
 
                 <input id="tierStandard" name="tier" type="radio" value="Standard" required class="
                     text-primary
                     bg-[#121212]
-                    border-[#555]
+                    border-[#555555]
                     focus:ring-primary
                     focus:ring-offset-0
                   ">
+
 
                 <div>
 
@@ -773,6 +829,7 @@
                   ">
                     Standard
                   </div>
+
 
                   <div class="
                     text-sm
@@ -790,6 +847,8 @@
           </div>
 
 
+          <!-- CONSENT -->
+
           <div class="
             flex
             items-start
@@ -799,15 +858,19 @@
             <input id="consent" name="consent" type="checkbox" value="YES" required class="
                 mt-1
                 bg-[#121212]
-                border-[#333]
+                border-[#333333]
+                rounded-sm
                 text-primary
                 focus:ring-primary
                 focus:ring-offset-0
+                cursor-pointer
               ">
+
 
             <label for="consent" class="
                 text-on-surface-variant
                 cursor-pointer
+                select-none
               ">
               I confirm that the information provided is accurate
               and consent to its use for the EMERGE 2026 Health
@@ -817,8 +880,12 @@
           </div>
 
 
-          <div id="registrationMessage" class="hidden"></div>
+          <!-- MESSAGE -->
 
+          <div id="registrationMessage" class="hidden" role="alert"></div>
+
+
+          <!-- SUBMIT -->
 
           <button id="submitButton" type="submit" class="
               w-full
@@ -831,15 +898,18 @@
               tracking-[0.14em]
               font-bold
               hover:bg-primary
+              active:scale-[0.98]
+              transition-all
               flex
-              justify-center
               items-center
+              justify-center
               gap-2
             ">
 
             <span id="submitButtonText">
               SUBMIT REGISTRATION
             </span>
+
 
             <span id="submitArrow" class="
                 material-symbols-outlined
@@ -848,8 +918,10 @@
               arrow_forward
             </span>
 
+
             <span id="submitSpinner" class="
                 material-symbols-outlined
+                text-sm
                 animate-spin
                 hidden
               ">
@@ -863,7 +935,9 @@
       </div>
 
 
-      <!-- SUCCESS -->
+      <!-- =================================================
+           SUCCESS
+           ================================================= -->
 
       <div id="registrationSuccess" class="
           hidden
@@ -875,6 +949,9 @@
           shadow-[0px_4px_20px_rgba(0,0,0,0.5)]
           overflow-hidden
         ">
+
+
+        <!-- SUCCESS HEADER -->
 
         <div class="
           px-6
@@ -889,6 +966,7 @@
             rounded-full
             border
             border-status-valid
+            bg-status-valid/5
             flex
             items-center
             justify-center
@@ -913,6 +991,7 @@
             tracking-widest
             text-status-valid
             font-bold
+            mb-3
           ">
             Registration Successful
           </div>
@@ -924,7 +1003,6 @@
             md:text-4xl
             text-primary
             font-bold
-            mt-3
           ">
             YOU'RE REGISTERED
           </h2>
@@ -932,13 +1010,14 @@
 
           <p id="successName" class="
               text-lg
+              text-on-surface
               mt-4
             "></p>
 
         </div>
 
 
-        <!-- PERSONAL CREDENTIAL -->
+        <!-- PERSONAL QR -->
 
         <div id="qrCredentialSection" class="
             credential-grid
@@ -953,8 +1032,70 @@
           ">
 
           <div class="
-            px-6
-            py-7
+            border-b
+            border-primary/15
+            px-5
+            py-4
+            flex
+            items-center
+            justify-between
+            gap-4
+          ">
+
+            <div>
+
+              <div class="
+                text-[10px]
+                uppercase
+                tracking-[0.2em]
+                text-outline
+                font-semibold
+              ">
+                EMERGE 2026
+              </div>
+
+
+              <div class="
+                text-primary
+                font-display
+                font-bold
+                mt-1
+              ">
+                HEALTH CORNER
+              </div>
+
+            </div>
+
+
+            <div class="
+              flex
+              items-center
+              gap-2
+              text-status-valid
+              text-xs
+              font-bold
+              uppercase
+              tracking-wider
+            ">
+
+              <span class="
+                w-2
+                h-2
+                bg-status-valid
+                rounded-full
+              "></span>
+
+              Valid
+
+            </div>
+
+          </div>
+
+
+          <div class="
+            px-5
+            md:px-8
+            py-8
             text-center
           ">
 
@@ -973,7 +1114,7 @@
 
               <div class="qr-shell">
 
-                <div id="healthCornerQrCode"></div>
+                <div id="healthCornerQrCode" aria-label="Health Corner QR Code"></div>
 
               </div>
 
@@ -981,11 +1122,11 @@
 
 
             <div class="
+              mt-6
               text-xs
               text-outline
               uppercase
-              tracking-widest
-              mt-6
+              tracking-wider
             ">
               Registration ID
             </div>
@@ -994,17 +1135,19 @@
             <div id="qrRegistrationId" class="
                 font-mono
                 text-primary
-                font-bold
                 text-lg
+                md:text-xl
+                font-bold
+                tracking-wider
                 mt-2
               "></div>
 
 
             <div class="
-              text-primary
+              mt-6
               text-5xl
               font-bold
-              mt-6
+              text-primary
             ">
               30%
             </div>
@@ -1014,16 +1157,33 @@
               text-xs
               uppercase
               tracking-[0.18em]
-              font-bold
               text-on-surface-variant
+              font-bold
+              mt-1
             ">
               Healthcare Discount
             </div>
+
+
+            <p class="
+              text-sm
+              text-on-surface-variant
+              max-w-md
+              mx-auto
+              mt-5
+              leading-6
+            ">
+              Present this QR at the participating hospital.
+              Hospital personnel will scan it to confirm your
+              eligibility for the Health Corner benefit.
+            </p>
 
           </div>
 
         </div>
 
+
+        <!-- PARTICIPANT DETAILS -->
 
         <div class="
           bg-surface-container
@@ -1033,6 +1193,7 @@
           md:mx-10
           mt-7
           p-5
+          text-left
           space-y-4
         ">
 
@@ -1041,7 +1202,7 @@
             justify-between
             gap-4
             border-b
-            border-[#333]
+            border-[#333333]
             pb-3
           ">
 
@@ -1053,7 +1214,11 @@
               Registration ID
             </span>
 
-            <strong id="successRegistrationId" class="text-primary"></strong>
+
+            <strong id="successRegistrationId" class="
+                text-primary
+                text-right
+              "></strong>
 
           </div>
 
@@ -1061,8 +1226,9 @@
           <div class="
             flex
             justify-between
+            gap-4
             border-b
-            border-[#333]
+            border-[#333333]
             pb-3
           ">
 
@@ -1074,7 +1240,8 @@
               Tier
             </span>
 
-            <strong id="successTier"></strong>
+
+            <strong id="successTier" class="text-right"></strong>
 
           </div>
 
@@ -1082,6 +1249,7 @@
           <div class="
             flex
             justify-between
+            gap-4
           ">
 
             <span class="
@@ -1092,7 +1260,11 @@
               Status
             </span>
 
-            <strong id="successStatus" class="text-status-valid">
+
+            <strong id="successStatus" class="
+                text-status-valid
+                text-right
+              ">
               VALID
             </strong>
 
@@ -1101,7 +1273,7 @@
         </div>
 
 
-        <!-- ONLY PARTICIPANT DOWNLOAD -->
+        <!-- DOWNLOAD PASS -->
 
         <div class="
           px-6
@@ -1121,6 +1293,8 @@
               tracking-[0.14em]
               font-bold
               hover:bg-primary
+              active:scale-[0.98]
+              transition-all
               flex
               items-center
               justify-center
@@ -1138,8 +1312,64 @@
 
           </button>
 
+
+          <!-- DOWNLOAD FEEDBACK -->
+
+          <div id="passDownloadNotice" class="
+              hidden
+              mt-4
+              border
+              border-status-valid/40
+              bg-status-valid/10
+              rounded-lg
+              p-4
+            " role="status" aria-live="polite">
+
+            <div class="
+              flex
+              items-start
+              gap-3
+            ">
+
+              <span class="
+                material-symbols-outlined
+                text-status-valid
+                text-xl
+              ">
+                check_circle
+              </span>
+
+
+              <div>
+
+                <div class="
+                  text-status-valid
+                  font-semibold
+                ">
+                  Health Corner Pass Ready
+                </div>
+
+
+                <p class="
+                  text-sm
+                  text-on-surface-variant
+                  mt-1
+                  leading-6
+                ">
+                  Your Health Corner Pass has been generated
+                  and the download has started.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
+
+        <!-- INFO -->
 
         <div class="
           mx-6
@@ -1149,24 +1379,30 @@
           border-l-2
           border-primary
           bg-primary/5
+          text-left
         ">
 
           <p class="
             text-on-surface-variant
+            m-0
             leading-6
           ">
             Your personal Health Corner QR has also been sent
-            to your email. Present your QR at the participating
-            hospital when you wish to use your benefit.
+            to your email. Keep either your email QR or downloaded
+            Health Corner Pass available when visiting the
+            participating hospital.
           </p>
 
         </div>
 
 
+        <!-- REGISTER ANOTHER -->
+
         <div class="
           px-6
           md:px-10
-          py-9
+          pt-8
+          pb-9
           text-center
         ">
 
@@ -1176,6 +1412,8 @@
               text-xs
               font-bold
               tracking-widest
+              hover:text-[#E9C349]
+              transition-colors
             ">
             Register Another Participant
           </button>
@@ -1189,7 +1427,9 @@
   </main>
 
 
-  <!-- CLOSED -->
+  <!-- =====================================================
+       CLOSED
+       ===================================================== -->
 
   <main id="registrationClosedContent" class="
       hidden
@@ -1202,28 +1442,58 @@
     ">
 
     <div class="
+      w-full
       max-w-2xl
       bg-charcoal-surface
       border
       border-surface-variant
       border-t-status-invalid
-      p-9
+      p-8
+      md:p-12
       text-center
     ">
 
-      <span class="
-        material-symbols-outlined
-        text-status-invalid
-        text-5xl
+      <div class="
+        w-20
+        h-20
+        rounded-full
+        border
+        border-status-invalid/40
+        bg-status-invalid/5
+        flex
+        items-center
+        justify-center
+        mx-auto
       ">
-        event_busy
-      </span>
+
+        <span class="
+          material-symbols-outlined
+          text-status-invalid
+          text-4xl
+        ">
+          event_busy
+        </span>
+
+      </div>
+
+
+      <div class="
+        text-primary
+        text-xs
+        uppercase
+        tracking-[0.18em]
+        font-bold
+        mt-7
+      ">
+        EMERGE 2026 Health Corner
+      </div>
 
 
       <h1 class="
         font-display
         text-3xl
-        mt-5
+        md:text-4xl
+        mt-4
       ">
         Registration Has Closed
       </h1>
@@ -1231,19 +1501,62 @@
 
       <p class="
         text-on-surface-variant
-        mt-5
+        mt-6
         leading-7
       ">
         New registrations are no longer being accepted
         for the EMERGE 2026 Health Corner programme.
       </p>
 
+
+      <p class="
+        text-on-surface-variant
+        mt-4
+        leading-7
+      ">
+        Participants who registered successfully can continue
+        using their personal Health Corner QR credential.
+      </p>
+
+
+      <a href="index.html" class="
+          inline-flex
+          items-center
+          justify-center
+          gap-2
+          border
+          border-outline-variant
+          text-primary
+          px-7
+          py-4
+          rounded
+          mt-8
+          text-xs
+          uppercase
+          tracking-[0.14em]
+          font-bold
+          hover:border-primary
+        ">
+
+        <span class="
+          material-symbols-outlined
+          text-base
+        ">
+          arrow_back
+        </span>
+
+        Health Corner Home
+
+      </a>
+
     </div>
 
   </main>
 
 
-  <!-- ERROR -->
+  <!-- =====================================================
+       STATUS ERROR
+       ===================================================== -->
 
   <main id="registrationStatusError" class="
       hidden
@@ -1273,6 +1586,7 @@
         error_outline
       </span>
 
+
       <h1 class="
         font-display
         text-3xl
@@ -1281,14 +1595,28 @@
         Registration Unavailable
       </h1>
 
-      <button onclick="location.reload()" class="
+
+      <p class="
+        text-on-surface-variant
+        mt-4
+        leading-7
+      ">
+        We could not safely confirm whether registration is open.
+        The form has therefore not been displayed.
+      </p>
+
+
+      <button onclick="window.location.reload()" class="
           border
-          border-primary
+          border-primary/50
           text-primary
           px-7
           py-4
           mt-7
           rounded
+          text-xs
+          uppercase
+          font-bold
         ">
         Try Again
       </button>
@@ -1298,7 +1626,9 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
 
   <footer class="
     bg-surface-container-lowest
@@ -1316,6 +1646,7 @@
       EMERGE 2026
     </div>
 
+
     <div class="
       text-xs
       text-on-surface-variant
@@ -1327,96 +1658,121 @@
   </footer>
 
 
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
   <script>
 
     const API =
       "/api/health-corner";
 
 
-    const loading =
+    /* =====================================================
+       ELEMENTS
+       ===================================================== */
+
+    const registrationStatusLoading =
       document.getElementById(
         "registrationStatusLoading"
       );
 
-    const openContent =
+
+    const registrationOpenContent =
       document.getElementById(
         "registrationOpenContent"
       );
 
-    const closedContent =
+
+    const registrationClosedContent =
       document.getElementById(
         "registrationClosedContent"
       );
 
-    const errorContent =
+
+    const registrationStatusError =
       document.getElementById(
         "registrationStatusError"
       );
+
 
     const form =
       document.getElementById(
         "healthCornerForm"
       );
 
-    const formCard =
+
+    const registrationFormCard =
       document.getElementById(
         "registrationFormCard"
       );
 
-    const intro =
+
+    const registrationIntro =
       document.getElementById(
         "registrationIntro"
       );
 
-    const success =
+
+    const registrationSuccess =
       document.getElementById(
         "registrationSuccess"
       );
 
-    const message =
+
+    const registrationMessage =
       document.getElementById(
         "registrationMessage"
       );
 
-    const fullName =
+
+    const callbackNonceInput =
+      document.getElementById(
+        "callbackNonce"
+      );
+
+
+    const fullNameInput =
       document.getElementById(
         "fullName"
       );
 
-    const dob =
+
+    const dateOfBirthInput =
       document.getElementById(
         "dateOfBirth"
       );
 
-    const nonceInput =
-      document.getElementById(
-        "callbackNonce"
-      );
 
     const submitButton =
       document.getElementById(
         "submitButton"
       );
 
-    const submitText =
+
+    const submitButtonText =
       document.getElementById(
         "submitButtonText"
       );
+
 
     const submitArrow =
       document.getElementById(
         "submitArrow"
       );
 
-    const spinner =
+
+    const submitSpinner =
       document.getElementById(
         "submitSpinner"
       );
+
 
     const qrContainer =
       document.getElementById(
         "healthCornerQrCode"
       );
+
 
     const downloadPassButton =
       document.getElementById(
@@ -1424,62 +1780,111 @@
       );
 
 
-    let inProgress =
+    const passDownloadNotice =
+      document.getElementById(
+        "passDownloadNotice"
+      );
+
+
+    const registerAnotherButton =
+      document.getElementById(
+        "registerAnotherButton"
+      );
+
+
+    /* =====================================================
+       STATE
+       ===================================================== */
+
+    let submissionInProgress =
       false;
 
-    let currentName =
+
+    let currentParticipantName =
       "";
+
 
     let currentRegistrationId =
       "";
 
-    let currentTier =
+
+    let currentParticipantTier =
       "";
+
 
     let currentVerificationUrl =
       "";
 
 
-    function nonce() {
+    let passDownloadNoticeTimer =
+      null;
+
+
+    /* =====================================================
+       NONCE
+       ===================================================== */
+
+    function createNonce() {
+
       if (
-        crypto &&
-        crypto.getRandomValues
+        window.crypto &&
+        window.crypto.getRandomValues
       ) {
+
         const values =
           new Uint32Array(4);
 
-        crypto.getRandomValues(
+
+        window.crypto.getRandomValues(
           values
         );
 
-        return Array
-          .from(values)
+
+        return Array.from(values)
+
           .map(
             value =>
               value
                 .toString(16)
-                .padStart(8, "0")
+                .padStart(
+                  8,
+                  "0"
+                )
           )
+
           .join("");
+
       }
+
 
       return (
         Date.now().toString(36) +
+        Math.random().toString(36).slice(2) +
         Math.random().toString(36).slice(2)
       );
+
     }
 
 
-    function formatName(value) {
+    /* =====================================================
+       NAME
+       ===================================================== */
+
+    function capitaliseName(value) {
+
       return String(
         value || ""
       )
+
         .trim()
+
         .replace(
           /\s+/g,
           " "
         )
+
         .replace(
+
           /(^|[\s'-])([a-z])/g,
 
           function (
@@ -1487,107 +1892,259 @@
             separator,
             letter
           ) {
+
             return (
               separator +
               letter.toUpperCase()
             );
+
           }
+
         );
+
     }
 
 
-    fullName.addEventListener(
+    fullNameInput.addEventListener(
+
       "blur",
+
       function () {
-        fullName.value =
-          formatName(
-            fullName.value
+
+        fullNameInput.value =
+          capitaliseName(
+            fullNameInput.value
           );
+
       }
+
     );
 
 
-    function setMaxDob() {
+    /* =====================================================
+       DOB
+       ===================================================== */
+
+    function setMaximumDob() {
+
       const now =
         new Date();
 
-      dob.max =
-        now
-          .toISOString()
-          .slice(0, 10);
+
+      const year =
+        now.getFullYear();
+
+
+      const month =
+        String(
+          now.getMonth() + 1
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const day =
+        String(
+          now.getDate()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      dateOfBirthInput.max =
+        `${year}-${month}-${day}`;
+
     }
 
 
-    setMaxDob();
+    setMaximumDob();
 
 
-    function hideStates() {
-      loading.classList.add("hidden");
-      openContent.classList.add("hidden");
-      closedContent.classList.add("hidden");
-      errorContent.classList.add("hidden");
+    /* =====================================================
+       VIEW STATES
+       ===================================================== */
+
+    function hideRegistrationStates() {
+
+      registrationStatusLoading
+        .classList
+        .add("hidden");
+
+
+      registrationOpenContent
+        .classList
+        .add("hidden");
+
+
+      registrationClosedContent
+        .classList
+        .add("hidden");
+
+
+      registrationStatusError
+        .classList
+        .add("hidden");
+
     }
 
+
+    function showRegistrationOpen() {
+
+      hideRegistrationStates();
+
+
+      registrationOpenContent
+        .classList
+        .remove("hidden");
+
+    }
+
+
+    function showRegistrationClosed() {
+
+      hideRegistrationStates();
+
+
+      registrationClosedContent
+        .classList
+        .remove("hidden");
+
+    }
+
+
+    function showStatusError() {
+
+      hideRegistrationStates();
+
+
+      registrationStatusError
+        .classList
+        .remove("hidden");
+
+    }
+
+
+    /* =====================================================
+       SUBMIT BUTTON
+       ===================================================== */
 
     function setSubmitting(value) {
+
       submitButton.disabled =
         value;
 
+
       if (value) {
-        submitText.textContent =
+
+        submitButton
+          .classList
+          .add(
+            "opacity-70",
+            "cursor-wait"
+          );
+
+
+        submitButtonText.textContent =
           "SUBMITTING...";
 
-        submitArrow.classList.add(
-          "hidden"
-        );
 
-        spinner.classList.remove(
-          "hidden"
-        );
+        submitArrow
+          .classList
+          .add("hidden");
+
+
+        submitSpinner
+          .classList
+          .remove("hidden");
 
       } else {
-        submitText.textContent =
+
+        submitButton
+          .classList
+          .remove(
+            "opacity-70",
+            "cursor-wait"
+          );
+
+
+        submitButtonText.textContent =
           "SUBMIT REGISTRATION";
 
-        submitArrow.classList.remove(
-          "hidden"
-        );
 
-        spinner.classList.add(
-          "hidden"
-        );
+        submitArrow
+          .classList
+          .remove("hidden");
+
+
+        submitSpinner
+          .classList
+          .add("hidden");
+
       }
+
     }
 
 
-    function showError(text) {
-      message.className =
+    /* =====================================================
+       ERRORS
+       ===================================================== */
+
+    function showError(message) {
+
+      registrationMessage.className =
         "block border border-status-invalid/50 bg-status-invalid/10 text-[#f0b8b8] p-4 text-sm";
 
-      message.textContent =
-        text;
+
+      registrationMessage.textContent =
+        message;
+
     }
 
+
+    function clearMessage() {
+
+      registrationMessage.className =
+        "hidden";
+
+
+      registrationMessage.textContent =
+        "";
+
+    }
+
+
+    /* =====================================================
+       JSON FETCH
+       ===================================================== */
 
     async function fetchJson(
       url,
       options = {},
-      timeout = 55000
+      timeoutMs = 55000
     ) {
+
       const controller =
         new AbortController();
 
+
       const timer =
-        setTimeout(
+        window.setTimeout(
           () => controller.abort(),
-          timeout
+          timeoutMs
         );
 
+
       try {
+
         const response =
           await fetch(
+
             url,
+
             {
+
               cache:
                 "no-store",
 
@@ -1600,6 +2157,7 @@
                 controller.signal,
 
               headers: {
+
                 "Accept":
                   "application/json",
 
@@ -1607,87 +2165,185 @@
                   options.headers ||
                   {}
                 )
+
               }
+
             }
+
           );
 
-        const data =
-          await response.json();
+
+        let data;
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch (_) {
+
+          throw new Error(
+            "The Health Corner service returned an invalid response."
+          );
+
+        }
+
 
         if (!response.ok) {
+
           const error =
             new Error(
-              data.message ||
-              "Request failed."
+
+              data &&
+                data.message
+
+                ? data.message
+
+                : "The Health Corner service could not complete the request."
+
             );
+
+
+          error.status =
+            response.status;
+
 
           error.payload =
             data;
 
+
           throw error;
+
         }
+
 
         return data;
 
       } finally {
-        clearTimeout(
+
+        window.clearTimeout(
           timer
         );
+
       }
+
     }
 
 
-    async function checkStatus() {
+    /* =====================================================
+       REGISTRATION STATUS
+       ===================================================== */
+
+    async function checkRegistrationStatus() {
+
       try {
+
         const data =
           await fetchJson(
+
             API +
-            "?action=registrationStatus&_=" +
-            Date.now()
+            "?action=registrationStatus" +
+            "&_=" +
+            Date.now(),
+
+            {
+              method:
+                "GET"
+            }
+
           );
 
-        hideStates();
+
+        if (
+          !data ||
+          typeof data.registrationOpen !==
+          "boolean"
+        ) {
+
+          throw new Error(
+            "Registration status returned an incomplete response."
+          );
+
+        }
+
 
         if (
           data.registrationOpen
         ) {
-          openContent
-            .classList
-            .remove("hidden");
+
+          showRegistrationOpen();
 
         } else {
-          closedContent
-            .classList
-            .remove("hidden");
+
+          showRegistrationClosed();
+
         }
 
       } catch (error) {
-        console.error(error);
 
-        hideStates();
+        console.error(
+          "Registration status error:",
+          error
+        );
 
-        errorContent
-          .classList
-          .remove("hidden");
+
+        showStatusError();
+
       }
+
     }
 
 
-    function createQr(url) {
+    /* =====================================================
+       QR GENERATION
+       ===================================================== */
+
+    function createParticipantQr(
+      verificationUrl
+    ) {
+
       qrContainer.innerHTML =
         "";
 
+
+      if (
+        !verificationUrl
+      ) {
+
+        throw new Error(
+          "No verification URL was returned."
+        );
+
+      }
+
+
+      if (
+        typeof QRCode ===
+        "undefined"
+      ) {
+
+        throw new Error(
+          "QR generator could not be loaded."
+        );
+
+      }
+
+
       new QRCode(
+
         qrContainer,
+
         {
+
           text:
-            url,
+            verificationUrl,
 
           width:
-            300,
+            320,
 
           height:
-            300,
+            320,
 
           colorDark:
             "#000000",
@@ -1697,30 +2353,52 @@
 
           correctLevel:
             QRCode.CorrectLevel.H
+
         }
+
       );
+
     }
 
 
-    function showSuccess(data) {
-      currentName =
-        data.fullName || "";
+    /* =====================================================
+       SUCCESS
+       ===================================================== */
+
+    function showSuccessfulRegistration(
+      data,
+      fallback
+    ) {
+
+      currentParticipantName =
+        data.fullName ||
+        fallback.fullName ||
+        "";
+
 
       currentRegistrationId =
-        data.registrationId || "";
+        data.registrationId ||
+        "";
 
-      currentTier =
-        data.tier || "";
+
+      currentParticipantTier =
+        data.tier ||
+        fallback.tier ||
+        "";
+
 
       currentVerificationUrl =
-        data.verificationUrl || "";
+        data.verificationUrl ||
+        "";
+
 
       document
         .getElementById(
           "successName"
         )
         .textContent =
-        currentName;
+        currentParticipantName;
+
 
       document
         .getElementById(
@@ -1729,6 +2407,7 @@
         .textContent =
         currentRegistrationId;
 
+
       document
         .getElementById(
           "qrRegistrationId"
@@ -1736,12 +2415,14 @@
         .textContent =
         currentRegistrationId;
 
+
       document
         .getElementById(
           "successTier"
         )
         .textContent =
-        currentTier;
+        currentParticipantTier;
+
 
       document
         .getElementById(
@@ -1751,218 +2432,398 @@
         data.status ||
         "VALID";
 
-      createQr(
+
+      createParticipantQr(
         currentVerificationUrl
       );
 
-      intro.classList.add(
-        "hidden"
-      );
 
-      formCard.classList.add(
-        "hidden"
-      );
+      registrationIntro
+        .classList
+        .add("hidden");
 
-      success.classList.remove(
-        "hidden"
-      );
+
+      registrationFormCard
+        .classList
+        .add("hidden");
+
+
+      registrationSuccess
+        .classList
+        .remove("hidden");
+
 
       form.reset();
 
-      scrollTo({
+
+      window.scrollTo({
+
         top:
           0,
 
         behavior:
           "smooth"
+
       });
+
     }
 
 
+    /* =====================================================
+       REGISTRATION SUBMISSION
+       ===================================================== */
+
     form.addEventListener(
+
       "submit",
 
       async function (event) {
+
         event.preventDefault();
+
 
         if (
           !form.checkValidity()
         ) {
+
           form.reportValidity();
+
           return;
+
         }
 
-        if (inProgress) {
+
+        if (
+          submissionInProgress
+        ) {
+
           return;
+
         }
 
-        fullName.value =
-          formatName(
-            fullName.value
+
+        fullNameInput.value =
+          capitaliseName(
+            fullNameInput.value
           );
 
-        message.className =
-          "hidden";
 
-        nonceInput.value =
-          nonce();
+        clearMessage();
+
+
+        callbackNonceInput.value =
+          createNonce();
+
 
         const formData =
           new FormData(
             form
           );
 
+
         const body =
           new URLSearchParams();
+
 
         for (
           const [key, value]
           of formData.entries()
         ) {
+
           body.append(
             key,
             String(value)
           );
+
         }
 
-        inProgress =
+
+        const recoveryContext = {
+
+          fullName:
+            fullNameInput.value,
+
+          tier:
+            formData.get(
+              "tier"
+            ) || ""
+
+        };
+
+
+        submissionInProgress =
           true;
+
 
         setSubmitting(
           true
         );
 
+
         try {
+
           const data =
             await fetchJson(
+
               API,
+
               {
+
                 method:
                   "POST",
 
                 headers: {
+
                   "Content-Type":
                     "application/x-www-form-urlencoded;charset=UTF-8"
+
                 },
 
                 body:
                   body.toString()
+
               }
+
             );
+
 
           if (
             data.code ===
             "REGISTRATION_CLOSED"
           ) {
-            hideStates();
 
-            closedContent
-              .classList
-              .remove("hidden");
+            showRegistrationClosed();
 
             return;
+
           }
+
 
           if (
             data.success ===
             true
           ) {
-            showSuccess(
-              data
+
+            showSuccessfulRegistration(
+              data,
+              recoveryContext
             );
 
             return;
+
           }
+
 
           if (
             data.code ===
             "DUPLICATE_REGISTRATION"
           ) {
+
+            let duplicateMessage =
+              "A registration matching these details already exists.";
+
+
+            if (
+              data.registrationId
+            ) {
+
+              duplicateMessage +=
+                " Existing Registration ID: " +
+                data.registrationId +
+                ".";
+
+            }
+
+
             showError(
-              "A registration matching these details already exists." +
-              (
-                data.registrationId
-                  ? " Registration ID: " +
-                  data.registrationId
-                  : ""
-              )
+              duplicateMessage
             );
 
             return;
+
           }
 
+
           showError(
+
             data.message ||
-            "Registration could not be completed."
+            "Registration could not be completed. Please try again."
+
           );
+
 
         } catch (error) {
-          console.error(error);
 
-          showError(
-            error.name ===
-              "AbortError"
-
-              ? "The request timed out. Please check the registrations list before submitting again."
-
-              : error.message ||
-              "Registration could not be completed."
+          console.error(
+            "Registration error:",
+            error
           );
 
+
+          if (
+            error &&
+            error.payload &&
+            error.payload.code ===
+            "REGISTRATION_CLOSED"
+          ) {
+
+            showRegistrationClosed();
+
+            return;
+
+          }
+
+
+          showError(
+
+            error &&
+              error.name ===
+              "AbortError"
+
+              ? "The registration request timed out. Please check the registrations list before submitting again."
+
+              : (
+                error &&
+                error.message
+              ) ||
+              "Registration could not be completed. Please try again."
+
+          );
+
+
         } finally {
-          inProgress =
+
+          submissionInProgress =
             false;
 
-          nonceInput.value =
+
+          callbackNonceInput.value =
             "";
+
 
           setSubmitting(
             false
           );
+
         }
+
       }
+
     );
 
 
+    /* =====================================================
+       PASS DOWNLOAD HELPERS
+       ===================================================== */
+
     function safeFilename(value) {
+
       return String(
         value ||
         "EMERGE-2026"
-      ).replace(
-        /[^a-zA-Z0-9_-]/g,
-        "-"
-      );
+      )
+
+        .replace(
+          /[^a-zA-Z0-9_-]/g,
+          "-"
+        )
+
+        .replace(
+          /-+/g,
+          "-"
+        );
+
     }
 
 
+    function fitText(
+      ctx,
+      text,
+      maximumWidth,
+      startingSize,
+      minimumSize
+    ) {
+
+      let fontSize =
+        startingSize;
+
+
+      while (
+        fontSize >
+        minimumSize
+      ) {
+
+        ctx.font =
+          `700 ${fontSize}px Arial`;
+
+
+        if (
+          ctx.measureText(
+            text
+          ).width <=
+          maximumWidth
+        ) {
+
+          break;
+
+        }
+
+
+        fontSize -=
+          2;
+
+      }
+
+
+      return fontSize;
+
+    }
+
+
+    /* =====================================================
+       BUILD PASS
+       ===================================================== */
+
     function buildPass() {
-      const qr =
+
+      const qrCanvas =
         qrContainer.querySelector(
           "canvas"
         );
 
-      if (!qr) {
+
+      if (!qrCanvas) {
+
         return null;
+
       }
+
 
       const canvas =
         document.createElement(
           "canvas"
         );
 
+
       canvas.width =
         1080;
 
+
       canvas.height =
         1600;
+
 
       const ctx =
         canvas.getContext(
           "2d"
         );
 
+
+      /* BACKGROUND */
+
       ctx.fillStyle =
         "#121414";
+
 
       ctx.fillRect(
         0,
@@ -1972,8 +2833,67 @@
       );
 
 
+      /* SUBTLE GRID */
+
+      ctx.strokeStyle =
+        "rgba(242,202,80,0.05)";
+
+
+      ctx.lineWidth =
+        1;
+
+
+      for (
+        let x = 0;
+        x <= 1080;
+        x += 60
+      ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+          x,
+          0
+        );
+
+        ctx.lineTo(
+          x,
+          1600
+        );
+
+        ctx.stroke();
+
+      }
+
+
+      for (
+        let y = 0;
+        y <= 1600;
+        y += 60
+      ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+          0,
+          y
+        );
+
+        ctx.lineTo(
+          1080,
+          y
+        );
+
+        ctx.stroke();
+
+      }
+
+
+      /* GOLD TOP */
+
       ctx.fillStyle =
         "#d4af37";
+
 
       ctx.fillRect(
         0,
@@ -1987,11 +2907,15 @@
         "center";
 
 
+      /* ORGANISATION */
+
       ctx.fillStyle =
         "#d0c5af";
 
+
       ctx.font =
         "600 24px Arial";
+
 
       ctx.fillText(
         "MENTOR MEN LEADERSHIP FORUM",
@@ -2000,11 +2924,15 @@
       );
 
 
+      /* EMERGE */
+
       ctx.fillStyle =
         "#f2ca50";
 
+
       ctx.font =
         "700 72px Georgia";
+
 
       ctx.fillText(
         "EMERGE 2026",
@@ -2013,11 +2941,15 @@
       );
 
 
+      /* HEALTH CORNER */
+
       ctx.fillStyle =
         "#ffffff";
 
+
       ctx.font =
         "700 38px Arial";
+
 
       ctx.fillText(
         "HEALTH CORNER",
@@ -2026,11 +2958,15 @@
       );
 
 
+      /* 30% */
+
       ctx.fillStyle =
         "#f2ca50";
 
+
       ctx.font =
         "700 145px Arial";
+
 
       ctx.fillText(
         "30%",
@@ -2042,8 +2978,10 @@
       ctx.fillStyle =
         "#d0c5af";
 
+
       ctx.font =
         "700 28px Arial";
+
 
       ctx.fillText(
         "HEALTHCARE DISCOUNT",
@@ -2052,8 +2990,11 @@
       );
 
 
+      /* QR WHITE CARD */
+
       ctx.fillStyle =
         "#ffffff";
+
 
       ctx.fillRect(
         255,
@@ -2066,8 +3007,9 @@
       ctx.imageSmoothingEnabled =
         false;
 
+
       ctx.drawImage(
-        qr,
+        qrCanvas,
         310,
         620,
         460,
@@ -2075,25 +3017,43 @@
       );
 
 
+      /* NAME */
+
       ctx.fillStyle =
         "#ffffff";
 
+
+      const fittedNameSize =
+        fitText(
+          ctx,
+          currentParticipantName,
+          900,
+          48,
+          28
+        );
+
+
       ctx.font =
-        "700 45px Arial";
+        `700 ${fittedNameSize}px Arial`;
+
 
       ctx.fillText(
-        currentName,
+        currentParticipantName,
         540,
         1220,
         900
       );
 
 
+      /* REG ID */
+
       ctx.fillStyle =
         "#f2ca50";
 
+
       ctx.font =
         "700 34px monospace";
+
 
       ctx.fillText(
         currentRegistrationId,
@@ -2102,11 +3062,15 @@
       );
 
 
+      /* TIER */
+
       ctx.fillStyle =
         "#d0c5af";
 
+
       ctx.font =
         "600 25px Arial";
+
 
       ctx.fillText(
         "TIER",
@@ -2118,21 +3082,27 @@
       ctx.fillStyle =
         "#ffffff";
 
+
       ctx.font =
         "700 38px Arial";
 
+
       ctx.fillText(
-        currentTier,
+        currentParticipantTier,
         540,
         1410
       );
 
 
+      /* VALID */
+
       ctx.fillStyle =
         "#50C878";
 
+
       ctx.font =
         "700 26px Arial";
+
 
       ctx.fillText(
         "● VALID HEALTH CORNER CREDENTIAL",
@@ -2141,11 +3111,15 @@
       );
 
 
+      /* FOOTER TEXT */
+
       ctx.fillStyle =
         "#99907c";
 
+
       ctx.font =
         "500 20px Arial";
+
 
       ctx.fillText(
         "Present this QR at the participating hospital.",
@@ -2154,8 +3128,11 @@
       );
 
 
+      /* GOLD BOTTOM */
+
       ctx.fillStyle =
         "#d4af37";
+
 
       ctx.fillRect(
         0,
@@ -2164,35 +3141,90 @@
         18
       );
 
+
       return canvas;
+
     }
 
 
-    downloadPassButton
-      .addEventListener(
-        "click",
+    /* =====================================================
+       DOWNLOAD NOTICE
+       ===================================================== */
 
-        function () {
-          const canvas =
-            buildPass();
+    function showPassDownloadNotice() {
 
-          if (!canvas) {
-            alert(
-              "Your Health Corner pass is not ready yet."
-            );
+      if (
+        passDownloadNoticeTimer
+      ) {
 
-            return;
-          }
+        clearTimeout(
+          passDownloadNoticeTimer
+        );
+
+      }
+
+
+      passDownloadNotice
+        .classList
+        .remove("hidden");
+
+
+      passDownloadNoticeTimer =
+        setTimeout(
+
+          function () {
+
+            passDownloadNotice
+              .classList
+              .add("hidden");
+
+          },
+
+          6000
+
+        );
+
+    }
+
+
+    /* =====================================================
+       DOWNLOAD PASS
+       ===================================================== */
+
+    downloadPassButton.addEventListener(
+
+      "click",
+
+      function () {
+
+        const canvas =
+          buildPass();
+
+
+        if (!canvas) {
+
+          alert(
+            "Your Health Corner Pass is not ready yet. Please try again."
+          );
+
+          return;
+
+        }
+
+
+        try {
 
           const link =
             document.createElement(
               "a"
             );
 
+
           link.href =
             canvas.toDataURL(
               "image/png"
             );
+
 
           link.download =
             safeFilename(
@@ -2200,41 +3232,137 @@
             ) +
             "-Health-Corner-Pass.png";
 
+
+          document.body
+            .appendChild(
+              link
+            );
+
+
           link.click();
+
+
+          document.body
+            .removeChild(
+              link
+            );
+
+
+          /*
+           * Browser cannot reliably tell us when the
+           * operating system has physically completed
+           * saving the file.
+           *
+           * We accurately confirm that generation
+           * succeeded and the download was started.
+           */
+          showPassDownloadNotice();
+
+
+        } catch (error) {
+
+          console.error(
+            "Health Corner pass download error:",
+            error
+          );
+
+
+          alert(
+            "Your Health Corner Pass could not be downloaded. Please try again."
+          );
+
         }
-      );
+
+      }
+
+    );
 
 
-    document
-      .getElementById(
-        "registerAnotherButton"
-      )
-      .addEventListener(
-        "click",
+    /* =====================================================
+       REGISTER ANOTHER
+       ===================================================== */
 
-        function () {
-          success.classList.add(
-            "hidden"
+    registerAnotherButton.addEventListener(
+
+      "click",
+
+      function () {
+
+        submissionInProgress =
+          false;
+
+
+        setSubmitting(
+          false
+        );
+
+
+        if (
+          passDownloadNoticeTimer
+        ) {
+
+          clearTimeout(
+            passDownloadNoticeTimer
           );
 
-          intro.classList.remove(
-            "hidden"
-          );
-
-          formCard.classList.remove(
-            "hidden"
-          );
-
-          form.reset();
-
-          setMaxDob();
-
-          checkStatus();
         }
-      );
 
 
-    checkStatus();
+        passDownloadNotice
+          .classList
+          .add("hidden");
+
+
+        qrContainer.innerHTML =
+          "";
+
+
+        registrationSuccess
+          .classList
+          .add("hidden");
+
+
+        registrationIntro
+          .classList
+          .remove("hidden");
+
+
+        registrationFormCard
+          .classList
+          .remove("hidden");
+
+
+        clearMessage();
+
+
+        form.reset();
+
+
+        setMaximumDob();
+
+
+        registrationOpenContent
+          .classList
+          .add("hidden");
+
+
+        registrationStatusLoading
+          .classList
+          .remove("hidden");
+
+
+        checkRegistrationStatus();
+
+      }
+
+    );
+
+
+    /* =====================================================
+       START
+       ===================================================== */
+
+    checkRegistrationStatus();
 
   </script>
 

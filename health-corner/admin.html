@@ -290,7 +290,7 @@
         leading-6
         mt-4
       ">
-                Enter the private organiser code to access
+                Enter the private organiser PIN to access
                 the General 30% QR and organiser controls.
             </p>
 
@@ -298,32 +298,32 @@
             <form id="loginForm" class="mt-7">
 
                 <label for="organiserCode" class="
-            text-xs
-            uppercase
-            tracking-widest
-            text-muted
-            font-semibold
-          ">
-                    8-Digit Organiser Code
+    text-xs
+    uppercase
+    tracking-widest
+    text-muted
+    font-semibold
+  ">
+                    4-Digit Organiser PIN
                 </label>
 
 
-                <input id="organiserCode" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="8"
-                    pattern="[0-9]{8}" required class="
-            mt-3
-            w-full
-            bg-[#101111]
-            border
-            border-[#3a3a3a]
-            rounded-lg
-            p-4
-            text-white
-            text-center
-            tracking-[0.4em]
-            text-xl
-            focus:border-primary
-            focus:ring-0
-          ">
+                <input id="organiserCode" type="password" inputmode="numeric" autocomplete="off" maxlength="4"
+                    pattern="[0-9]{4}" required class="
+    mt-3
+    w-full
+    bg-[#101111]
+    border
+    border-[#3a3a3a]
+    rounded-lg
+    p-4
+    text-white
+    text-center
+    tracking-[0.5em]
+    text-2xl
+    focus:border-primary
+    focus:ring-0
+  ">
 
 
                 <div id="loginMessage" class="hidden"></div>
@@ -983,12 +983,12 @@
                         .trim();
 
                 if (
-                    !/^\d{8}$/.test(
+                    !/^\d{4}$/.test(
                         code
                     )
                 ) {
                     showLoginError(
-                        "Enter the complete 8-digit organiser code."
+                        "Enter the complete 4-digit organiser PIN."
                     );
 
                     return;
