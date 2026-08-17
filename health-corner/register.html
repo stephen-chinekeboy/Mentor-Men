@@ -14,8 +14,6 @@
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-
-  <!-- QR CODE GENERATOR -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 
@@ -26,7 +24,6 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&display=swap"
     rel="stylesheet">
-
 
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet">
@@ -85,7 +82,6 @@
               "#B22222"
 
           },
-
 
           fontFamily: {
 
@@ -200,10 +196,6 @@
     }
 
 
-    /*
-     * QR CODE
-     */
-
     #healthCornerQrCode img,
     #healthCornerQrCode canvas {
 
@@ -227,23 +219,23 @@
 
     .qr-shell {
 
-      background:
-        #ffffff;
-
-      border-radius:
-        14px;
-
-      padding:
-        18px;
-
       display:
         inline-flex;
+
+      justify-content:
+        center;
 
       align-items:
         center;
 
-      justify-content:
-        center;
+      background:
+        #ffffff;
+
+      padding:
+        18px;
+
+      border-radius:
+        14px;
 
       box-shadow:
         0 10px 35px rgba(0, 0, 0, 0.35);
@@ -254,8 +246,10 @@
     .credential-grid {
 
       background-image:
+
         linear-gradient(rgba(242, 202, 80, 0.035) 1px,
           transparent 1px),
+
         linear-gradient(90deg,
           rgba(242, 202, 80, 0.035) 1px,
           transparent 1px);
@@ -270,35 +264,34 @@
 
 
 <body class="
-    bg-surface
-    text-on-surface
-    antialiased
-    min-h-screen
-    flex
-    flex-col
-  ">
+  bg-surface
+  text-on-surface
+  antialiased
+  min-h-screen
+  flex
+  flex-col
+">
 
 
   <!-- HEADER -->
 
   <header class="
-      bg-surface
-      border-b
-      border-surface-variant
-      z-50
-    ">
+    bg-surface
+    border-b
+    border-surface-variant
+  ">
 
     <div class="
-        flex
-        justify-between
-        items-center
-        w-full
-        px-5
-        md:px-6
-        max-w-[1200px]
-        mx-auto
-        h-20
-      ">
+      flex
+      justify-between
+      items-center
+      w-full
+      px-5
+      md:px-6
+      max-w-[1200px]
+      mx-auto
+      h-20
+    ">
 
       <a href="index.html" class="
           font-display
@@ -316,7 +309,6 @@
       <a href="../index.html" class="
           text-on-surface-variant
           hover:text-primary
-          transition-colors
           text-xs
           uppercase
           tracking-widest
@@ -330,7 +322,7 @@
   </header>
 
 
-  <!-- STATUS CHECK -->
+  <!-- STATUS LOADING -->
 
   <main id="registrationStatusLoading" class="
       flex-grow
@@ -341,31 +333,26 @@
       py-16
     ">
 
-    <div class="
-        text-center
-        max-w-md
-      ">
+    <div class="text-center">
 
       <div class="
-          loader
-          mx-auto
-          mb-6
-        "></div>
-
+        loader
+        mx-auto
+        mb-6
+      "></div>
 
       <h1 class="
-          font-display
-          text-3xl
-          text-primary
-        ">
+        font-display
+        text-3xl
+        text-primary
+      ">
         HEALTH CORNER
       </h1>
 
-
       <p class="
-          text-on-surface-variant
-          mt-4
-        ">
+        text-on-surface-variant
+        mt-4
+      ">
         Checking registration availability...
       </p>
 
@@ -374,7 +361,7 @@
   </main>
 
 
-  <!-- OPEN REGISTRATION -->
+  <!-- OPEN -->
 
   <main id="registrationOpenContent" class="
       hidden
@@ -388,47 +375,46 @@
     ">
 
     <div class="
-        w-full
-        max-w-2xl
-        mx-auto
-      ">
+      w-full
+      max-w-2xl
+      mx-auto
+    ">
 
 
       <div id="registrationIntro">
 
         <div class="
-            flex
-            justify-center
-            mb-5
-          ">
+          flex
+          justify-center
+          mb-5
+        ">
 
           <div class="
-              inline-flex
-              items-center
-              gap-2
-              border
-              border-status-valid/30
-              bg-status-valid/5
-              px-4
-              py-2
+            inline-flex
+            items-center
+            gap-2
+            border
+            border-status-valid/30
+            bg-status-valid/5
+            px-4
+            py-2
+            rounded-full
+          ">
+
+            <span class="
+              w-2
+              h-2
               rounded-full
+              bg-status-valid
+            "></span>
+
+            <span class="
+              text-status-valid
+              text-xs
+              uppercase
+              tracking-[0.14em]
+              font-semibold
             ">
-
-            <span class="
-                w-2
-                h-2
-                rounded-full
-                bg-status-valid
-              "></span>
-
-
-            <span class="
-                text-status-valid
-                text-xs
-                uppercase
-                tracking-[0.14em]
-                font-semibold
-              ">
               Registration Open
             </span>
 
@@ -438,26 +424,26 @@
 
 
         <h1 class="
-            font-display
-            font-bold
-            text-4xl
-            md:text-5xl
-            text-primary
-            text-center
-          ">
+          font-display
+          font-bold
+          text-4xl
+          md:text-5xl
+          text-primary
+          text-center
+        ">
           HEALTH CORNER REGISTRATION
         </h1>
 
 
         <p class="
-            text-lg
-            text-on-surface-variant
-            text-center
-            mt-4
-            mb-10
-            max-w-lg
-            mx-auto
-          ">
+          text-lg
+          text-on-surface-variant
+          text-center
+          mt-4
+          mb-10
+          max-w-lg
+          mx-auto
+        ">
           Complete your information below to register
           for the EMERGE 2026 Health Corner healthcare benefit.
         </p>
@@ -480,11 +466,8 @@
 
         <form id="healthCornerForm" action="/api/health-corner" method="POST" class="space-y-6">
 
+          <input id="callbackNonce" name="callbackNonce" type="hidden">
 
-          <input id="callbackNonce" name="callbackNonce" type="hidden" value="">
-
-
-          <!-- FULL NAME -->
 
           <div>
 
@@ -500,9 +483,7 @@
               Full Name *
             </label>
 
-
-            <input id="fullName" name="fullName" type="text" autocomplete="name" autocapitalize="words"
-              spellcheck="false" required class="
+            <input id="fullName" name="fullName" type="text" autocomplete="name" required class="
                 w-full
                 bg-[#121212]
                 border
@@ -516,8 +497,6 @@
 
           </div>
 
-
-          <!-- EMAIL -->
 
           <div>
 
@@ -533,7 +512,6 @@
               Email Address *
             </label>
 
-
             <input id="email" name="email" type="email" autocomplete="email" required class="
                 w-full
                 bg-[#121212]
@@ -546,20 +524,17 @@
                 focus:ring-0
               ">
 
-
             <p class="
-                text-sm
-                text-outline
-                mt-2
-              ">
-              Your unique Health Corner QR credential will be
-              available immediately after registration.
+              text-sm
+              text-outline
+              mt-2
+            ">
+              Your unique Health Corner QR will also be
+              sent to this email address.
             </p>
 
           </div>
 
-
-          <!-- ADDRESS -->
 
           <div>
 
@@ -574,7 +549,6 @@
               ">
               Address *
             </label>
-
 
             <textarea id="address" name="address" autocomplete="street-address" rows="3" required class="
                 w-full
@@ -592,14 +566,12 @@
           </div>
 
 
-          <!-- DOB + SEX -->
-
           <div class="
-              grid
-              grid-cols-1
-              md:grid-cols-2
-              gap-6
-            ">
+            grid
+            grid-cols-1
+            md:grid-cols-2
+            gap-6
+          ">
 
             <div>
 
@@ -614,7 +586,6 @@
                 ">
                 Date of Birth *
               </label>
-
 
               <input id="dateOfBirth" name="dateOfBirth" type="date" required class="
                   w-full
@@ -645,7 +616,6 @@
                 ">
                 Sex *
               </label>
-
 
               <select id="sex" name="sex" required class="
                   w-full
@@ -682,8 +652,6 @@
           </div>
 
 
-          <!-- OCCUPATION -->
-
           <div>
 
             <label for="occupation" class="
@@ -698,8 +666,7 @@
               Occupation *
             </label>
 
-
-            <input id="occupation" name="occupation" type="text" autocomplete="organization-title" required class="
+            <input id="occupation" name="occupation" type="text" required class="
                 w-full
                 bg-[#121212]
                 border
@@ -714,68 +681,61 @@
           </div>
 
 
-          <!-- TIER -->
-
           <div>
 
             <label class="
-                block
-                text-xs
-                font-semibold
-                text-on-surface-variant
-                uppercase
-                tracking-[0.1em]
-                mb-3
-              ">
+              block
+              text-xs
+              font-semibold
+              text-on-surface-variant
+              uppercase
+              tracking-[0.1em]
+              mb-3
+            ">
               Tier *
             </label>
 
-
             <div class="
-                grid
-                grid-cols-1
-                sm:grid-cols-2
-                gap-3
-              ">
+              grid
+              grid-cols-1
+              sm:grid-cols-2
+              gap-3
+            ">
 
               <label for="tierVIP" class="
                   tier-card
                   flex
-                  items-center
                   gap-3
+                  items-center
                   p-4
                   bg-[#121212]
                   border
                   border-[#333333]
                   rounded-lg
                   cursor-pointer
-                  hover:border-primary/70
-                  transition-all
                 ">
 
                 <input id="tierVIP" name="tier" type="radio" value="VIP" required class="
                     text-primary
                     bg-[#121212]
-                    border-[#555555]
+                    border-[#555]
                     focus:ring-primary
                     focus:ring-offset-0
                   ">
 
-
                 <div>
 
                   <div class="
-                      tier-title
-                      font-semibold
-                    ">
+                    tier-title
+                    font-semibold
+                  ">
                     VIP
                   </div>
 
-
                   <div class="
-                      text-sm
-                      text-outline
-                    ">
+                    text-sm
+                    text-outline
+                  ">
                     VIP Health Corner registration
                   </div>
 
@@ -787,41 +747,37 @@
               <label for="tierStandard" class="
                   tier-card
                   flex
-                  items-center
                   gap-3
+                  items-center
                   p-4
                   bg-[#121212]
                   border
                   border-[#333333]
                   rounded-lg
                   cursor-pointer
-                  hover:border-primary/70
-                  transition-all
                 ">
 
                 <input id="tierStandard" name="tier" type="radio" value="Standard" required class="
                     text-primary
                     bg-[#121212]
-                    border-[#555555]
+                    border-[#555]
                     focus:ring-primary
                     focus:ring-offset-0
                   ">
 
-
                 <div>
 
                   <div class="
-                      tier-title
-                      font-semibold
-                    ">
+                    tier-title
+                    font-semibold
+                  ">
                     Standard
                   </div>
 
-
                   <div class="
-                      text-sm
-                      text-outline
-                    ">
+                    text-sm
+                    text-outline
+                  ">
                     Standard Health Corner registration
                   </div>
 
@@ -834,30 +790,24 @@
           </div>
 
 
-          <!-- CONSENT -->
-
           <div class="
-              flex
-              items-start
-              gap-3
-            ">
+            flex
+            items-start
+            gap-3
+          ">
 
             <input id="consent" name="consent" type="checkbox" value="YES" required class="
                 mt-1
                 bg-[#121212]
-                border-[#333333]
-                rounded-sm
+                border-[#333]
                 text-primary
                 focus:ring-primary
                 focus:ring-offset-0
-                cursor-pointer
               ">
-
 
             <label for="consent" class="
                 text-on-surface-variant
                 cursor-pointer
-                select-none
               ">
               I confirm that the information provided is accurate
               and consent to its use for the EMERGE 2026 Health
@@ -867,7 +817,7 @@
           </div>
 
 
-          <div id="registrationMessage" class="hidden" role="alert"></div>
+          <div id="registrationMessage" class="hidden"></div>
 
 
           <button id="submitButton" type="submit" class="
@@ -881,18 +831,15 @@
               tracking-[0.14em]
               font-bold
               hover:bg-primary
-              active:scale-[0.98]
-              transition-all
               flex
-              items-center
               justify-center
+              items-center
               gap-2
             ">
 
             <span id="submitButtonText">
               SUBMIT REGISTRATION
             </span>
-
 
             <span id="submitArrow" class="
                 material-symbols-outlined
@@ -901,10 +848,8 @@
               arrow_forward
             </span>
 
-
             <span id="submitSpinner" class="
                 material-symbols-outlined
-                text-sm
                 animate-spin
                 hidden
               ">
@@ -931,34 +876,31 @@
           overflow-hidden
         ">
 
-        <!-- SUCCESS HEADER -->
-
         <div class="
-            px-6
-            md:px-10
-            pt-9
-            text-center
-          ">
+          px-6
+          md:px-10
+          pt-9
+          text-center
+        ">
 
           <div class="
-              w-16
-              h-16
-              rounded-full
-              border
-              border-status-valid
-              bg-status-valid/5
-              flex
-              items-center
-              justify-center
-              mx-auto
-              mb-6
-            ">
+            w-16
+            h-16
+            rounded-full
+            border
+            border-status-valid
+            flex
+            items-center
+            justify-center
+            mx-auto
+            mb-6
+          ">
 
             <span class="
-                material-symbols-outlined
-                text-status-valid
-                text-4xl
-              ">
+              material-symbols-outlined
+              text-status-valid
+              text-4xl
+            ">
               check
             </span>
 
@@ -966,38 +908,37 @@
 
 
           <div class="
-              text-xs
-              uppercase
-              tracking-widest
-              text-status-valid
-              font-bold
-              mb-3
-            ">
+            text-xs
+            uppercase
+            tracking-widest
+            text-status-valid
+            font-bold
+          ">
             Registration Successful
           </div>
 
 
           <h2 class="
-              font-display
-              text-3xl
-              md:text-4xl
-              text-primary
-              font-bold
-            ">
+            font-display
+            text-3xl
+            md:text-4xl
+            text-primary
+            font-bold
+            mt-3
+          ">
             YOU'RE REGISTERED
           </h2>
 
 
           <p id="successName" class="
               text-lg
-              text-on-surface
               mt-4
             "></p>
 
         </div>
 
 
-        <!-- QR CREDENTIAL -->
+        <!-- PERSONAL CREDENTIAL -->
 
         <div id="qrCredentialSection" class="
             credential-grid
@@ -1012,80 +953,19 @@
           ">
 
           <div class="
-              border-b
-              border-primary/15
-              px-5
-              py-4
-              flex
-              items-center
-              justify-between
-              gap-4
-            ">
-
-            <div>
-
-              <div class="
-                  text-[10px]
-                  uppercase
-                  tracking-[0.2em]
-                  text-outline
-                  font-semibold
-                ">
-                EMERGE 2026
-              </div>
-
-              <div class="
-                  text-primary
-                  font-display
-                  font-bold
-                  mt-1
-                ">
-                HEALTH CORNER
-              </div>
-
-            </div>
-
-
-            <div class="
-                flex
-                items-center
-                gap-2
-                text-status-valid
-                text-xs
-                font-bold
-                uppercase
-                tracking-wider
-              ">
-
-              <span class="
-                  w-2
-                  h-2
-                  bg-status-valid
-                  rounded-full
-                "></span>
-
-              Valid
-
-            </div>
-
-          </div>
-
-
-          <div class="
-              px-5
-              md:px-8
-              py-8
-              text-center
-            ">
+            px-6
+            py-7
+            text-center
+          ">
 
             <p class="
-                text-xs
-                uppercase
-                tracking-[0.18em]
-                text-on-surface-variant
-                font-semibold
-              ">
-              Your Personal QR Credential
+              text-xs
+              uppercase
+              tracking-[0.18em]
+              text-on-surface-variant
+              font-semibold
+            ">
+              Your Personal Health Corner Credential
             </p>
 
 
@@ -1093,7 +973,7 @@
 
               <div class="qr-shell">
 
-                <div id="healthCornerQrCode" aria-label="Health Corner QR Code"></div>
+                <div id="healthCornerQrCode"></div>
 
               </div>
 
@@ -1101,12 +981,12 @@
 
 
             <div class="
-                mt-6
-                text-xs
-                text-outline
-                uppercase
-                tracking-wider
-              ">
+              text-xs
+              text-outline
+              uppercase
+              tracking-widest
+              mt-6
+            ">
               Registration ID
             </div>
 
@@ -1114,59 +994,30 @@
             <div id="qrRegistrationId" class="
                 font-mono
                 text-primary
-                text-lg
-                md:text-xl
                 font-bold
-                tracking-wider
+                text-lg
                 mt-2
               "></div>
 
 
-            <p class="
-                text-sm
-                text-on-surface-variant
-                max-w-md
-                mx-auto
-                mt-5
-                leading-6
-              ">
-              Present this QR at the participating hospital.
-              Hospital personnel will scan it to confirm your
-              eligibility for the Health Corner benefit.
-            </p>
+            <div class="
+              text-primary
+              text-5xl
+              font-bold
+              mt-6
+            ">
+              30%
+            </div>
 
 
             <div class="
-                inline-flex
-                items-center
-                gap-2
-                mt-5
-                px-4
-                py-2
-                border
-                border-primary/20
-                bg-primary/5
-                rounded-full
-              ">
-
-              <span class="
-                  material-symbols-outlined
-                  text-primary
-                  text-base
-                ">
-                health_and_safety
-              </span>
-
-              <span class="
-                  text-primary
-                  text-xs
-                  font-bold
-                  uppercase
-                  tracking-wider
-                ">
-                30% Healthcare Discount
-              </span>
-
+              text-xs
+              uppercase
+              tracking-[0.18em]
+              font-bold
+              text-on-surface-variant
+            ">
+              Healthcare Discount
             </div>
 
           </div>
@@ -1174,73 +1025,91 @@
         </div>
 
 
-        <!-- QR ERROR -->
-
-        <div id="qrUnavailableMessage" class="
-            hidden
-            mx-6
-            md:mx-10
-            mt-8
-            border
-            border-status-invalid/40
-            bg-status-invalid/5
-            p-5
-            text-left
-          ">
+        <div class="
+          bg-surface-container
+          border
+          border-outline-variant/30
+          mx-6
+          md:mx-10
+          mt-7
+          p-5
+          space-y-4
+        ">
 
           <div class="
-              flex
-              gap-3
-            ">
+            flex
+            justify-between
+            gap-4
+            border-b
+            border-[#333]
+            pb-3
+          ">
 
             <span class="
-                material-symbols-outlined
-                text-status-invalid
-              ">
-              error_outline
+              text-sm
+              text-outline
+              uppercase
+            ">
+              Registration ID
             </span>
 
-            <div>
+            <strong id="successRegistrationId" class="text-primary"></strong>
 
-              <div class="
-                  font-semibold
-                  text-on-surface
-                ">
-                QR credential unavailable
-              </div>
+          </div>
 
-              <p class="
-                  text-sm
-                  text-on-surface-variant
-                  mt-1
-                  leading-6
-                ">
-                Your registration was successful, but the QR
-                credential could not be generated on this screen.
-                Please keep your Registration ID.
-              </p>
 
-            </div>
+          <div class="
+            flex
+            justify-between
+            border-b
+            border-[#333]
+            pb-3
+          ">
+
+            <span class="
+              text-sm
+              text-outline
+              uppercase
+            ">
+              Tier
+            </span>
+
+            <strong id="successTier"></strong>
+
+          </div>
+
+
+          <div class="
+            flex
+            justify-between
+          ">
+
+            <span class="
+              text-sm
+              text-outline
+              uppercase
+            ">
+              Status
+            </span>
+
+            <strong id="successStatus" class="text-status-valid">
+              VALID
+            </strong>
 
           </div>
 
         </div>
 
 
-        <!-- ACTION BUTTONS -->
+        <!-- ONLY PARTICIPANT DOWNLOAD -->
 
-        <div id="qrActionButtons" class="
-            hidden
-            px-6
-            md:px-10
-            mt-6
-            grid
-            grid-cols-1
-            sm:grid-cols-2
-            gap-3
-          ">
+        <div class="
+          px-6
+          md:px-10
+          mt-7
+        ">
 
-          <button id="downloadQrButton" type="button" class="
+          <button id="downloadPassButton" type="button" class="
               w-full
               bg-primary-container
               text-[#121414]
@@ -1252,8 +1121,6 @@
               tracking-[0.14em]
               font-bold
               hover:bg-primary
-              active:scale-[0.98]
-              transition-all
               flex
               items-center
               justify-center
@@ -1261,175 +1128,47 @@
             ">
 
             <span class="
-                material-symbols-outlined
-                text-lg
-              ">
+              material-symbols-outlined
+              text-lg
+            ">
               download
             </span>
 
-            Download QR
+            Download Health Corner Pass
 
           </button>
 
-
-          <a id="openVerificationButton" href="#" target="_blank" rel="noopener noreferrer" class="
-              w-full
-              border
-              border-primary/50
-              text-primary
-              py-4
-              px-5
-              rounded-lg
-              text-xs
-              uppercase
-              tracking-[0.14em]
-              font-bold
-              hover:border-primary
-              hover:bg-primary/5
-              transition-all
-              flex
-              items-center
-              justify-center
-              gap-2
-            ">
-
-            <span class="
-                material-symbols-outlined
-                text-lg
-              ">
-              qr_code_scanner
-            </span>
-
-            Test QR
-
-          </a>
-
         </div>
 
 
-        <!-- PARTICIPANT DETAILS -->
-
         <div class="
-            bg-surface-container
-            border
-            border-outline-variant/30
-            mx-6
-            md:mx-10
-            mt-7
-            p-5
-            text-left
-            space-y-4
-          ">
-
-          <div class="
-              flex
-              justify-between
-              gap-4
-              border-b
-              border-[#333333]
-              pb-3
-            ">
-
-            <span class="
-                text-sm
-                text-outline
-                uppercase
-              ">
-              Registration ID
-            </span>
-
-
-            <strong id="successRegistrationId" class="
-                text-primary
-                text-right
-              "></strong>
-
-          </div>
-
-
-          <div class="
-              flex
-              justify-between
-              gap-4
-              border-b
-              border-[#333333]
-              pb-3
-            ">
-
-            <span class="
-                text-sm
-                text-outline
-                uppercase
-              ">
-              Tier
-            </span>
-
-
-            <strong id="successTier" class="text-right"></strong>
-
-          </div>
-
-
-          <div class="
-              flex
-              justify-between
-              gap-4
-            ">
-
-            <span class="
-                text-sm
-                text-outline
-                uppercase
-              ">
-              Status
-            </span>
-
-
-            <strong id="successStatus" class="
-                text-status-valid
-                text-right
-              ">
-              VALID
-            </strong>
-
-          </div>
-
-        </div>
-
-
-        <!-- SECURITY NOTE -->
-
-        <div class="
-            mx-6
-            md:mx-10
-            mt-7
-            p-4
-            border-l-2
-            border-primary
-            bg-primary/5
-            text-left
-          ">
+          mx-6
+          md:mx-10
+          mt-7
+          p-4
+          border-l-2
+          border-primary
+          bg-primary/5
+        ">
 
           <p class="
-              text-on-surface-variant
-              m-0
-              leading-6
-            ">
-            Keep this QR available on your phone. Scanning the QR
-            only verifies your Health Corner credential. Redemption
-            can only be completed by authorised hospital personnel.
+            text-on-surface-variant
+            leading-6
+          ">
+            Your personal Health Corner QR has also been sent
+            to your email. Present your QR at the participating
+            hospital when you wish to use your benefit.
           </p>
 
         </div>
 
 
         <div class="
-            px-6
-            md:px-10
-            pt-7
-            pb-9
-            text-center
-          ">
+          px-6
+          md:px-10
+          py-9
+          text-center
+        ">
 
           <button id="registerAnotherButton" type="button" class="
               text-primary
@@ -1437,8 +1176,6 @@
               text-xs
               font-bold
               tracking-widest
-              hover:text-[#E9C349]
-              transition-colors
             ">
             Register Another Participant
           </button>
@@ -1452,7 +1189,7 @@
   </main>
 
 
-  <!-- REGISTRATION CLOSED -->
+  <!-- CLOSED -->
 
   <main id="registrationClosedContent" class="
       hidden
@@ -1465,119 +1202,48 @@
     ">
 
     <div class="
-        w-full
-        max-w-2xl
-        bg-charcoal-surface
-        border
-        border-surface-variant
-        border-t-status-invalid
-        p-8
-        md:p-12
-        text-center
+      max-w-2xl
+      bg-charcoal-surface
+      border
+      border-surface-variant
+      border-t-status-invalid
+      p-9
+      text-center
+    ">
+
+      <span class="
+        material-symbols-outlined
+        text-status-invalid
+        text-5xl
       ">
-
-      <div class="
-          w-20
-          h-20
-          rounded-full
-          border
-          border-status-invalid/40
-          bg-status-invalid/5
-          flex
-          items-center
-          justify-center
-          mx-auto
-        ">
-
-        <span class="
-            material-symbols-outlined
-            text-status-invalid
-            text-4xl
-          ">
-          event_busy
-        </span>
-
-      </div>
-
-
-      <div class="
-          text-primary
-          text-xs
-          uppercase
-          tracking-[0.18em]
-          font-bold
-          mt-7
-        ">
-        EMERGE 2026 Health Corner
-      </div>
+        event_busy
+      </span>
 
 
       <h1 class="
-          font-display
-          text-3xl
-          md:text-4xl
-          mt-4
-        ">
+        font-display
+        text-3xl
+        mt-5
+      ">
         Registration Has Closed
       </h1>
 
 
       <p class="
-          text-on-surface-variant
-          mt-6
-          leading-7
-        ">
+        text-on-surface-variant
+        mt-5
+        leading-7
+      ">
         New registrations are no longer being accepted
         for the EMERGE 2026 Health Corner programme.
       </p>
-
-
-      <p class="
-          text-on-surface-variant
-          mt-4
-          leading-7
-        ">
-        Participants who registered successfully can continue
-        using their personal Health Corner QR credential.
-      </p>
-
-
-      <a href="index.html" class="
-          inline-flex
-          items-center
-          justify-center
-          gap-2
-          border
-          border-outline-variant
-          text-primary
-          px-7
-          py-4
-          rounded
-          mt-8
-          text-xs
-          uppercase
-          tracking-[0.14em]
-          font-bold
-          hover:border-primary
-        ">
-
-        <span class="
-            material-symbols-outlined
-            text-base
-          ">
-          arrow_back
-        </span>
-
-        Health Corner Home
-
-      </a>
 
     </div>
 
   </main>
 
 
-  <!-- STATUS ERROR -->
+  <!-- ERROR -->
 
   <main id="registrationStatusError" class="
       hidden
@@ -1590,54 +1256,39 @@
     ">
 
     <div class="
-        max-w-xl
-        bg-charcoal-surface
-        border
-        border-surface-variant
-        border-t-status-invalid
-        p-9
-        text-center
-      ">
+      max-w-xl
+      bg-charcoal-surface
+      border
+      border-surface-variant
+      border-t-status-invalid
+      p-9
+      text-center
+    ">
 
       <span class="
-          material-symbols-outlined
-          text-status-invalid
-          text-5xl
-        ">
+        material-symbols-outlined
+        text-status-invalid
+        text-5xl
+      ">
         error_outline
       </span>
 
-
       <h1 class="
-          font-display
-          text-3xl
-          mt-5
-        ">
+        font-display
+        text-3xl
+        mt-5
+      ">
         Registration Unavailable
       </h1>
 
-
-      <p class="
-          text-on-surface-variant
-          mt-4
-          leading-7
-        ">
-        We could not safely confirm whether registration is open.
-        The form has therefore not been displayed.
-      </p>
-
-
-      <button onclick="window.location.reload()" class="
+      <button onclick="location.reload()" class="
           border
-          border-primary/50
+          border-primary
           text-primary
           px-7
           py-4
           mt-7
           rounded
-          text-xs
-          uppercase
-          font-bold
         ">
         Try Again
       </button>
@@ -1650,99 +1301,96 @@
   <!-- FOOTER -->
 
   <footer class="
-      bg-surface-container-lowest
-      border-t
-      border-surface-variant
-      py-6
-      text-center
-    ">
+    bg-surface-container-lowest
+    border-t
+    border-surface-variant
+    py-6
+    text-center
+  ">
 
     <div class="
-        font-display
-        text-primary
-        font-bold
-      ">
+      font-display
+      text-primary
+      font-bold
+    ">
       EMERGE 2026
     </div>
 
-
     <div class="
-        text-xs
-        text-on-surface-variant
-        mt-2
-      ">
+      text-xs
+      text-on-surface-variant
+      mt-2
+    ">
       Mentor Men Leadership Forum
     </div>
 
   </footer>
 
 
-  <!-- JAVASCRIPT -->
-
   <script>
 
-    const APPS_SCRIPT_URL =
+    const API =
       "/api/health-corner";
 
 
-    const registrationStatusLoading =
+    const loading =
       document.getElementById(
         "registrationStatusLoading"
       );
 
-    const registrationOpenContent =
+    const openContent =
       document.getElementById(
         "registrationOpenContent"
       );
 
-    const registrationClosedContent =
+    const closedContent =
       document.getElementById(
         "registrationClosedContent"
       );
 
-    const registrationStatusError =
+    const errorContent =
       document.getElementById(
         "registrationStatusError"
       );
 
-    const healthCornerForm =
+    const form =
       document.getElementById(
         "healthCornerForm"
       );
 
-    const registrationFormCard =
+    const formCard =
       document.getElementById(
         "registrationFormCard"
       );
 
-    const registrationIntro =
+    const intro =
       document.getElementById(
         "registrationIntro"
       );
 
-    const registrationSuccess =
+    const success =
       document.getElementById(
         "registrationSuccess"
       );
 
-    const registrationMessage =
+    const message =
       document.getElementById(
         "registrationMessage"
       );
 
-    const callbackNonceInput =
-      document.getElementById(
-        "callbackNonce"
-      );
-
-    const fullNameInput =
+    const fullName =
       document.getElementById(
         "fullName"
       );
 
-    const dateOfBirthInput =
+    const dob =
       document.getElementById(
         "dateOfBirth"
+      );
+
+    const nonceInput =
+      document.getElementById(
+        "callbackNonce"
       );
 
     const submitButton =
@@ -1750,7 +1398,7 @@
         "submitButton"
       );
 
-    const submitButtonText =
+    const submitText =
       document.getElementById(
         "submitButtonText"
       );
@@ -1760,121 +1408,71 @@
         "submitArrow"
       );
 
-    const submitSpinner =
+    const spinner =
       document.getElementById(
         "submitSpinner"
       );
 
-    const registerAnotherButton =
-      document.getElementById(
-        "registerAnotherButton"
-      );
-
-
-    /*
-     * QR ELEMENTS
-     */
-
-    const qrCredentialSection =
-      document.getElementById(
-        "qrCredentialSection"
-      );
-
-    const qrCodeContainer =
+    const qrContainer =
       document.getElementById(
         "healthCornerQrCode"
       );
 
-    const qrRegistrationId =
+    const downloadPassButton =
       document.getElementById(
-        "qrRegistrationId"
-      );
-
-    const qrUnavailableMessage =
-      document.getElementById(
-        "qrUnavailableMessage"
-      );
-
-    const qrActionButtons =
-      document.getElementById(
-        "qrActionButtons"
-      );
-
-    const downloadQrButton =
-      document.getElementById(
-        "downloadQrButton"
-      );
-
-    const openVerificationButton =
-      document.getElementById(
-        "openVerificationButton"
+        "downloadPassButton"
       );
 
 
-    let submissionInProgress =
+    let inProgress =
       false;
 
-    let currentVerificationUrl =
+    let currentName =
       "";
 
     let currentRegistrationId =
       "";
 
+    let currentTier =
+      "";
 
-    /* =====================================================
-       NONCE
-       ===================================================== */
+    let currentVerificationUrl =
+      "";
 
-    function createNonce() {
 
+    function nonce() {
       if (
-        window.crypto &&
-        window.crypto.getRandomValues
+        crypto &&
+        crypto.getRandomValues
       ) {
-
         const values =
           new Uint32Array(4);
 
-        window.crypto.getRandomValues(
+        crypto.getRandomValues(
           values
         );
 
-        return Array.from(values)
+        return Array
+          .from(values)
           .map(
             value =>
               value
                 .toString(16)
-                .padStart(
-                  8,
-                  "0"
-                )
+                .padStart(8, "0")
           )
           .join("");
-
       }
 
       return (
         Date.now().toString(36) +
-        Math.random()
-          .toString(36)
-          .slice(2) +
-        Math.random()
-          .toString(36)
-          .slice(2)
+        Math.random().toString(36).slice(2)
       );
-
     }
 
 
-    /* =====================================================
-       NAME FORMATTING
-       ===================================================== */
-
-    function capitaliseName(value) {
-
+    function formatName(value) {
       return String(
-        value ||
-        ""
+        value || ""
       )
         .trim()
         .replace(
@@ -1889,236 +1487,106 @@
             separator,
             letter
           ) {
-
             return (
               separator +
               letter.toUpperCase()
             );
-
           }
         );
-
     }
 
 
-    fullNameInput.addEventListener(
+    fullName.addEventListener(
       "blur",
-
       function () {
-
-        fullNameInput.value =
-          capitaliseName(
-            fullNameInput.value
+        fullName.value =
+          formatName(
+            fullName.value
           );
-
       }
     );
 
 
-    /* =====================================================
-       DOB
-       ===================================================== */
-
-    function setMaximumDob() {
-
+    function setMaxDob() {
       const now =
         new Date();
 
-      const year =
-        now.getFullYear();
-
-      const month =
-        String(
-          now.getMonth() + 1
-        ).padStart(
-          2,
-          "0"
-        );
-
-      const day =
-        String(
-          now.getDate()
-        ).padStart(
-          2,
-          "0"
-        );
-
-      dateOfBirthInput.max =
-        `${year}-${month}-${day}`;
-
+      dob.max =
+        now
+          .toISOString()
+          .slice(0, 10);
     }
 
 
-    setMaximumDob();
+    setMaxDob();
 
 
-    /* =====================================================
-       REGISTRATION STATES
-       ===================================================== */
-
-    function hideRegistrationStates() {
-
-      registrationStatusLoading
-        .classList
-        .add("hidden");
-
-      registrationOpenContent
-        .classList
-        .add("hidden");
-
-      registrationClosedContent
-        .classList
-        .add("hidden");
-
-      registrationStatusError
-        .classList
-        .add("hidden");
-
+    function hideStates() {
+      loading.classList.add("hidden");
+      openContent.classList.add("hidden");
+      closedContent.classList.add("hidden");
+      errorContent.classList.add("hidden");
     }
 
-
-    function showRegistrationOpen() {
-
-      hideRegistrationStates();
-
-      registrationOpenContent
-        .classList
-        .remove("hidden");
-
-    }
-
-
-    function showRegistrationClosed() {
-
-      hideRegistrationStates();
-
-      registrationClosedContent
-        .classList
-        .remove("hidden");
-
-    }
-
-
-    function showStatusError() {
-
-      hideRegistrationStates();
-
-      registrationStatusError
-        .classList
-        .remove("hidden");
-
-    }
-
-
-    /* =====================================================
-       SUBMISSION BUTTON
-       ===================================================== */
 
     function setSubmitting(value) {
-
       submitButton.disabled =
         value;
 
       if (value) {
-
-        submitButton
-          .classList
-          .add(
-            "opacity-70",
-            "cursor-wait"
-          );
-
-        submitButtonText
-          .textContent =
+        submitText.textContent =
           "SUBMITTING...";
 
-        submitArrow
-          .classList
-          .add("hidden");
+        submitArrow.classList.add(
+          "hidden"
+        );
 
-        submitSpinner
-          .classList
-          .remove("hidden");
+        spinner.classList.remove(
+          "hidden"
+        );
 
       } else {
-
-        submitButton
-          .classList
-          .remove(
-            "opacity-70",
-            "cursor-wait"
-          );
-
-        submitButtonText
-          .textContent =
+        submitText.textContent =
           "SUBMIT REGISTRATION";
 
-        submitArrow
-          .classList
-          .remove("hidden");
+        submitArrow.classList.remove(
+          "hidden"
+        );
 
-        submitSpinner
-          .classList
-          .add("hidden");
-
+        spinner.classList.add(
+          "hidden"
+        );
       }
-
     }
 
 
-    /* =====================================================
-       FORM MESSAGES
-       ===================================================== */
-
-    function showError(message) {
-
-      registrationMessage.className =
+    function showError(text) {
+      message.className =
         "block border border-status-invalid/50 bg-status-invalid/10 text-[#f0b8b8] p-4 text-sm";
 
-      registrationMessage.textContent =
-        message;
-
+      message.textContent =
+        text;
     }
 
-
-    function clearMessage() {
-
-      registrationMessage.className =
-        "hidden";
-
-      registrationMessage.textContent =
-        "";
-
-    }
-
-
-    /* =====================================================
-       FETCH JSON
-       ===================================================== */
 
     async function fetchJson(
       url,
       options = {},
-      timeoutMs = 30000
+      timeout = 55000
     ) {
-
       const controller =
         new AbortController();
 
       const timer =
-        window.setTimeout(
-          () =>
-            controller.abort(),
-
-          timeoutMs
+        setTimeout(
+          () => controller.abort(),
+          timeout
         );
 
       try {
-
         const response =
           await fetch(
             url,
-
             {
               cache:
                 "no-store",
@@ -2132,7 +1600,6 @@
                 controller.signal,
 
               headers: {
-
                 "Accept":
                   "application/json",
 
@@ -2140,872 +1607,634 @@
                   options.headers ||
                   {}
                 )
-
               }
-
             }
           );
 
-
-        let data;
-
-        try {
-
-          data =
-            await response.json();
-
-        } catch (_) {
-
-          throw new Error(
-            "The Health Corner service returned an invalid response."
-          );
-
-        }
-
+        const data =
+          await response.json();
 
         if (!response.ok) {
-
           const error =
             new Error(
-              data &&
-                data.message
-
-                ? data.message
-
-                : "The Health Corner service could not complete the request."
+              data.message ||
+              "Request failed."
             );
-
-          error.status =
-            response.status;
 
           error.payload =
             data;
 
           throw error;
-
         }
-
 
         return data;
 
       } finally {
-
-        window.clearTimeout(
+        clearTimeout(
           timer
         );
-
       }
-
     }
 
 
-    /* =====================================================
-       REGISTRATION STATUS
-       ===================================================== */
-
-    async function checkRegistrationStatus() {
-
-      const callbackNonce =
-        createNonce();
-
+    async function checkStatus() {
       try {
-
-        const url =
-          APPS_SCRIPT_URL +
-          "?action=registrationStatus" +
-          "&callbackNonce=" +
-          encodeURIComponent(
-            callbackNonce
-          ) +
-          "&_=" +
-          Date.now();
-
-
         const data =
           await fetchJson(
-            url,
-            {
-              method:
-                "GET"
-            },
-            55000
+            API +
+            "?action=registrationStatus&_=" +
+            Date.now()
           );
 
+        hideStates();
 
         if (
-          !data ||
-          typeof data !==
-          "object"
+          data.registrationOpen
         ) {
-
-          throw new Error(
-            "Invalid registration-status response."
-          );
-
-        }
-
-
-        if (
-          typeof
-          data.registrationOpen !==
-          "boolean"
-        ) {
-
-          throw new Error(
-            "Registration status returned an incomplete response."
-          );
-
-        }
-
-
-        if (
-          data.registrationOpen ===
-          true
-        ) {
-
-          showRegistrationOpen();
+          openContent
+            .classList
+            .remove("hidden");
 
         } else {
-
-          showRegistrationClosed();
-
+          closedContent
+            .classList
+            .remove("hidden");
         }
 
       } catch (error) {
+        console.error(error);
 
-        console.error(
-          "Health Corner registration-status error:",
-          error
-        );
+        hideStates();
 
-        showStatusError();
-
-      }
-
-    }
-
-
-    /* =====================================================
-       QR GENERATION
-       ===================================================== */
-
-    function resetQrCredential() {
-
-      currentVerificationUrl =
-        "";
-
-      currentRegistrationId =
-        "";
-
-      qrCodeContainer.innerHTML =
-        "";
-
-      qrRegistrationId.textContent =
-        "";
-
-      qrCredentialSection
-        .classList
-        .remove("hidden");
-
-      qrUnavailableMessage
-        .classList
-        .add("hidden");
-
-      qrActionButtons
-        .classList
-        .add("hidden");
-
-      openVerificationButton
-        .setAttribute(
-          "href",
-          "#"
-        );
-
-    }
-
-
-    function showQrUnavailable() {
-
-      qrCredentialSection
-        .classList
-        .add("hidden");
-
-      qrUnavailableMessage
-        .classList
-        .remove("hidden");
-
-      qrActionButtons
-        .classList
-        .add("hidden");
-
-    }
-
-
-    function generateQrCredential(
-      verificationUrl,
-      registrationId
-    ) {
-
-      resetQrCredential();
-
-
-      const url =
-        String(
-          verificationUrl ||
-          ""
-        ).trim();
-
-
-      const regId =
-        String(
-          registrationId ||
-          ""
-        ).trim();
-
-
-      if (!url) {
-
-        console.error(
-          "Registration succeeded but no verificationUrl was returned."
-        );
-
-        showQrUnavailable();
-
-        return false;
-
-      }
-
-
-      if (
-        typeof QRCode ===
-        "undefined"
-      ) {
-
-        console.error(
-          "QRCode library failed to load."
-        );
-
-        showQrUnavailable();
-
-        return false;
-
-      }
-
-
-      currentVerificationUrl =
-        url;
-
-      currentRegistrationId =
-        regId;
-
-
-      qrRegistrationId.textContent =
-        regId;
-
-
-      try {
-
-        new QRCode(
-          qrCodeContainer,
-
-          {
-            text:
-              url,
-
-            width:
-              240,
-
-            height:
-              240,
-
-            colorDark:
-              "#000000",
-
-            colorLight:
-              "#ffffff",
-
-            correctLevel:
-              QRCode.CorrectLevel.H
-          }
-        );
-
-
-        openVerificationButton.href =
-          url;
-
-
-        qrActionButtons
+        errorContent
           .classList
           .remove("hidden");
-
-
-        return true;
-
-      } catch (error) {
-
-        console.error(
-          "QR generation error:",
-          error
-        );
-
-        showQrUnavailable();
-
-        return false;
-
       }
-
     }
 
 
-    /* =====================================================
-       DOWNLOAD QR
-       ===================================================== */
+    function createQr(url) {
+      qrContainer.innerHTML =
+        "";
 
-    function getQrDataUrl() {
+      new QRCode(
+        qrContainer,
+        {
+          text:
+            url,
 
-      const canvas =
-        qrCodeContainer
-          .querySelector(
-            "canvas"
-          );
+          width:
+            300,
 
+          height:
+            300,
 
-      if (canvas) {
+          colorDark:
+            "#000000",
 
-        try {
+          colorLight:
+            "#ffffff",
 
-          return canvas
-            .toDataURL(
-              "image/png"
-            );
-
-        } catch (_) { }
-
-      }
-
-
-      const image =
-        qrCodeContainer
-          .querySelector(
-            "img"
-          );
-
-
-      if (
-        image &&
-        image.src
-      ) {
-
-        return image.src;
-
-      }
-
-
-      return "";
-
-    }
-
-
-    downloadQrButton.addEventListener(
-      "click",
-
-      function () {
-
-        const qrDataUrl =
-          getQrDataUrl();
-
-
-        if (!qrDataUrl) {
-
-          alert(
-            "The QR image is not ready yet. Please try again."
-          );
-
-          return;
-
+          correctLevel:
+            QRCode.CorrectLevel.H
         }
+      );
+    }
 
 
-        const safeRegistrationId =
-          (
-            currentRegistrationId ||
-            "EMERGE-2026"
-          )
-            .replace(
-              /[^a-zA-Z0-9_-]/g,
-              "-"
-            );
+    function showSuccess(data) {
+      currentName =
+        data.fullName || "";
 
+      currentRegistrationId =
+        data.registrationId || "";
 
-        const downloadLink =
-          document.createElement(
-            "a"
-          );
+      currentTier =
+        data.tier || "";
 
-
-        downloadLink.href =
-          qrDataUrl;
-
-
-        downloadLink.download =
-          safeRegistrationId +
-          "-Health-Corner-QR.png";
-
-
-        document.body.appendChild(
-          downloadLink
-        );
-
-
-        downloadLink.click();
-
-
-        document.body.removeChild(
-          downloadLink
-        );
-
-      }
-    );
-
-
-    /* =====================================================
-       SUCCESS SCREEN
-       ===================================================== */
-
-    function showSuccessfulRegistration(
-      data,
-      fallback = {}
-    ) {
-
-      const participantName =
-        data.fullName ||
-        fallback.fullName ||
-        "";
-
-
-      const registrationId =
-        data.registrationId ||
-        "";
-
-
-      const participantTier =
-        data.tier ||
-        fallback.tier ||
-        "";
-
-
-      const participantStatus =
-        data.status ||
-        "VALID";
-
+      currentVerificationUrl =
+        data.verificationUrl || "";
 
       document
         .getElementById(
           "successName"
         )
         .textContent =
-        participantName;
-
+        currentName;
 
       document
         .getElementById(
           "successRegistrationId"
         )
         .textContent =
-        registrationId;
+        currentRegistrationId;
 
+      document
+        .getElementById(
+          "qrRegistrationId"
+        )
+        .textContent =
+        currentRegistrationId;
 
       document
         .getElementById(
           "successTier"
         )
         .textContent =
-        participantTier;
-
+        currentTier;
 
       document
         .getElementById(
           "successStatus"
         )
         .textContent =
-        participantStatus;
+        data.status ||
+        "VALID";
 
-
-      registrationIntro
-        .classList
-        .add("hidden");
-
-
-      registrationFormCard
-        .classList
-        .add("hidden");
-
-
-      registrationSuccess
-        .classList
-        .remove("hidden");
-
-
-      /*
-       * Generate participant QR.
-       *
-       * The QR contains ONLY the verification URL.
-       */
-      generateQrCredential(
-        data.verificationUrl,
-        registrationId
+      createQr(
+        currentVerificationUrl
       );
 
+      intro.classList.add(
+        "hidden"
+      );
 
-      healthCornerForm.reset();
+      formCard.classList.add(
+        "hidden"
+      );
 
+      success.classList.remove(
+        "hidden"
+      );
 
-      window.scrollTo({
+      form.reset();
+
+      scrollTo({
         top:
           0,
 
         behavior:
           "smooth"
       });
-
     }
 
 
-    /* =====================================================
-       SUBMIT REGISTRATION
-       ===================================================== */
-
-    async function submitRegistration(
-      formBody,
-      recoveryContext
-    ) {
-
-      return fetchJson(
-
-        APPS_SCRIPT_URL,
-
-        {
-          method:
-            "POST",
-
-          headers: {
-
-            "Content-Type":
-              "application/x-www-form-urlencoded;charset=UTF-8"
-
-          },
-
-          body:
-            formBody.toString()
-        },
-
-        55000
-
-      );
-
-    }
-
-
-    healthCornerForm.addEventListener(
+    form.addEventListener(
       "submit",
 
       async function (event) {
-
         event.preventDefault();
 
-
         if (
-          !healthCornerForm
-            .checkValidity()
+          !form.checkValidity()
         ) {
-
-          healthCornerForm
-            .reportValidity();
-
-          return;
-
-        }
-
-
-        if (
-          submissionInProgress
-        ) {
+          form.reportValidity();
           return;
         }
 
+        if (inProgress) {
+          return;
+        }
 
-        fullNameInput.value =
-          capitaliseName(
-            fullNameInput.value
+        fullName.value =
+          formatName(
+            fullName.value
           );
 
+        message.className =
+          "hidden";
 
-        clearMessage();
-
-
-        const activeCallbackNonce =
-          createNonce();
-
-
-        callbackNonceInput.value =
-          activeCallbackNonce;
-
+        nonceInput.value =
+          nonce();
 
         const formData =
           new FormData(
-            healthCornerForm
+            form
           );
 
-
-        const formBody =
+        const body =
           new URLSearchParams();
-
 
         for (
           const [key, value]
           of formData.entries()
         ) {
-
-          formBody.append(
+          body.append(
             key,
             String(value)
           );
-
         }
 
-
-        const recoveryContext = {
-
-          fullName:
-            fullNameInput.value,
-
-          tier:
-            formData.get(
-              "tier"
-            ) || ""
-
-        };
-
-
-        submissionInProgress =
+        inProgress =
           true;
-
 
         setSubmitting(
           true
         );
 
-
         try {
-
           const data =
-            await submitRegistration(
-              formBody,
-              recoveryContext
+            await fetchJson(
+              API,
+              {
+                method:
+                  "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+
+                body:
+                  body.toString()
+              }
             );
-
-
-          if (
-            !data ||
-            typeof data !==
-            "object"
-          ) {
-
-            throw new Error(
-              "The registration service returned an invalid response."
-            );
-
-          }
-
 
           if (
             data.code ===
             "REGISTRATION_CLOSED"
           ) {
+            hideStates();
 
-            showRegistrationClosed();
+            closedContent
+              .classList
+              .remove("hidden");
 
             return;
-
           }
-
 
           if (
             data.success ===
             true
           ) {
-
-            showSuccessfulRegistration(
-              data,
-              recoveryContext
+            showSuccess(
+              data
             );
 
             return;
-
           }
-
 
           if (
             data.code ===
             "DUPLICATE_REGISTRATION"
           ) {
-
-            let message =
-              "A registration matching these details already exists.";
-
-
-            if (
-              data.registrationId
-            ) {
-
-              message +=
-                " Existing Registration ID: " +
-                data.registrationId +
-                ".";
-
-            }
-
-
             showError(
-              message
+              "A registration matching these details already exists." +
+              (
+                data.registrationId
+                  ? " Registration ID: " +
+                  data.registrationId
+                  : ""
+              )
             );
 
             return;
-
           }
-
 
           showError(
             data.message ||
-            "Registration could not be completed. Please try again."
+            "Registration could not be completed."
           );
-
 
         } catch (error) {
-
-          console.error(
-            "Health Corner registration error:",
-            error
-          );
-
-
-          if (
-            error &&
-            error.payload &&
-            error.payload.code ===
-            "REGISTRATION_CLOSED"
-          ) {
-
-            showRegistrationClosed();
-
-            return;
-
-          }
-
+          console.error(error);
 
           showError(
-
-            error &&
-              error.name ===
+            error.name ===
               "AbortError"
 
-              ? "The registration request timed out. Please check the registrations list before submitting again."
+              ? "The request timed out. Please check the registrations list before submitting again."
 
-              : (
-                error &&
-                error.message
-              ) ||
-              "Registration could not be completed. Please try again."
-
+              : error.message ||
+              "Registration could not be completed."
           );
 
-
         } finally {
-
-          submissionInProgress =
+          inProgress =
             false;
 
-
-          callbackNonceInput.value =
+          nonceInput.value =
             "";
-
 
           setSubmitting(
             false
           );
-
         }
-
       }
     );
 
 
-    /* =====================================================
-       REGISTER ANOTHER PARTICIPANT
-       ===================================================== */
-
-    registerAnotherButton.addEventListener(
-      "click",
-
-      function () {
-
-        submissionInProgress =
-          false;
+    function safeFilename(value) {
+      return String(
+        value ||
+        "EMERGE-2026"
+      ).replace(
+        /[^a-zA-Z0-9_-]/g,
+        "-"
+      );
+    }
 
 
-        setSubmitting(
-          false
+    function buildPass() {
+      const qr =
+        qrContainer.querySelector(
+          "canvas"
         );
 
-
-        resetQrCredential();
-
-
-        registrationSuccess
-          .classList
-          .add("hidden");
-
-
-        registrationIntro
-          .classList
-          .remove("hidden");
-
-
-        registrationFormCard
-          .classList
-          .remove("hidden");
-
-
-        clearMessage();
-
-
-        healthCornerForm.reset();
-
-
-        setMaximumDob();
-
-
-        registrationOpenContent
-          .classList
-          .add("hidden");
-
-
-        registrationStatusLoading
-          .classList
-          .remove("hidden");
-
-
-        checkRegistrationStatus();
-
+      if (!qr) {
+        return null;
       }
-    );
+
+      const canvas =
+        document.createElement(
+          "canvas"
+        );
+
+      canvas.width =
+        1080;
+
+      canvas.height =
+        1600;
+
+      const ctx =
+        canvas.getContext(
+          "2d"
+        );
+
+      ctx.fillStyle =
+        "#121414";
+
+      ctx.fillRect(
+        0,
+        0,
+        1080,
+        1600
+      );
 
 
-    /* =====================================================
-       INITIAL LOAD
-       ===================================================== */
+      ctx.fillStyle =
+        "#d4af37";
 
-    checkRegistrationStatus();
+      ctx.fillRect(
+        0,
+        0,
+        1080,
+        18
+      );
+
+
+      ctx.textAlign =
+        "center";
+
+
+      ctx.fillStyle =
+        "#d0c5af";
+
+      ctx.font =
+        "600 24px Arial";
+
+      ctx.fillText(
+        "MENTOR MEN LEADERSHIP FORUM",
+        540,
+        105
+      );
+
+
+      ctx.fillStyle =
+        "#f2ca50";
+
+      ctx.font =
+        "700 72px Georgia";
+
+      ctx.fillText(
+        "EMERGE 2026",
+        540,
+        205
+      );
+
+
+      ctx.fillStyle =
+        "#ffffff";
+
+      ctx.font =
+        "700 38px Arial";
+
+      ctx.fillText(
+        "HEALTH CORNER",
+        540,
+        270
+      );
+
+
+      ctx.fillStyle =
+        "#f2ca50";
+
+      ctx.font =
+        "700 145px Arial";
+
+      ctx.fillText(
+        "30%",
+        540,
+        450
+      );
+
+
+      ctx.fillStyle =
+        "#d0c5af";
+
+      ctx.font =
+        "700 28px Arial";
+
+      ctx.fillText(
+        "HEALTHCARE DISCOUNT",
+        540,
+        505
+      );
+
+
+      ctx.fillStyle =
+        "#ffffff";
+
+      ctx.fillRect(
+        255,
+        565,
+        570,
+        570
+      );
+
+
+      ctx.imageSmoothingEnabled =
+        false;
+
+      ctx.drawImage(
+        qr,
+        310,
+        620,
+        460,
+        460
+      );
+
+
+      ctx.fillStyle =
+        "#ffffff";
+
+      ctx.font =
+        "700 45px Arial";
+
+      ctx.fillText(
+        currentName,
+        540,
+        1220,
+        900
+      );
+
+
+      ctx.fillStyle =
+        "#f2ca50";
+
+      ctx.font =
+        "700 34px monospace";
+
+      ctx.fillText(
+        currentRegistrationId,
+        540,
+        1290
+      );
+
+
+      ctx.fillStyle =
+        "#d0c5af";
+
+      ctx.font =
+        "600 25px Arial";
+
+      ctx.fillText(
+        "TIER",
+        540,
+        1360
+      );
+
+
+      ctx.fillStyle =
+        "#ffffff";
+
+      ctx.font =
+        "700 38px Arial";
+
+      ctx.fillText(
+        currentTier,
+        540,
+        1410
+      );
+
+
+      ctx.fillStyle =
+        "#50C878";
+
+      ctx.font =
+        "700 26px Arial";
+
+      ctx.fillText(
+        "● VALID HEALTH CORNER CREDENTIAL",
+        540,
+        1485
+      );
+
+
+      ctx.fillStyle =
+        "#99907c";
+
+      ctx.font =
+        "500 20px Arial";
+
+      ctx.fillText(
+        "Present this QR at the participating hospital.",
+        540,
+        1540
+      );
+
+
+      ctx.fillStyle =
+        "#d4af37";
+
+      ctx.fillRect(
+        0,
+        1582,
+        1080,
+        18
+      );
+
+      return canvas;
+    }
+
+
+    downloadPassButton
+      .addEventListener(
+        "click",
+
+        function () {
+          const canvas =
+            buildPass();
+
+          if (!canvas) {
+            alert(
+              "Your Health Corner pass is not ready yet."
+            );
+
+            return;
+          }
+
+          const link =
+            document.createElement(
+              "a"
+            );
+
+          link.href =
+            canvas.toDataURL(
+              "image/png"
+            );
+
+          link.download =
+            safeFilename(
+              currentRegistrationId
+            ) +
+            "-Health-Corner-Pass.png";
+
+          link.click();
+        }
+      );
+
+
+    document
+      .getElementById(
+        "registerAnotherButton"
+      )
+      .addEventListener(
+        "click",
+
+        function () {
+          success.classList.add(
+            "hidden"
+          );
+
+          intro.classList.remove(
+            "hidden"
+          );
+
+          formCard.classList.remove(
+            "hidden"
+          );
+
+          form.reset();
+
+          setMaxDob();
+
+          checkStatus();
+        }
+      );
+
+
+    checkStatus();
 
   </script>
 

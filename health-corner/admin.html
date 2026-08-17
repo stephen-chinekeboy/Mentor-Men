@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Health Corner Administration - EMERGE 2026
+    </title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+
+    <script>
+
+        tailwind.config = {
+
+            darkMode:
+                "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        surface:
+                            "#121414",
+
+                        panel:
+                            "#1A1A1A",
+
+                        primary:
+                            "#f2ca50",
+
+                        gold:
+                            "#d4af37",
+
+                        muted:
+                            "#d0c5af",
+
+                        outline:
+                            "#4d4635",
+
+                        valid:
+                            "#50C878",
+
+                        invalid:
+                            "#B22222"
+
+                    },
+
+                    fontFamily: {
+
+                        display: [
+                            "Libre Caslon Text",
+                            "serif"
+                        ],
+
+                        body: [
+                            "Inter",
+                            "sans-serif"
+                        ]
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    </script>
+
+
+    <style>
+        body {
+            font-family:
+                Inter,
+                sans-serif;
+        }
+
+
+        .loader {
+
+            width:
+                30px;
+
+            height:
+                30px;
+
+            border:
+                3px solid rgba(242, 202, 80, .15);
+
+            border-top-color:
+                #f2ca50;
+
+            border-radius:
+                50%;
+
+            animation:
+                spin .8s linear infinite;
+
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+
+        }
+
+
+        #generalQrWorking {
+
+            position:
+                fixed;
+
+            left:
+                -10000px;
+
+            top:
+                -10000px;
+
+            pointer-events:
+                none;
+
+            opacity:
+                0;
+
+        }
+    </style>
+
+</head>
+
+
+<body class="
+  bg-surface
+  text-white
+  min-h-screen
+">
+
+
+    <!-- HEADER -->
+
+    <header class="
+    border-b
+    border-[#333]
+  ">
+
+        <div class="
+      max-w-[1100px]
+      mx-auto
+      px-5
+      md:px-6
+      h-20
+      flex
+      justify-between
+      items-center
+    ">
+
+            <div>
+
+                <div class="
+          font-display
+          text-primary
+          font-bold
+          text-xl
+        ">
+                    EMERGE 2026
+                </div>
+
+                <div class="
+          text-[10px]
+          uppercase
+          tracking-[0.18em]
+          text-muted
+          mt-1
+        ">
+                    Health Corner Administration
+                </div>
+
+            </div>
+
+
+            <button id="logoutButton" type="button" class="
+          hidden
+          text-xs
+          uppercase
+          tracking-widest
+          text-muted
+          hover:text-primary
+        ">
+                Sign Out
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <main class="
+    max-w-[800px]
+    mx-auto
+    px-5
+    py-12
+  ">
+
+
+        <!-- LOGIN -->
+
+        <section id="loginPanel" class="
+        max-w-md
+        mx-auto
+        bg-panel
+        border
+        border-[#333]
+        border-t-gold
+        rounded-lg
+        p-7
+        md:p-9
+      ">
+
+            <div class="
+        w-14
+        h-14
+        rounded-full
+        border
+        border-primary/40
+        flex
+        items-center
+        justify-center
+        mb-6
+      ">
+
+                <span class="
+          material-symbols-outlined
+          text-primary
+          text-3xl
+        ">
+                    admin_panel_settings
+                </span>
+
+            </div>
+
+
+            <div class="
+        text-xs
+        uppercase
+        tracking-[0.18em]
+        text-primary
+        font-bold
+      ">
+                Organiser Access
+            </div>
+
+
+            <h1 class="
+        font-display
+        text-3xl
+        mt-3
+      ">
+                Health Corner Administration
+            </h1>
+
+
+            <p class="
+        text-muted
+        leading-6
+        mt-4
+      ">
+                Enter the private organiser code to access
+                the General 30% QR and organiser controls.
+            </p>
+
+
+            <form id="loginForm" class="mt-7">
+
+                <label for="organiserCode" class="
+            text-xs
+            uppercase
+            tracking-widest
+            text-muted
+            font-semibold
+          ">
+                    8-Digit Organiser Code
+                </label>
+
+
+                <input id="organiserCode" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="8"
+                    pattern="[0-9]{8}" required class="
+            mt-3
+            w-full
+            bg-[#101111]
+            border
+            border-[#3a3a3a]
+            rounded-lg
+            p-4
+            text-white
+            text-center
+            tracking-[0.4em]
+            text-xl
+            focus:border-primary
+            focus:ring-0
+          ">
+
+
+                <div id="loginMessage" class="hidden"></div>
+
+
+                <button id="loginButton" type="submit" class="
+            mt-5
+            w-full
+            bg-gold
+            text-[#121414]
+            rounded-lg
+            py-4
+            uppercase
+            text-xs
+            tracking-[0.16em]
+            font-bold
+          ">
+                    Access Administration
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ADMIN DASHBOARD -->
+
+        <section id="adminPanel" class="hidden">
+
+            <div class="
+        flex
+        flex-col
+        sm:flex-row
+        sm:items-end
+        justify-between
+        gap-5
+        mb-8
+      ">
+
+                <div>
+
+                    <div class="
+            text-xs
+            uppercase
+            tracking-[0.18em]
+            text-primary
+            font-bold
+          ">
+                        Organiser Dashboard
+                    </div>
+
+
+                    <h1 class="
+            font-display
+            text-3xl
+            md:text-4xl
+            mt-2
+          ">
+                        Health Corner Administration
+                    </h1>
+
+                </div>
+
+
+                <button id="refreshButton" type="button" class="
+            border
+            border-outline
+            text-primary
+            px-5
+            py-3
+            rounded-lg
+            text-xs
+            uppercase
+            tracking-widest
+            font-bold
+            flex
+            items-center
+            gap-2
+          ">
+
+                    <span class="
+            material-symbols-outlined
+            text-lg
+          ">
+                        refresh
+                    </span>
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="
+        bg-panel
+        border
+        border-[#333]
+        rounded-lg
+        overflow-hidden
+      ">
+
+                <div class="
+          p-6
+          flex
+          justify-between
+          gap-4
+          items-center
+        ">
+
+                    <div>
+
+                        <div class="
+              text-xs
+              uppercase
+              tracking-widest
+              text-muted
+            ">
+                            Registration
+                        </div>
+
+
+                        <div id="statusText" class="
+                text-xl
+                font-bold
+                mt-2
+              ">
+                            Checking...
+                        </div>
+
+                    </div>
+
+
+                    <div id="statusBadge" class="
+              px-4
+              py-2
+              rounded-full
+              text-xs
+              font-bold
+              uppercase
+              tracking-widest
+              border
+            ">
+                        Checking
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- GENERAL QR -->
+
+            <div class="
+        bg-panel
+        border
+        border-[#333]
+        rounded-lg
+        mt-6
+        overflow-hidden
+      ">
+
+                <div class="
+          px-6
+          py-5
+          border-b
+          border-[#333]
+        ">
+
+                    <div class="
+            text-xs
+            uppercase
+            tracking-[0.18em]
+            text-primary
+            font-bold
+          ">
+                        General Card QR Asset
+                    </div>
+
+
+                    <h2 class="
+            font-display
+            text-2xl
+            mt-2
+          ">
+                        General 30% Health Corner QR
+                    </h2>
+
+                </div>
+
+
+                <div class="p-6">
+
+                    <p class="
+            text-muted
+            leading-7
+          ">
+                        This is the single shared QR for the general
+                        EMERGE 2026 Health Corner card artwork.
+                        It directs participants to the Health Corner
+                        registration page.
+                    </p>
+
+
+                    <div id="openNotice" class="
+              hidden
+              mt-5
+              border-l-2
+              border-valid
+              bg-valid/5
+              p-4
+            ">
+
+                        <div class="
+              text-valid
+              font-bold
+            ">
+                            General QR Active
+                        </div>
+
+                        <div class="
+              text-sm
+              text-muted
+              mt-1
+            ">
+                            Registration is open. The General 30% QR
+                            can currently be downloaded and used.
+                        </div>
+
+                    </div>
+
+
+                    <div id="closedNotice" class="
+              hidden
+              mt-5
+              border-l-2
+              border-invalid
+              bg-invalid/5
+              p-4
+            ">
+
+                        <div class="
+              text-[#e08a8a]
+              font-bold
+            ">
+                            General QR Closed
+                        </div>
+
+                        <div class="
+              text-sm
+              text-muted
+              mt-1
+            ">
+                            Registration is closed. The General 30% QR
+                            download has been disabled.
+                        </div>
+
+                    </div>
+
+
+                    <button id="downloadButton" type="button" disabled class="
+              mt-6
+              w-full
+              bg-gold
+              text-[#121414]
+              py-4
+              rounded-lg
+              uppercase
+              text-xs
+              tracking-[0.15em]
+              font-bold
+              flex
+              justify-center
+              items-center
+              gap-2
+              disabled:opacity-35
+              disabled:cursor-not-allowed
+            ">
+
+                        <span class="
+              material-symbols-outlined
+              text-lg
+            ">
+                            download
+                        </span>
+
+                        Download General 30% QR
+
+                    </button>
+
+
+                    <p class="
+            text-xs
+            text-muted
+            mt-4
+            leading-5
+          ">
+                        The registration status is checked again immediately
+                        before every download. Closing registration in Google
+                        Sheets therefore disables this download even if this
+                        page was already open.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="adminMessage" class="hidden"></div>
+
+        </section>
+
+    </main>
+
+
+    <div id="generalQrWorking"></div>
+
+
+    <script>
+
+        const API =
+            "/api/health-corner";
+
+
+        /*
+         * The general QR contains no individual
+         * registration/token information.
+         */
+        const GENERAL_URL =
+            "https://mentormenforum.org/health-corner/index.html";
+
+
+        const loginPanel =
+            document.getElementById(
+                "loginPanel"
+            );
+
+        const adminPanel =
+            document.getElementById(
+                "adminPanel"
+            );
+
+        const loginForm =
+            document.getElementById(
+                "loginForm"
+            );
+
+        const organiserCode =
+            document.getElementById(
+                "organiserCode"
+            );
+
+        const loginButton =
+            document.getElementById(
+                "loginButton"
+            );
+
+        const loginMessage =
+            document.getElementById(
+                "loginMessage"
+            );
+
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+        const refreshButton =
+            document.getElementById(
+                "refreshButton"
+            );
+
+        const statusText =
+            document.getElementById(
+                "statusText"
+            );
+
+        const statusBadge =
+            document.getElementById(
+                "statusBadge"
+            );
+
+        const openNotice =
+            document.getElementById(
+                "openNotice"
+            );
+
+        const closedNotice =
+            document.getElementById(
+                "closedNotice"
+            );
+
+        const downloadButton =
+            document.getElementById(
+                "downloadButton"
+            );
+
+        const workingQr =
+            document.getElementById(
+                "generalQrWorking"
+            );
+
+        const adminMessage =
+            document.getElementById(
+                "adminMessage"
+            );
+
+
+        let adminToken =
+            sessionStorage.getItem(
+                "emergeHealthCornerAdminToken"
+            ) || "";
+
+
+        let registrationOpen =
+            false;
+
+
+        async function postApi(
+            params
+        ) {
+            const response =
+                await fetch(
+                    API,
+                    {
+                        method:
+                            "POST",
+
+                        cache:
+                            "no-store",
+
+                        credentials:
+                            "same-origin",
+
+                        headers: {
+                            "Accept":
+                                "application/json",
+
+                            "Content-Type":
+                                "application/x-www-form-urlencoded;charset=UTF-8"
+                        },
+
+                        body:
+                            new URLSearchParams(
+                                params
+                            ).toString()
+                    }
+                );
+
+            return response.json();
+        }
+
+
+        function showLoginError(
+            text
+        ) {
+            loginMessage.className =
+                "block mt-4 border border-invalid/40 bg-invalid/10 text-[#e8a4a4] p-4 text-sm";
+
+            loginMessage.textContent =
+                text;
+        }
+
+
+        function showAdminError(
+            text
+        ) {
+            adminMessage.className =
+                "block mt-6 border border-invalid/40 bg-invalid/10 text-[#e8a4a4] p-4 text-sm";
+
+            adminMessage.textContent =
+                text;
+        }
+
+
+        function clearAdminError() {
+            adminMessage.className =
+                "hidden";
+
+            adminMessage.textContent =
+                "";
+        }
+
+
+        function showDashboard() {
+            loginPanel.classList.add(
+                "hidden"
+            );
+
+            adminPanel.classList.remove(
+                "hidden"
+            );
+
+            logoutButton.classList.remove(
+                "hidden"
+            );
+        }
+
+
+        function showLogin() {
+            adminPanel.classList.add(
+                "hidden"
+            );
+
+            loginPanel.classList.remove(
+                "hidden"
+            );
+
+            logoutButton.classList.add(
+                "hidden"
+            );
+        }
+
+
+        function updateStatus(
+            isOpen
+        ) {
+            registrationOpen =
+                isOpen === true;
+
+            if (registrationOpen) {
+                statusText.textContent =
+                    "Registration Open";
+
+                statusText.className =
+                    "text-xl font-bold mt-2 text-valid";
+
+                statusBadge.textContent =
+                    "OPEN";
+
+                statusBadge.className =
+                    "px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-valid/40 text-valid bg-valid/5";
+
+                openNotice.classList.remove(
+                    "hidden"
+                );
+
+                closedNotice.classList.add(
+                    "hidden"
+                );
+
+                downloadButton.disabled =
+                    false;
+
+            } else {
+                statusText.textContent =
+                    "Registration Closed";
+
+                statusText.className =
+                    "text-xl font-bold mt-2 text-[#e08a8a]";
+
+                statusBadge.textContent =
+                    "CLOSED";
+
+                statusBadge.className =
+                    "px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-invalid/40 text-[#e08a8a] bg-invalid/5";
+
+                openNotice.classList.add(
+                    "hidden"
+                );
+
+                closedNotice.classList.remove(
+                    "hidden"
+                );
+
+                downloadButton.disabled =
+                    true;
+            }
+        }
+
+
+        function sessionExpired(
+            message
+        ) {
+            adminToken =
+                "";
+
+            sessionStorage.removeItem(
+                "emergeHealthCornerAdminToken"
+            );
+
+            showLogin();
+
+            showLoginError(
+                message ||
+                "Your organiser session has expired. Please sign in again."
+            );
+        }
+
+
+        async function refreshStatus() {
+            clearAdminError();
+
+            if (!adminToken) {
+                showLogin();
+                return false;
+            }
+
+            try {
+                const data =
+                    await postApi({
+                        action:
+                            "adminStatus",
+
+                        adminAuthToken:
+                            adminToken
+                    });
+
+                if (
+                    !data ||
+                    data.success !==
+                    true
+                ) {
+                    sessionExpired(
+                        data &&
+                            data.message
+                            ? data.message
+                            : "Your organiser session has expired."
+                    );
+
+                    return false;
+                }
+
+                showDashboard();
+
+                updateStatus(
+                    data.registrationOpen
+                );
+
+                return true;
+
+            } catch (error) {
+                console.error(error);
+
+                showAdminError(
+                    "The registration status could not be checked."
+                );
+
+                downloadButton.disabled =
+                    true;
+
+                return false;
+            }
+        }
+
+
+        loginForm.addEventListener(
+            "submit",
+
+            async function (event) {
+                event.preventDefault();
+
+                const code =
+                    organiserCode.value
+                        .trim();
+
+                if (
+                    !/^\d{8}$/.test(
+                        code
+                    )
+                ) {
+                    showLoginError(
+                        "Enter the complete 8-digit organiser code."
+                    );
+
+                    return;
+                }
+
+                loginButton.disabled =
+                    true;
+
+                loginButton.textContent =
+                    "CHECKING...";
+
+                loginMessage.className =
+                    "hidden";
+
+                try {
+                    const data =
+                        await postApi({
+                            action:
+                                "authorizeAdmin",
+
+                            organiserCode:
+                                code
+                        });
+
+                    if (
+                        !data ||
+                        data.success !==
+                        true
+                    ) {
+                        showLoginError(
+                            data &&
+                                data.message
+                                ? data.message
+                                : "Organiser access could not be confirmed."
+                        );
+
+                        return;
+                    }
+
+                    adminToken =
+                        data.adminAuthToken;
+
+                    sessionStorage.setItem(
+                        "emergeHealthCornerAdminToken",
+                        adminToken
+                    );
+
+                    organiserCode.value =
+                        "";
+
+                    showDashboard();
+
+                    updateStatus(
+                        data.registrationOpen
+                    );
+
+                } catch (error) {
+                    console.error(error);
+
+                    showLoginError(
+                        "The organiser service could not be reached."
+                    );
+
+                } finally {
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "Access Administration";
+                }
+            }
+        );
+
+
+        logoutButton.addEventListener(
+            "click",
+
+            function () {
+                adminToken =
+                    "";
+
+                sessionStorage.removeItem(
+                    "emergeHealthCornerAdminToken"
+                );
+
+                showLogin();
+            }
+        );
+
+
+        refreshButton.addEventListener(
+            "click",
+            refreshStatus
+        );
+
+
+        function getQrCanvas() {
+            return workingQr.querySelector(
+                "canvas"
+            );
+        }
+
+
+        function generateGeneralQr() {
+            workingQr.innerHTML =
+                "";
+
+            new QRCode(
+                workingQr,
+                {
+                    text:
+                        GENERAL_URL,
+
+                    width:
+                        500,
+
+                    height:
+                        500,
+
+                    colorDark:
+                        "#000000",
+
+                    colorLight:
+                        "#ffffff",
+
+                    correctLevel:
+                        QRCode.CorrectLevel.H
+                }
+            );
+
+            return getQrCanvas();
+        }
+
+
+        function buildGeneralQrExport() {
+            const source =
+                generateGeneralQr();
+
+            if (!source) {
+                return null;
+            }
+
+            /*
+             * High-resolution print asset.
+             */
+            const size =
+                1800;
+
+            const quiet =
+                145;
+
+            const qrSize =
+                size -
+                quiet * 2;
+
+            const canvas =
+                document.createElement(
+                    "canvas"
+                );
+
+            canvas.width =
+                size;
+
+            canvas.height =
+                size;
+
+            const ctx =
+                canvas.getContext(
+                    "2d"
+                );
+
+
+            /* WHITE BACKGROUND */
+
+            ctx.fillStyle =
+                "#ffffff";
+
+            ctx.fillRect(
+                0,
+                0,
+                size,
+                size
+            );
+
+
+            /* QR */
+
+            ctx.imageSmoothingEnabled =
+                false;
+
+            ctx.drawImage(
+                source,
+
+                quiet,
+                quiet,
+
+                qrSize,
+                qrSize
+            );
+
+
+            /*
+             * Small centre badge.
+             *
+             * Error correction level H allows a small
+             * central graphic while maintaining
+             * good scan reliability.
+             */
+
+            const cx =
+                size / 2;
+
+            const cy =
+                size / 2;
+
+
+            ctx.fillStyle =
+                "#ffffff";
+
+            ctx.beginPath();
+
+            ctx.arc(
+                cx,
+                cy,
+                145,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+
+            ctx.fillStyle =
+                "#d4af37";
+
+            ctx.beginPath();
+
+            ctx.arc(
+                cx,
+                cy,
+                120,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+
+            ctx.fillStyle =
+                "#121414";
+
+            ctx.textAlign =
+                "center";
+
+            ctx.textBaseline =
+                "middle";
+
+            ctx.font =
+                "700 70px Arial";
+
+            ctx.fillText(
+                "30%",
+                cx,
+                cy + 3
+            );
+
+
+            return canvas;
+        }
+
+
+        downloadButton.addEventListener(
+            "click",
+
+            async function () {
+                /*
+                 * CRITICAL:
+                 * Re-check registration before every download.
+                 */
+                downloadButton.disabled =
+                    true;
+
+                const validSession =
+                    await refreshStatus();
+
+                if (!validSession) {
+                    return;
+                }
+
+                if (
+                    !registrationOpen
+                ) {
+                    showAdminError(
+                        "Registration is closed. The General 30% QR cannot be downloaded."
+                    );
+
+                    return;
+                }
+
+                clearAdminError();
+
+                try {
+                    const canvas =
+                        buildGeneralQrExport();
+
+                    if (!canvas) {
+                        throw new Error(
+                            "QR generation failed."
+                        );
+                    }
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+                    link.href =
+                        canvas.toDataURL(
+                            "image/png"
+                        );
+
+                    link.download =
+                        "EMERGE-2026-General-30-Percent-Health-Corner-QR.png";
+
+                    document.body.appendChild(
+                        link
+                    );
+
+                    link.click();
+
+                    document.body.removeChild(
+                        link
+                    );
+
+                } catch (error) {
+                    console.error(error);
+
+                    showAdminError(
+                        "The General 30% QR could not be generated."
+                    );
+
+                } finally {
+                    downloadButton.disabled =
+                        !registrationOpen;
+                }
+            }
+        );
+
+
+        /*
+         * Restore organiser session on refresh.
+         */
+        if (adminToken) {
+            refreshStatus();
+
+        } else {
+            showLogin();
+        }
+
+    </script>
+
+</body>
+
+</html>
