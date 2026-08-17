@@ -1,148 +1,167 @@
 /*
  * EMERGE 2026 — Health Corner
- * Same-origin JSON bridge for Vercel -> Google Apps Script.
+ * Same-origin Vercel bridge for Google Apps Script.
  *
- * The browser never talks directly to script.google.com.
- * The browser also never relies on hidden iframes, JSONP or postMessage
- * for Health Corner backend results. This endpoint always returns JSON.
+ * Browser -> /api/health-corner -> Apps Script -> JSON -> Browser
+ *
+ * The browser never talks to script.google.com directly.
  */
+
+export const maxDuration = 60;
 
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec';
 
-const ALLOWED_GET_ACTIONS = new Set(['', 'registrationStatus', 'verify']);
-const ALLOWED_POST_ACTIONS = new Set(['', 'authorizeRedemption', 'redeem']);
+const ALLOWED_GET_ACTIONS = new Set([
+  '',
+  'registrationStatus',
+  'verify'
+]);
+
+const ALLOWED_POST_ACTIONS = new Set([
+  '',
+  'authorizeRedemption',
+  'redeem'
+]);
 
 function responseHeaders(extra = {}) {
   return {
-    'content-type': 'application/json; charset=utf-8',
     'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     pragma: 'no-cache',
     expires: '0',
     'x-content-type-options': 'nosniff',
     'referrer-policy': 'no-referrer',
-    ...extra,
+    ...extra
   };
 }
 
-function jsonResponse(payload, status = 200, extraHeaders = {}) {
+function json(payload, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
-    headers: responseHeaders(extraHeaders),
+    headers: responseHeaders({
+      'content-type': 'application/json; charset=utf-8',
+      ...extraHeaders
+    })
   });
 }
 
-function jsonError(message, status = 400, code = 'BRIDGE_ERROR') {
-  return jsonResponse({ success: false, code, message }, status);
+function clean(value) {
+  return String(value || '').trim();
 }
 
-function extractBalancedObject(text, start) {
-  let depth = 0;
-  let insideString = false;
-  let escaped = false;
-
-  for (let i = start; i < text.length; i += 1) {
-    const ch = text[i];
-
-    if (insideString) {
-      if (escaped) {
-        escaped = false;
-      } else if (ch === '\\') {
-        escaped = true;
-      } else if (ch === '"') {
-        insideString = false;
-      }
-      continue;
-    }
-
-    if (ch === '"') {
-      insideString = true;
-      continue;
-    }
-
-    if (ch === '{') depth += 1;
-    if (ch === '}') {
-      depth -= 1;
-      if (depth === 0) return text.slice(start, i + 1);
-    }
-  }
-
-  return null;
-}
-
-function extractPayloadFromHtml(html) {
-  const marker = /(?:const|let|var)\s+payload\s*=/m.exec(html);
-  if (!marker) return null;
-
-  const afterMarker = marker.index + marker[0].length;
-  const objectStart = html.indexOf('{', afterMarker);
-  if (objectStart === -1) return null;
-
-  const jsonText = extractBalancedObject(html, objectStart);
-  if (!jsonText) return null;
-
-  try {
-    return JSON.parse(jsonText);
-  } catch {
-    return null;
-  }
-}
-
-function extractPayloadFromJsonp(text) {
-  const firstParen = text.indexOf('(');
-  const lastParen = text.lastIndexOf(')');
-  if (firstParen === -1 || lastParen <= firstParen) return null;
-
-  const inside = text.slice(firstParen + 1, lastParen).trim();
-  if (!inside.startsWith('{')) return null;
-
-  try {
-    return JSON.parse(inside);
-  } catch {
-    return null;
-  }
-}
-
-function parseUpstreamPayload(text) {
-  const trimmed = String(text || '').trim();
-  if (!trimmed) return null;
-
-  try {
-    const json = JSON.parse(trimmed);
-    if (json && typeof json === 'object') return json;
-  } catch {
-    // Not raw JSON; continue.
-  }
-
-  const htmlPayload = extractPayloadFromHtml(trimmed);
-  if (htmlPayload) return htmlPayload;
-
-  const jsonpPayload = extractPayloadFromJsonp(trimmed);
-  if (jsonpPayload) return jsonpPayload;
-
-  return null;
-}
-
-function getBodyAction(contentType, body) {
+function getActionFromBody(contentType, body) {
   if (!body) return '';
 
   if (contentType.startsWith('application/x-www-form-urlencoded')) {
     try {
-      return String(new URLSearchParams(body).get('action') || '').trim();
-    } catch {
+      return clean(new URLSearchParams(body).get('action'));
+    } catch (_) {
       return '';
     }
   }
 
   if (contentType.startsWith('application/json')) {
     try {
-      return String(JSON.parse(body).action || '').trim();
-    } catch {
+      return clean(JSON.parse(body).action);
+    } catch (_) {
       return '';
     }
   }
 
   return '';
+}
+
+/*
+ * Apps Script's iframeResponse_() writes:
+ *   const payload = {...};
+ * Extract only that JSON object. This is data parsing, not script execution.
+ */
+function extractPayloadFromHtml(html) {
+  const marker = /(?:const|let|var)\s+payload\s*=/m.exec(html || '');
+  if (!marker) return null;
+
+  let i = marker.index + marker[0].length;
+  while (i < html.length && /\s/.test(html[i])) i += 1;
+  if (html[i] !== '{') return null;
+
+  const start = i;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (; i < html.length; i += 1) {
+    const ch = html[i];
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+      if (ch === '\\') {
+        escaped = true;
+        continue;
+      }
+      if (ch === '"') inString = false;
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = true;
+      continue;
+    }
+
+    if (ch === '{') depth += 1;
+    if (ch === '}') {
+      depth -= 1;
+      if (depth === 0) {
+        try {
+          return JSON.parse(html.slice(start, i + 1));
+        } catch (_) {
+          return null;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function extractJsonp(text) {
+  const match = /^\s*[A-Za-z_$][\w$]*\s*\((.*)\)\s*;?\s*$/s.exec(text || '');
+  if (!match) return null;
+
+  try {
+    return JSON.parse(match[1]);
+  } catch (_) {
+    return null;
+  }
+}
+
+function normaliseAppsScriptResponse(text, contentType) {
+  const type = clean(contentType).toLowerCase();
+
+  if (type.includes('application/json')) {
+    try {
+      return JSON.parse(text);
+    } catch (_) {
+      // Continue to the other parsers below.
+    }
+  }
+
+  const htmlPayload = extractPayloadFromHtml(text);
+  if (htmlPayload) return htmlPayload;
+
+  const jsonpPayload = extractJsonp(text);
+  if (jsonpPayload) return jsonpPayload;
+
+  // Apps Script's health check is JSON, but ContentService may occasionally
+  // arrive with a generic text content type after redirects.
+  try {
+    const parsed = JSON.parse(text);
+    if (parsed && typeof parsed === 'object') return parsed;
+  } catch (_) {}
+
+  return null;
 }
 
 export default {
@@ -151,17 +170,16 @@ export default {
     const method = request.method.toUpperCase();
 
     if (method !== 'GET' && method !== 'POST') {
-      return jsonError('Method not allowed.', 405, 'METHOD_NOT_ALLOWED');
+      return json({ success: false, message: 'Method not allowed.' }, 405);
     }
 
     const incomingUrl = new URL(request.url);
-    let upstreamBody;
+    let body = undefined;
     let contentType = '';
     let bodyAction = '';
 
     if (method === 'POST') {
-      contentType =
-        request.headers.get('content-type') ||
+      contentType = request.headers.get('content-type') ||
         'application/x-www-form-urlencoded;charset=UTF-8';
 
       const supported =
@@ -170,106 +188,97 @@ export default {
         contentType.startsWith('text/plain');
 
       if (!supported) {
-        return jsonError(
-          'Unsupported request content type.',
-          415,
-          'UNSUPPORTED_CONTENT_TYPE',
-        );
+        return json({ success: false, message: 'Unsupported request content type.' }, 415);
       }
 
-      upstreamBody = await request.text();
-      bodyAction = getBodyAction(contentType, upstreamBody);
+      body = await request.text();
+      bodyAction = getActionFromBody(contentType, body);
     }
 
-    const queryAction = String(incomingUrl.searchParams.get('action') || '').trim();
-    const action = queryAction || bodyAction || '';
+    const queryAction = clean(incomingUrl.searchParams.get('action'));
+    const action = queryAction || bodyAction;
 
     if (method === 'GET' && !ALLOWED_GET_ACTIONS.has(action)) {
-      return jsonError('Unsupported Health Corner request.', 400, 'UNSUPPORTED_ACTION');
+      return json({ success: false, message: 'Unsupported Health Corner request.' }, 400);
     }
 
     if (method === 'POST' && !ALLOWED_POST_ACTIONS.has(action)) {
-      return jsonError('Unsupported Health Corner request.', 400, 'UNSUPPORTED_ACTION');
+      return json({ success: false, message: 'Unsupported Health Corner request.' }, 400);
     }
 
     const upstreamUrl = new URL(APPS_SCRIPT_URL);
     incomingUrl.searchParams.forEach((value, key) => {
-      // The bridge itself no longer uses JSONP.
-      if (key !== 'prefix') upstreamUrl.searchParams.append(key, value);
+      upstreamUrl.searchParams.append(key, value);
     });
 
-    const upstreamHeaders = new Headers();
-    if (method === 'POST') upstreamHeaders.set('content-type', contentType);
+    const headers = new Headers({
+      accept: 'application/json,text/html,text/plain,*/*'
+    });
 
-    // Keep the upstream timeout below the Vercel function's configured
-    // 60-second maximum so we can return a controlled JSON error.
+    if (method === 'POST') {
+      headers.set('content-type', contentType);
+    }
+
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 50000);
+    const timer = setTimeout(() => controller.abort(), 55000);
 
-    let upstreamResponse;
+    let upstream;
     try {
-      upstreamResponse = await fetch(upstreamUrl.toString(), {
+      upstream = await fetch(upstreamUrl.toString(), {
         method,
-        headers: upstreamHeaders,
-        body: method === 'POST' ? upstreamBody : undefined,
+        headers,
+        body: method === 'POST' ? body : undefined,
         redirect: 'follow',
         cache: 'no-store',
-        signal: controller.signal,
+        signal: controller.signal
       });
     } catch (error) {
-      clearTimeout(timeout);
-
-      if (error && error.name === 'AbortError') {
-        return jsonError(
-          'The Health Corner backend took too long to respond. Please try again.',
-          504,
-          'UPSTREAM_TIMEOUT',
-        );
-      }
-
-      return jsonError(
-        'The Health Corner backend is temporarily unavailable.',
-        502,
-        'UPSTREAM_UNAVAILABLE',
+      clearTimeout(timer);
+      const timedOut = error && error.name === 'AbortError';
+      console.error('Health Corner upstream request failed', error);
+      return json(
+        {
+          success: false,
+          code: timedOut ? 'UPSTREAM_TIMEOUT' : 'UPSTREAM_UNAVAILABLE',
+          message: timedOut
+            ? 'The Health Corner service took too long to respond. Please try again.'
+            : 'The Health Corner service is temporarily unavailable.'
+        },
+        timedOut ? 504 : 502,
+        { 'x-health-corner-upstream-ms': String(Date.now() - startedAt) }
       );
     }
 
-    clearTimeout(timeout);
+    clearTimeout(timer);
 
-    let upstreamText;
-    try {
-      upstreamText = await upstreamResponse.text();
-    } catch {
-      return jsonError(
-        'The Health Corner backend returned an unreadable response.',
-        502,
-        'UPSTREAM_UNREADABLE',
-      );
-    }
-
-    const payload = parseUpstreamPayload(upstreamText);
+    const text = await upstream.text();
+    const payload = normaliseAppsScriptResponse(
+      text,
+      upstream.headers.get('content-type') || ''
+    );
 
     if (!payload) {
-      console.error('Health Corner upstream response could not be normalised', {
-        status: upstreamResponse.status,
-        contentType: upstreamResponse.headers.get('content-type') || '',
-        length: upstreamText.length,
-        elapsedMs: Date.now() - startedAt,
+      console.error('Unparseable Apps Script response', {
+        status: upstream.status,
+        contentType: upstream.headers.get('content-type'),
+        preview: text.slice(0, 300)
       });
 
-      return jsonError(
-        'The Health Corner backend returned an unexpected response.',
+      return json(
+        {
+          success: false,
+          code: 'UPSTREAM_BAD_RESPONSE',
+          message: 'The Health Corner service returned an unexpected response. Please try again.'
+        },
         502,
-        'UPSTREAM_BAD_RESPONSE',
+        { 'x-health-corner-upstream-ms': String(Date.now() - startedAt) }
       );
     }
 
-    return jsonResponse(
+    return json(
       payload,
-      upstreamResponse.ok ? 200 : upstreamResponse.status,
-      {
-        'x-health-corner-upstream-ms': String(Date.now() - startedAt),
-      },
+      upstream.ok ? 200 : upstream.status,
+      { 'x-health-corner-upstream-ms': String(Date.now() - startedAt) }
     );
-  },
+  }
 };

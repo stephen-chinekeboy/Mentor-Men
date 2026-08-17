@@ -410,7 +410,7 @@
 
         <form id="healthCornerForm"
           action="/api/health-corner"
-          method="POST" target="registrationReceiver" class="space-y-6">
+          method="POST" class="space-y-6">
 
 
           <input id="callbackNonce" name="callbackNonce" type="hidden" value="">
@@ -1234,12 +1234,6 @@
   </main>
 
 
-  <!-- POST CALLBACK IFRAME -->
-  <!-- Kept because form POSTs already work reliably. -->
-
-  <iframe id="registrationReceiver" name="registrationReceiver" class="hidden" title="Health Corner Backend"></iframe>
-
-
   <!-- FOOTER -->
 
   <footer class="
@@ -1272,30 +1266,63 @@
 
   <!-- JAVASCRIPT -->
 
-  
   <script>
-    const APPS_SCRIPT_URL = "/api/health-corner";
 
-    const registrationStatusLoading = document.getElementById("registrationStatusLoading");
-    const registrationOpenContent = document.getElementById("registrationOpenContent");
-    const registrationClosedContent = document.getElementById("registrationClosedContent");
-    const registrationStatusError = document.getElementById("registrationStatusError");
-    const healthCornerForm = document.getElementById("healthCornerForm");
-    const registrationFormCard = document.getElementById("registrationFormCard");
-    const registrationIntro = document.getElementById("registrationIntro");
-    const registrationSuccess = document.getElementById("registrationSuccess");
-    const registrationMessage = document.getElementById("registrationMessage");
-    const callbackNonceInput = document.getElementById("callbackNonce");
-    const fullNameInput = document.getElementById("fullName");
-    const dateOfBirthInput = document.getElementById("dateOfBirth");
-    const submitButton = document.getElementById("submitButton");
-    const submitButtonText = document.getElementById("submitButtonText");
-    const submitArrow = document.getElementById("submitArrow");
-    const submitSpinner = document.getElementById("submitSpinner");
-    const registerAnotherButton = document.getElementById("registerAnotherButton");
+    const APPS_SCRIPT_URL =
+      "/api/health-corner";
+
+    const registrationStatusLoading =
+      document.getElementById("registrationStatusLoading");
+
+    const registrationOpenContent =
+      document.getElementById("registrationOpenContent");
+
+    const registrationClosedContent =
+      document.getElementById("registrationClosedContent");
+
+    const registrationStatusError =
+      document.getElementById("registrationStatusError");
+
+    const healthCornerForm =
+      document.getElementById("healthCornerForm");
+
+    const registrationFormCard =
+      document.getElementById("registrationFormCard");
+
+    const registrationIntro =
+      document.getElementById("registrationIntro");
+
+    const registrationSuccess =
+      document.getElementById("registrationSuccess");
+
+    const registrationMessage =
+      document.getElementById("registrationMessage");
+
+    const callbackNonceInput =
+      document.getElementById("callbackNonce");
+
+    const fullNameInput =
+      document.getElementById("fullName");
+
+    const dateOfBirthInput =
+      document.getElementById("dateOfBirth");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+    const submitButtonText =
+      document.getElementById("submitButtonText");
+
+    const submitArrow =
+      document.getElementById("submitArrow");
+
+    const submitSpinner =
+      document.getElementById("submitSpinner");
+
+    const registerAnotherButton =
+      document.getElementById("registerAnotherButton");
 
     let submissionInProgress = false;
-    let activeCallbackNonce = "";
 
     function createNonce() {
       if (window.crypto && window.crypto.getRandomValues) {
@@ -1306,21 +1333,26 @@
           .join("");
       }
 
-      return (
-        Date.now().toString(36) +
+      return Date.now().toString(36) +
         Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2)
-      );
+        Math.random().toString(36).slice(2);
     }
 
     function capitaliseName(value) {
       return String(value || "")
         .trim()
         .replace(/\s+/g, " ")
-        .replace(/(^|[\s'-])([a-z])/g, function (match, separator, letter) {
-          return separator + letter.toUpperCase();
-        });
+        .replace(
+          /(^|[\s'-])([a-z])/g,
+          function (match, separator, letter) {
+            return separator + letter.toUpperCase();
+          }
+        );
     }
+
+    fullNameInput.addEventListener("blur", function () {
+      fullNameInput.value = capitaliseName(fullNameInput.value);
+    });
 
     function setMaximumDob() {
       const now = new Date();
@@ -1330,33 +1362,7 @@
       dateOfBirthInput.max = `${year}-${month}-${day}`;
     }
 
-    async function fetchJson(url, options = {}, timeoutMs = 55000) {
-      const controller = new AbortController();
-      const timer = window.setTimeout(() => controller.abort(), timeoutMs);
-
-      try {
-        const response = await fetch(url, {
-          cache: "no-store",
-          ...options,
-          signal: controller.signal
-        });
-
-        let data;
-        try {
-          data = await response.json();
-        } catch (_) {
-          throw new Error("The Health Corner service returned an invalid response.");
-        }
-
-        if (!response.ok) {
-          throw new Error(data.message || "The Health Corner service could not complete the request.");
-        }
-
-        return data;
-      } finally {
-        window.clearTimeout(timer);
-      }
-    }
+    setMaximumDob();
 
     function hideRegistrationStates() {
       registrationStatusLoading.classList.add("hidden");
@@ -1378,40 +1384,6 @@
     function showStatusError() {
       hideRegistrationStates();
       registrationStatusError.classList.remove("hidden");
-    }
-
-    async function checkRegistrationStatus() {
-      registrationStatusLoading.classList.remove("hidden");
-      registrationStatusError.classList.add("hidden");
-
-      const nonce = createNonce();
-      const url =
-        APPS_SCRIPT_URL +
-        "?action=registrationStatus" +
-        "&callbackNonce=" + encodeURIComponent(nonce) +
-        "&_=" + Date.now();
-
-      try {
-        const data = await fetchJson(url, {}, 20000);
-
-        if (
-          !data ||
-          data.source !== "EMERGE_HEALTH_CORNER" ||
-          data.type !== "REGISTRATION_STATUS_RESULT" ||
-          data.callbackNonce !== nonce
-        ) {
-          throw new Error("Registration status could not be verified.");
-        }
-
-        if (data.registrationOpen === true) {
-          showRegistrationOpen();
-        } else {
-          showRegistrationClosed();
-        }
-      } catch (error) {
-        console.error("Registration status check failed:", error);
-        showStatusError();
-      }
     }
 
     function setSubmitting(value) {
@@ -1436,61 +1408,120 @@
       registrationMessage.textContent = message;
     }
 
-    function clearSubmissionState() {
-      submissionInProgress = false;
-      activeCallbackNonce = "";
-      callbackNonceInput.value = "";
-      setSubmitting(false);
+    function clearMessage() {
+      registrationMessage.className = "hidden";
+      registrationMessage.textContent = "";
     }
 
-    function handleRegistrationResult(data) {
-      if (
-        !data ||
-        data.source !== "EMERGE_HEALTH_CORNER" ||
-        data.type !== "REGISTRATION_RESULT" ||
-        !activeCallbackNonce ||
-        data.callbackNonce !== activeCallbackNonce
-      ) {
-        throw new Error("The registration response could not be verified.");
-      }
+    async function fetchJson(url, options = {}, timeoutMs = 30000) {
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), timeoutMs);
 
-      clearSubmissionState();
+      try {
+        const response = await fetch(url, {
+          cache: "no-store",
+          credentials: "same-origin",
+          ...options,
+          signal: controller.signal,
+          headers: {
+            "Accept": "application/json",
+            ...(options.headers || {})
+          }
+        });
 
-      if (data.code === "REGISTRATION_CLOSED") {
-        showRegistrationClosed();
-        return;
-      }
-
-      if (data.success === true) {
-        document.getElementById("successName").textContent = data.fullName || "";
-        document.getElementById("successRegistrationId").textContent = data.registrationId || "";
-        document.getElementById("successTier").textContent = data.tier || "";
-        document.getElementById("successStatus").textContent = data.status || "VALID";
-
-        registrationIntro.classList.add("hidden");
-        registrationFormCard.classList.add("hidden");
-        registrationSuccess.classList.remove("hidden");
-        healthCornerForm.reset();
-        setMaximumDob();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
-
-      if (data.code === "DUPLICATE_REGISTRATION") {
-        let message = "A registration matching these details already exists.";
-        if (data.registrationId) {
-          message += " Existing Registration ID: " + data.registrationId + ".";
+        let data;
+        try {
+          data = await response.json();
+        } catch (_) {
+          throw new Error("The Health Corner service returned an invalid response.");
         }
-        showError(message);
-        return;
-      }
 
-      showError(data.message || "Registration could not be completed. Please try again.");
+        if (!response.ok) {
+          const error = new Error(
+            data && data.message
+              ? data.message
+              : "The Health Corner service could not complete the request."
+          );
+          error.status = response.status;
+          error.payload = data;
+          throw error;
+        }
+
+        return data;
+      } finally {
+        window.clearTimeout(timer);
+      }
     }
 
-    fullNameInput.addEventListener("blur", function () {
-      fullNameInput.value = capitaliseName(fullNameInput.value);
-    });
+    async function checkRegistrationStatus() {
+      const callbackNonce = createNonce();
+
+      try {
+        const url =
+          APPS_SCRIPT_URL +
+          "?action=registrationStatus" +
+          "&callbackNonce=" + encodeURIComponent(callbackNonce) +
+          "&_=" + Date.now();
+
+        const data = await fetchJson(url, { method: "GET" }, 25000);
+
+        if (
+          !data ||
+          data.source !== "EMERGE_HEALTH_CORNER" ||
+          data.type !== "REGISTRATION_STATUS_RESULT" ||
+          data.callbackNonce !== callbackNonce
+        ) {
+          throw new Error("Invalid registration-status response.");
+        }
+
+        if (data.registrationOpen === true) {
+          showRegistrationOpen();
+        } else {
+          showRegistrationClosed();
+        }
+      } catch (error) {
+        console.error("Health Corner registration-status error:", error);
+        showStatusError();
+      }
+    }
+
+    function showSuccessfulRegistration(data, fallback = {}) {
+      document.getElementById("successName").textContent =
+        data.fullName || fallback.fullName || "";
+
+      document.getElementById("successRegistrationId").textContent =
+        data.registrationId || "";
+
+      document.getElementById("successTier").textContent =
+        data.tier || fallback.tier || "";
+
+      document.getElementById("successStatus").textContent =
+        data.status || "VALID";
+
+      registrationIntro.classList.add("hidden");
+      registrationFormCard.classList.add("hidden");
+      registrationSuccess.classList.remove("hidden");
+      healthCornerForm.reset();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    async function submitRegistration(formBody, recoveryContext) {
+      return fetchJson(
+        APPS_SCRIPT_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+          body: formBody.toString()
+        },
+        55000
+      );
+    }
 
     healthCornerForm.addEventListener("submit", async function (event) {
       event.preventDefault();
@@ -1500,64 +1531,142 @@
         return;
       }
 
-      if (submissionInProgress) return;
+      if (submissionInProgress) {
+        return;
+      }
 
       fullNameInput.value = capitaliseName(fullNameInput.value);
-      activeCallbackNonce = createNonce();
+      clearMessage();
+
+      const activeCallbackNonce = createNonce();
       callbackNonceInput.value = activeCallbackNonce;
-      registrationMessage.className = "hidden";
-      registrationMessage.textContent = "";
+
+      const formData = new FormData(healthCornerForm);
+      const formBody = new URLSearchParams();
+
+      for (const [key, value] of formData.entries()) {
+        formBody.append(key, String(value));
+      }
+
+      const recoveryContext = {
+        fullName: fullNameInput.value,
+        tier: formData.get("tier") || ""
+      };
+
       submissionInProgress = true;
       setSubmitting(true);
 
+      let wasTransportRetry = false;
+
       try {
-        const body = new URLSearchParams();
-        new FormData(healthCornerForm).forEach((value, key) => {
-          body.append(key, String(value));
-        });
+        let data;
 
-        const data = await fetchJson(
-          APPS_SCRIPT_URL,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-            },
-            body: body.toString()
-          },
-          55000
+        try {
+          data = await submitRegistration(formBody, recoveryContext);
+        } catch (firstError) {
+          const retryable =
+            firstError.name === "AbortError" ||
+            !firstError.status ||
+            firstError.status >= 500;
+
+          if (!retryable) {
+            throw firstError;
+          }
+
+          wasTransportRetry = true;
+          await new Promise(resolve => window.setTimeout(resolve, 1200));
+          data = await submitRegistration(formBody, recoveryContext);
+        }
+
+        if (
+          !data ||
+          data.source !== "EMERGE_HEALTH_CORNER" ||
+          data.type !== "REGISTRATION_RESULT" ||
+          data.callbackNonce !== activeCallbackNonce
+        ) {
+          throw new Error("The registration response could not be verified.");
+        }
+
+        if (data.code === "REGISTRATION_CLOSED") {
+          showRegistrationClosed();
+          return;
+        }
+
+        if (data.success === true) {
+          showSuccessfulRegistration(data, recoveryContext);
+          return;
+        }
+
+        if (data.code === "DUPLICATE_REGISTRATION") {
+          if (wasTransportRetry && data.registrationId) {
+            showSuccessfulRegistration(
+              {
+                success: true,
+                registrationId: data.registrationId,
+                fullName: recoveryContext.fullName,
+                tier: recoveryContext.tier,
+                status: "VALID"
+              },
+              recoveryContext
+            );
+            return;
+          }
+
+          let message =
+            "A registration matching these details already exists.";
+
+          if (data.registrationId) {
+            message += " Existing Registration ID: " + data.registrationId + ".";
+          }
+
+          showError(message);
+          return;
+        }
+
+        showError(
+          data.message ||
+          "Registration could not be completed. Please try again."
         );
-
-        handleRegistrationResult(data);
       } catch (error) {
-        console.error("Registration request failed:", error);
-        clearSubmissionState();
+        console.error("Health Corner registration error:", error);
+
+        if (error && error.payload && error.payload.code === "REGISTRATION_CLOSED") {
+          showRegistrationClosed();
+          return;
+        }
+
         showError(
           error && error.name === "AbortError"
-            ? "The registration service timed out. Please submit the same details again; duplicate protection will return the existing Registration ID if the first attempt was already saved."
-            : (error.message || "Registration could not be completed. Please try again.")
+            ? "The registration request timed out. Please check the registrations list before submitting again."
+            : (error && error.message) ||
+              "Registration could not be completed. Please try again."
         );
+      } finally {
+        submissionInProgress = false;
+        callbackNonceInput.value = "";
+        setSubmitting(false);
       }
     });
 
     registerAnotherButton.addEventListener("click", function () {
-      clearSubmissionState();
+      submissionInProgress = false;
+      setSubmitting(false);
       registrationSuccess.classList.add("hidden");
       registrationIntro.classList.remove("hidden");
       registrationFormCard.classList.remove("hidden");
-      registrationMessage.className = "hidden";
-      registrationMessage.textContent = "";
+      clearMessage();
       healthCornerForm.reset();
       setMaximumDob();
+
       registrationOpenContent.classList.add("hidden");
       registrationStatusLoading.classList.remove("hidden");
+
       checkRegistrationStatus();
     });
 
-    setMaximumDob();
     checkRegistrationStatus();
-  </script>
 
+  </script>
 
 </body>
 

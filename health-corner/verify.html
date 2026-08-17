@@ -1624,7 +1624,6 @@
        BACKEND RECEIVER
        ===================================================== -->
 
-    <iframe id="backendReceiver" name="backendReceiver" class="hidden" title="Health Corner Backend"></iframe>
 
 
     <!-- =====================================================
@@ -2446,200 +2445,261 @@
 
 
         /* =====================================================
-           POST TO APPS SCRIPT
+           SAME-ORIGIN JSON BACKEND
+           ===================================================== */
+
+        async function requestBackendJson(
+            method,
+            values,
+            timeoutMs = 28000,
+            retryOnce = true
+        ) {
+
+            async function runRequest() {
+                const controller =
+                    new AbortController();
+
+                const timer =
+                    setTimeout(
+                        () => controller.abort(),
+                        timeoutMs
+                    );
+
+                try {
+                    let url =
+                        APPS_SCRIPT_URL;
+
+                    const options = {
+                        method,
+                        cache:
+                            "no-store",
+                        credentials:
+                            "same-origin",
+                        signal:
+                            controller.signal,
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        }
+                    };
+
+                    if (
+                        method ===
+                        "GET"
+                    ) {
+                        const params =
+                            new URLSearchParams();
+
+                        Object.entries(values)
+                            .forEach(
+                                ([key, value]) => {
+                                    params.append(
+                                        key,
+                                        value == null
+                                            ? ""
+                                            : String(value)
+                                    );
+                                }
+                            );
+
+                        params.append(
+                            "_",
+                            String(Date.now())
+                        );
+
+                        url +=
+                            "?" +
+                            params.toString();
+                    }
+
+                    else {
+                        const params =
+                            new URLSearchParams();
+
+                        Object.entries(values)
+                            .forEach(
+                                ([key, value]) => {
+                                    params.append(
+                                        key,
+                                        value == null
+                                            ? ""
+                                            : String(value)
+                                    );
+                                }
+                            );
+
+                        options.headers[
+                            "Content-Type"
+                        ] =
+                            "application/x-www-form-urlencoded;charset=UTF-8";
+
+                        options.body =
+                            params.toString();
+                    }
+
+                    const response =
+                        await fetch(
+                            url,
+                            options
+                        );
+
+                    let data;
+
+                    try {
+                        data =
+                            await response.json();
+                    }
+
+                    catch (_) {
+                        throw new Error(
+                            "The Health Corner service returned an invalid response."
+                        );
+                    }
+
+                    if (
+                        !response.ok
+                    ) {
+                        const error =
+                            new Error(
+                                data && data.message
+                                    ? data.message
+                                    : "The Health Corner service could not complete the request."
+                            );
+
+                        error.status =
+                            response.status;
+
+                        error.payload =
+                            data;
+
+                        throw error;
+                    }
+
+                    return data;
+                }
+
+                finally {
+                    clearTimeout(
+                        timer
+                    );
+                }
+            }
+
+            try {
+                return await runRequest();
+            }
+
+            catch (firstError) {
+                const retryable =
+                    retryOnce &&
+                    (
+                        firstError.name ===
+                        "AbortError" ||
+                        !firstError.status ||
+                        firstError.status >=
+                        500
+                    );
+
+                if (
+                    !retryable
+                ) {
+                    throw firstError;
+                }
+
+                await new Promise(
+                    resolve =>
+                        setTimeout(
+                            resolve,
+                            900
+                        )
+                );
+
+                return runRequest();
+            }
+        }
+
+
+        /* =====================================================
+           POST TO BACKEND
            ===================================================== */
 
         async function postToBackend(
             values
         ) {
 
-            const body =
-                new URLSearchParams();
-
-
-            Object
-                .entries(values)
-                .forEach(
-                    ([key, value]) => {
-
-                        body.append(
-                            key,
-                            value == null
-                                ? ""
-                                : String(value)
-                        );
-
-                    }
-                );
-
-
-            const controller =
-                new AbortController();
-
-
-            const hardTimeout =
-                setTimeout(
-                    () => controller.abort(),
-                    52000
-                );
-
-
             try {
-
-                const response =
-                    await fetch(
-                        APPS_SCRIPT_URL,
-                        {
-                            method:
-                                "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/x-www-form-urlencoded;charset=UTF-8"
-                            },
-
-                            body:
-                                body.toString(),
-
-                            cache:
-                                "no-store",
-
-                            signal:
-                                controller.signal
-                        }
-                    );
-
-
                 const data =
-                    await response.json();
-
-
-                if (
-                    !response.ok
-                ) {
-
-                    throw new Error(
-                        data.message ||
-                        "The Health Corner service could not complete the request."
+                    await requestBackendJson(
+                        "POST",
+                        values,
+                        28000,
+                        true
                     );
 
-                }
-
-
-                /*
-                 * Keep the existing response-handling code intact.
-                 * We feed the JSON result into the same handler by
-                 * dispatching a local MessageEvent.
-                 */
                 window.dispatchEvent(
                     new MessageEvent(
                         "message",
-                        {
-                            data:
-                                data
-                        }
+                        { data: data }
                     )
                 );
-
             }
 
             catch (error) {
-
                 console.error(
-                    "Health Corner POST failed:",
+                    "Health Corner backend request failed:",
                     error
                 );
 
-
-                const action =
-                    String(
-                        values.action ||
-                        ""
-                    );
-
-
-                if (
-                    action ===
-                    "authorizeRedemption"
-                ) {
-
-                    window.dispatchEvent(
-                        new MessageEvent(
-                            "message",
-                            {
-                                data: {
-                                    source:
-                                        "EMERGE_HEALTH_CORNER",
-
-                                    type:
-                                        "REDEMPTION_AUTH_RESULT",
-
-                                    callbackNonce:
-                                        values.callbackNonce ||
-                                        "",
-
-                                    success:
-                                        false,
-
-                                    code:
-                                        "NETWORK_ERROR",
-
-                                    message:
-                                        error.message ||
-                                        "Hospital authorisation could not be completed. Please try again."
-                                }
-                            }
-                        )
-                    );
-
-                }
-
-                else if (
-                    action ===
-                    "redeem"
-                ) {
-
-                    window.dispatchEvent(
-                        new MessageEvent(
-                            "message",
-                            {
-                                data: {
-                                    source:
-                                        "EMERGE_HEALTH_CORNER",
-
-                                    type:
-                                        "REDEMPTION_RESULT",
-
-                                    callbackNonce:
-                                        values.callbackNonce ||
-                                        "",
-
-                                    success:
-                                        false,
-
-                                    code:
-                                        "NETWORK_ERROR",
-
-                                    message:
-                                        error.message ||
-                                        "The benefit could not be redeemed. Please try again."
-                                }
-                            }
-                        )
-                    );
-
-                }
-
-            }
-
-            finally {
-
                 clearTimeout(
-                    hardTimeout
+                    responseTimeout
                 );
 
-            }
+                if (
+                    values.action ===
+                    "authorizeRedemption"
+                ) {
+                    actionNonce =
+                        "";
 
+                    verifyAuthCodeButton.disabled =
+                        false;
+
+                    verifyAuthCodeButton.textContent =
+                        "Verify Code";
+
+                    showAuthMessage(
+                        error && error.message
+                            ? error.message
+                            : "Hospital authorisation could not be completed. Please try again.",
+                        false
+                    );
+
+                    return;
+                }
+
+                if (
+                    values.action ===
+                    "redeem"
+                ) {
+                    actionNonce =
+                        "";
+
+                    confirmRedemptionButton.disabled =
+                        false;
+
+                    confirmRedemptionButton.textContent =
+                        "Confirm Redemption";
+
+                    confirmationError.textContent =
+                        error && error.message
+                            ? error.message
+                            : "Redemption could not be completed. Please try again.";
+
+                    confirmationError.classList.remove(
+                        "hidden"
+                    );
+                }
+            }
         }
 
 
@@ -2652,177 +2712,70 @@
             if (
                 !qrToken
             ) {
-
                 showVerification({
                     verificationState:
                         "INVALID"
                 });
 
-
                 return;
-
             }
-
 
             verificationNonce =
                 createNonce();
-
-
-            const currentNonce =
-                verificationNonce;
-
-
-            const url =
-
-                APPS_SCRIPT_URL +
-
-                "?action=verify" +
-
-                "&token=" +
-
-                encodeURIComponent(
-                    qrToken
-                ) +
-
-                "&callbackNonce=" +
-
-                encodeURIComponent(
-                    currentNonce
-                ) +
-
-                "&_=" +
-
-                Date.now();
-
-
-            const controller =
-                new AbortController();
-
-
-            const hardTimeout =
-                setTimeout(
-                    () => controller.abort(),
-                    52000
-                );
-
 
             clearTimeout(
                 responseTimeout
             );
 
-
             responseTimeout =
                 setTimeout(
                     function () {
-
-                        if (
-                            verificationNonce !==
-                            currentNonce
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        verificationNonce =
-                            "";
-
-
                         showSystemError(
-                            "Verification is temporarily unavailable. Please try again."
+                            "Verification is taking longer than expected. Please check your connection and try again."
                         );
-
                     },
-                    55000
+                    65000
                 );
 
-
             try {
-
-                const response =
-                    await fetch(
-                        url,
-                        {
-                            cache:
-                                "no-store",
-
-                            signal:
-                                controller.signal
-                        }
-                    );
-
-
                 const data =
-                    await response.json();
-
-
-                if (
-                    !response.ok ||
-                    !data ||
-                    data.source !==
-                    "EMERGE_HEALTH_CORNER" ||
-                    data.type !==
-                    "VERIFICATION_RESULT" ||
-                    data.callbackNonce !==
-                    currentNonce
-                ) {
-
-                    throw new Error(
-                        data && data.message
-                            ? data.message
-                            : "Verification could not be completed."
+                    await requestBackendJson(
+                        "GET",
+                        {
+                            action:
+                                "verify",
+                            token:
+                                qrToken,
+                            callbackNonce:
+                                verificationNonce
+                        },
+                        28000,
+                        true
                     );
-
-                }
-
 
                 window.dispatchEvent(
                     new MessageEvent(
                         "message",
-                        {
-                            data:
-                                data
-                        }
+                        { data: data }
                     )
                 );
-
             }
 
             catch (error) {
+                verificationNonce =
+                    "";
 
                 console.error(
                     "Health Corner verification failed:",
                     error
                 );
 
-
-                if (
-                    verificationNonce ===
-                    currentNonce
-                ) {
-
-                    verificationNonce =
-                        "";
-
-
-                    showSystemError(
-                        error.message ||
-                        "Verification is temporarily unavailable. Please try again."
-                    );
-
-                }
-
-            }
-
-            finally {
-
-                clearTimeout(
-                    hardTimeout
+                showSystemError(
+                    error && error.message
+                        ? error.message
+                        : "Verification is unavailable. Please try again."
                 );
-
             }
-
         }
 
 
@@ -3472,7 +3425,7 @@
                             );
 
                         },
-                        55000
+                        65000
                     );
 
             }
@@ -3670,7 +3623,7 @@
                             );
 
                         },
-                        55000
+                        65000
                     );
 
             }
