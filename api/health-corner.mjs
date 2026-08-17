@@ -9,6 +9,8 @@
 
 export const maxDuration = 60;
 
+const UPSTREAM_TIMEOUT_MS = 50000;
+
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec';
 
@@ -49,26 +51,64 @@ function clean(value) {
   return String(value || '').trim();
 }
 
-function getActionFromBody(contentType, body) {
-  if (!body) return '';
+function getBodyValues(contentType, body) {
+  if (!body) return {};
 
   if (contentType.startsWith('application/x-www-form-urlencoded')) {
     try {
-      return clean(new URLSearchParams(body).get('action'));
+      return Object.fromEntries(new URLSearchParams(body).entries());
     } catch (_) {
-      return '';
+      return {};
     }
   }
 
   if (contentType.startsWith('application/json')) {
     try {
-      return clean(JSON.parse(body).action);
+      const parsed = JSON.parse(body);
+      return parsed && typeof parsed === 'object' ? parsed : {};
     } catch (_) {
-      return '';
+      return {};
     }
   }
 
+  return {};
+}
+
+function expectedResponseType(method, action) {
+  if (method === 'GET' && action === 'registrationStatus') {
+    return 'REGISTRATION_STATUS_RESULT';
+  }
+  if (method === 'GET' && action === 'verify') {
+    return 'VERIFICATION_RESULT';
+  }
+  if (method === 'POST' && action === 'authorizeRedemption') {
+    return 'REDEMPTION_AUTH_RESULT';
+  }
+  if (method === 'POST' && action === 'redeem') {
+    return 'REDEMPTION_RESULT';
+  }
+  if (method === 'POST' && action === '') {
+    return 'REGISTRATION_RESULT';
+  }
   return '';
+}
+
+function normaliseEnvelope(payload, method, action, callbackNonce) {
+  const safePayload =
+    payload && typeof payload === 'object' && !Array.isArray(payload)
+      ? { ...payload }
+      : { success: false, message: 'Invalid Health Corner response.' };
+
+  const type = expectedResponseType(method, action);
+
+  // The Vercel endpoint is same-origin and is the trusted transport boundary.
+  // Add the legacy envelope fields here so older/still-cached page code and
+  // the new direct-JSON code both receive one predictable response shape.
+  safePayload.source = 'EMERGE_HEALTH_CORNER';
+  if (type) safePayload.type = type;
+  if (callbackNonce) safePayload.callbackNonce = callbackNonce;
+
+  return safePayload;
 }
 
 /*
@@ -177,6 +217,7 @@ export default {
     let body = undefined;
     let contentType = '';
     let bodyAction = '';
+    let bodyValues = {};
 
     if (method === 'POST') {
       contentType = request.headers.get('content-type') ||
@@ -192,11 +233,15 @@ export default {
       }
 
       body = await request.text();
-      bodyAction = getActionFromBody(contentType, body);
+      bodyValues = getBodyValues(contentType, body);
+      bodyAction = clean(bodyValues.action);
     }
 
     const queryAction = clean(incomingUrl.searchParams.get('action'));
     const action = queryAction || bodyAction;
+    const callbackNonce = clean(
+      incomingUrl.searchParams.get('callbackNonce') || bodyValues.callbackNonce
+    );
 
     if (method === 'GET' && !ALLOWED_GET_ACTIONS.has(action)) {
       return json({ success: false, message: 'Unsupported Health Corner request.' }, 400);
@@ -220,7 +265,7 @@ export default {
     }
 
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 55000);
+    const timer = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS);
 
     let upstream;
     try {
@@ -275,10 +320,20 @@ export default {
       );
     }
 
-    return json(
+    const normalisedPayload = normaliseEnvelope(
       payload,
+      method,
+      action,
+      callbackNonce
+    );
+
+    return json(
+      normalisedPayload,
       upstream.ok ? 200 : upstream.status,
-      { 'x-health-corner-upstream-ms': String(Date.now() - startedAt) }
+      {
+        'x-health-corner-upstream-ms': String(Date.now() - startedAt),
+        'x-health-corner-action': action || 'registration'
+      }
     );
   }
 };

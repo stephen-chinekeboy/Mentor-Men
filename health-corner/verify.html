@@ -2451,8 +2451,8 @@
         async function requestBackendJson(
             method,
             values,
-            timeoutMs = 28000,
-            retryOnce = true
+            timeoutMs = 55000,
+            retryOnce = false
         ) {
 
             async function runRequest() {
@@ -2632,16 +2632,11 @@
                     await requestBackendJson(
                         "POST",
                         values,
-                        28000,
-                        true
+                        55000,
+                        false
                     );
 
-                window.dispatchEvent(
-                    new MessageEvent(
-                        "message",
-                        { data: data }
-                    )
-                );
+                handleBackendResponse(data);
             }
 
             catch (error) {
@@ -2749,16 +2744,11 @@
                             callbackNonce:
                                 verificationNonce
                         },
-                        28000,
-                        true
+                        55000,
+                        false
                     );
 
-                window.dispatchEvent(
-                    new MessageEvent(
-                        "message",
-                        { data: data }
-                    )
-                );
+                handleBackendResponse(data);
             }
 
             catch (error) {
@@ -4430,23 +4420,19 @@
            BACKEND RESPONSES
            ===================================================== */
 
-        window.addEventListener(
-            "message",
-            function (
-                event
-            ) {
-
-                const data =
-                    event.data;
-
+        function handleBackendResponse(
+            data
+        ) {
 
                 if (
                     !data ||
                     typeof data !==
-                    "object" ||
-                    data.source !==
-                    "EMERGE_HEALTH_CORNER"
+                    "object"
                 ) {
+
+                    showSystemError(
+                        "The Health Corner service returned an invalid response."
+                    );
 
                     return;
 
@@ -4835,8 +4821,7 @@
 
                 }
 
-            }
-        );
+        }
 
 
         /* =====================================================

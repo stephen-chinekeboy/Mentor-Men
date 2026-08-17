@@ -1403,7 +1403,7 @@
       const controller = new AbortController();
       const timeout = window.setTimeout(
         () => controller.abort(),
-        25000
+        55000
       );
 
       try {
@@ -1425,14 +1425,16 @@
 
         const data = await response.json();
 
-        if (
-          !response.ok ||
-          !data ||
-          data.source !== "EMERGE_HEALTH_CORNER" ||
-          data.type !== "REGISTRATION_STATUS_RESULT" ||
-          data.callbackNonce !== callbackNonce
-        ) {
-          throw new Error("Invalid registration-status response.");
+        if (!response.ok || !data || typeof data !== "object") {
+          throw new Error(
+            data && data.message
+              ? data.message
+              : "Registration status is temporarily unavailable."
+          );
+        }
+
+        if (typeof data.registrationOpen !== "boolean") {
+          throw new Error("Registration status returned an incomplete response.");
         }
 
         if (data.registrationOpen === true) {

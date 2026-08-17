@@ -1463,15 +1463,14 @@
           "&callbackNonce=" + encodeURIComponent(callbackNonce) +
           "&_=" + Date.now();
 
-        const data = await fetchJson(url, { method: "GET" }, 25000);
+        const data = await fetchJson(url, { method: "GET" }, 55000);
 
-        if (
-          !data ||
-          data.source !== "EMERGE_HEALTH_CORNER" ||
-          data.type !== "REGISTRATION_STATUS_RESULT" ||
-          data.callbackNonce !== callbackNonce
-        ) {
+        if (!data || typeof data !== "object") {
           throw new Error("Invalid registration-status response.");
+        }
+
+        if (typeof data.registrationOpen !== "boolean") {
+          throw new Error("Registration status returned an incomplete response.");
         }
 
         if (data.registrationOpen === true) {
@@ -1556,35 +1555,11 @@
       submissionInProgress = true;
       setSubmitting(true);
 
-      let wasTransportRetry = false;
-
       try {
-        let data;
+        const data = await submitRegistration(formBody, recoveryContext);
 
-        try {
-          data = await submitRegistration(formBody, recoveryContext);
-        } catch (firstError) {
-          const retryable =
-            firstError.name === "AbortError" ||
-            !firstError.status ||
-            firstError.status >= 500;
-
-          if (!retryable) {
-            throw firstError;
-          }
-
-          wasTransportRetry = true;
-          await new Promise(resolve => window.setTimeout(resolve, 1200));
-          data = await submitRegistration(formBody, recoveryContext);
-        }
-
-        if (
-          !data ||
-          data.source !== "EMERGE_HEALTH_CORNER" ||
-          data.type !== "REGISTRATION_RESULT" ||
-          data.callbackNonce !== activeCallbackNonce
-        ) {
-          throw new Error("The registration response could not be verified.");
+        if (!data || typeof data !== "object") {
+          throw new Error("The registration service returned an invalid response.");
         }
 
         if (data.code === "REGISTRATION_CLOSED") {
@@ -1598,20 +1573,6 @@
         }
 
         if (data.code === "DUPLICATE_REGISTRATION") {
-          if (wasTransportRetry && data.registrationId) {
-            showSuccessfulRegistration(
-              {
-                success: true,
-                registrationId: data.registrationId,
-                fullName: recoveryContext.fullName,
-                tier: recoveryContext.tier,
-                status: "VALID"
-              },
-              recoveryContext
-            );
-            return;
-          }
-
           let message =
             "A registration matching these details already exists.";
 
