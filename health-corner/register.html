@@ -1272,934 +1272,292 @@
 
   <!-- JAVASCRIPT -->
 
+  
   <script>
+    const APPS_SCRIPT_URL = "/api/health-corner";
 
-    const APPS_SCRIPT_URL =
-      "/api/health-corner";
+    const registrationStatusLoading = document.getElementById("registrationStatusLoading");
+    const registrationOpenContent = document.getElementById("registrationOpenContent");
+    const registrationClosedContent = document.getElementById("registrationClosedContent");
+    const registrationStatusError = document.getElementById("registrationStatusError");
+    const healthCornerForm = document.getElementById("healthCornerForm");
+    const registrationFormCard = document.getElementById("registrationFormCard");
+    const registrationIntro = document.getElementById("registrationIntro");
+    const registrationSuccess = document.getElementById("registrationSuccess");
+    const registrationMessage = document.getElementById("registrationMessage");
+    const callbackNonceInput = document.getElementById("callbackNonce");
+    const fullNameInput = document.getElementById("fullName");
+    const dateOfBirthInput = document.getElementById("dateOfBirth");
+    const submitButton = document.getElementById("submitButton");
+    const submitButtonText = document.getElementById("submitButtonText");
+    const submitArrow = document.getElementById("submitArrow");
+    const submitSpinner = document.getElementById("submitSpinner");
+    const registerAnotherButton = document.getElementById("registerAnotherButton");
 
-
-    const registrationStatusLoading =
-      document.getElementById(
-        "registrationStatusLoading"
-      );
-
-
-    const registrationOpenContent =
-      document.getElementById(
-        "registrationOpenContent"
-      );
-
-
-    const registrationClosedContent =
-      document.getElementById(
-        "registrationClosedContent"
-      );
-
-
-    const registrationStatusError =
-      document.getElementById(
-        "registrationStatusError"
-      );
-
-
-    const healthCornerForm =
-      document.getElementById(
-        "healthCornerForm"
-      );
-
-
-    const registrationReceiver =
-      document.getElementById(
-        "registrationReceiver"
-      );
-
-
-    const registrationFormCard =
-      document.getElementById(
-        "registrationFormCard"
-      );
-
-
-    const registrationIntro =
-      document.getElementById(
-        "registrationIntro"
-      );
-
-
-    const registrationSuccess =
-      document.getElementById(
-        "registrationSuccess"
-      );
-
-
-    const registrationMessage =
-      document.getElementById(
-        "registrationMessage"
-      );
-
-
-    const callbackNonceInput =
-      document.getElementById(
-        "callbackNonce"
-      );
-
-
-    const fullNameInput =
-      document.getElementById(
-        "fullName"
-      );
-
-
-    const dateOfBirthInput =
-      document.getElementById(
-        "dateOfBirth"
-      );
-
-
-    const submitButton =
-      document.getElementById(
-        "submitButton"
-      );
-
-
-    const submitButtonText =
-      document.getElementById(
-        "submitButtonText"
-      );
-
-
-    const submitArrow =
-      document.getElementById(
-        "submitArrow"
-      );
-
-
-    const submitSpinner =
-      document.getElementById(
-        "submitSpinner"
-      );
-
-
-    const registerAnotherButton =
-      document.getElementById(
-        "registerAnotherButton"
-      );
-
-
-    let statusNonce =
-      "";
-
-
-    let activeCallbackNonce =
-      "";
-
-
-    let submissionInProgress =
-      false;
-
-
-    let requestTimeout =
-      null;
-
-
-    let statusScript =
-      null;
-
+    let submissionInProgress = false;
+    let activeCallbackNonce = "";
 
     function createNonce() {
-
-      if (
-        window.crypto &&
-        window.crypto.getRandomValues
-      ) {
-
-        const values =
-          new Uint32Array(4);
-
-
-        window.crypto.getRandomValues(
-          values
-        );
-
-
-        return Array
-          .from(values)
-          .map(
-            function (value) {
-
-              return value
-                .toString(16)
-                .padStart(8, "0");
-
-            }
-          )
+      if (window.crypto && window.crypto.getRandomValues) {
+        const values = new Uint32Array(4);
+        window.crypto.getRandomValues(values);
+        return Array.from(values)
+          .map(value => value.toString(16).padStart(8, "0"))
           .join("");
-
       }
-
 
       return (
         Date.now().toString(36) +
         Math.random().toString(36).slice(2) +
         Math.random().toString(36).slice(2)
       );
-
     }
-
 
     function capitaliseName(value) {
-
-      return String(
-        value || ""
-      )
+      return String(value || "")
         .trim()
-        .replace(
-          /\s+/g,
-          " "
-        )
-        .replace(
-          /(^|[\s'-])([a-z])/g,
-          function (
-            match,
-            separator,
-            letter
-          ) {
-
-            return (
-              separator +
-              letter.toUpperCase()
-            );
-
-          }
-        );
-
+        .replace(/\s+/g, " ")
+        .replace(/(^|[\s'-])([a-z])/g, function (match, separator, letter) {
+          return separator + letter.toUpperCase();
+        });
     }
-
-
-    fullNameInput.addEventListener(
-      "blur",
-      function () {
-
-        fullNameInput.value =
-          capitaliseName(
-            fullNameInput.value
-          );
-
-      }
-    );
-
 
     function setMaximumDob() {
-
-      const now =
-        new Date();
-
-
-      const year =
-        now.getFullYear();
-
-
-      const month =
-        String(
-          now.getMonth() + 1
-        ).padStart(
-          2,
-          "0"
-        );
-
-
-      const day =
-        String(
-          now.getDate()
-        ).padStart(
-          2,
-          "0"
-        );
-
-
-      dateOfBirthInput.max =
-        `${year}-${month}-${day}`;
-
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      dateOfBirthInput.max = `${year}-${month}-${day}`;
     }
 
+    async function fetchJson(url, options = {}, timeoutMs = 55000) {
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), timeoutMs);
 
-    setMaximumDob();
+      try {
+        const response = await fetch(url, {
+          cache: "no-store",
+          ...options,
+          signal: controller.signal
+        });
 
+        let data;
+        try {
+          data = await response.json();
+        } catch (_) {
+          throw new Error("The Health Corner service returned an invalid response.");
+        }
 
-    function removeStatusScript() {
+        if (!response.ok) {
+          throw new Error(data.message || "The Health Corner service could not complete the request.");
+        }
 
-      if (
-        statusScript &&
-        statusScript.parentNode
-      ) {
-
-        statusScript.parentNode.removeChild(
-          statusScript
-        );
-
+        return data;
+      } finally {
+        window.clearTimeout(timer);
       }
-
-
-      statusScript =
-        null;
-
     }
-
 
     function hideRegistrationStates() {
-
-      registrationStatusLoading.classList.add(
-        "hidden"
-      );
-
-
-      registrationOpenContent.classList.add(
-        "hidden"
-      );
-
-
-      registrationClosedContent.classList.add(
-        "hidden"
-      );
-
-
-      registrationStatusError.classList.add(
-        "hidden"
-      );
-
+      registrationStatusLoading.classList.add("hidden");
+      registrationOpenContent.classList.add("hidden");
+      registrationClosedContent.classList.add("hidden");
+      registrationStatusError.classList.add("hidden");
     }
-
 
     function showRegistrationOpen() {
-
       hideRegistrationStates();
-
-
-      registrationOpenContent.classList.remove(
-        "hidden"
-      );
-
+      registrationOpenContent.classList.remove("hidden");
     }
-
 
     function showRegistrationClosed() {
-
       hideRegistrationStates();
-
-
-      registrationClosedContent.classList.remove(
-        "hidden"
-      );
-
+      registrationClosedContent.classList.remove("hidden");
     }
-
 
     function showStatusError() {
-
-      window.clearTimeout(
-        requestTimeout
-      );
-
-
-      removeStatusScript();
-
-
-      statusNonce =
-        "";
-
-
       hideRegistrationStates();
-
-
-      registrationStatusError.classList.remove(
-        "hidden"
-      );
-
+      registrationStatusError.classList.remove("hidden");
     }
 
+    async function checkRegistrationStatus() {
+      registrationStatusLoading.classList.remove("hidden");
+      registrationStatusError.classList.add("hidden");
 
-    /*
-     * MOBILE-SAFE JSONP STATUS CALLBACK
-     */
-    window.emergeRegistrationStatusCallback =
-      function (data) {
+      const nonce = createNonce();
+      const url =
+        APPS_SCRIPT_URL +
+        "?action=registrationStatus" +
+        "&callbackNonce=" + encodeURIComponent(nonce) +
+        "&_=" + Date.now();
+
+      try {
+        const data = await fetchJson(url, {}, 20000);
 
         if (
           !data ||
-          typeof data !==
-          "object"
+          data.source !== "EMERGE_HEALTH_CORNER" ||
+          data.type !== "REGISTRATION_STATUS_RESULT" ||
+          data.callbackNonce !== nonce
         ) {
-
-          return;
-
+          throw new Error("Registration status could not be verified.");
         }
 
-
-        if (
-          data.source !==
-          "EMERGE_HEALTH_CORNER"
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          data.type !==
-          "REGISTRATION_STATUS_RESULT"
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          !statusNonce ||
-          data.callbackNonce !==
-          statusNonce
-        ) {
-
-          return;
-
-        }
-
-
-        window.clearTimeout(
-          requestTimeout
-        );
-
-
-        removeStatusScript();
-
-
-        statusNonce =
-          "";
-
-
-        if (
-          data.registrationOpen ===
-          true
-        ) {
-
+        if (data.registrationOpen === true) {
           showRegistrationOpen();
-
-        }
-
-        else {
-
+        } else {
           showRegistrationClosed();
-
         }
-
-      };
-
-
-    function checkRegistrationStatus() {
-
-      removeStatusScript();
-
-
-      statusNonce =
-        createNonce();
-
-
-      const url =
-
-        APPS_SCRIPT_URL +
-
-        "?action=registrationStatus" +
-
-        "&prefix=emergeRegistrationStatusCallback" +
-
-        "&callbackNonce=" +
-
-        encodeURIComponent(
-          statusNonce
-        ) +
-
-        "&_=" +
-
-        Date.now();
-
-
-      statusScript =
-        document.createElement(
-          "script"
-        );
-
-
-      statusScript.async =
-        true;
-
-
-      statusScript.src =
-        url;
-
-
-      statusScript.onerror =
-        function () {
-
-          showStatusError();
-
-        };
-
-
-      document.head.appendChild(
-        statusScript
-      );
-
-
-      requestTimeout =
-        window.setTimeout(
-          function () {
-
-            showStatusError();
-
-          },
-          20000
-        );
-
+      } catch (error) {
+        console.error("Registration status check failed:", error);
+        showStatusError();
+      }
     }
-
 
     function setSubmitting(value) {
-
-      submitButton.disabled =
-        value;
-
+      submitButton.disabled = value;
 
       if (value) {
-
-        submitButton.classList.add(
-          "opacity-70",
-          "cursor-wait"
-        );
-
-
-        submitButtonText.textContent =
-          "SUBMITTING...";
-
-
-        submitArrow.classList.add(
-          "hidden"
-        );
-
-
-        submitSpinner.classList.remove(
-          "hidden"
-        );
-
+        submitButton.classList.add("opacity-70", "cursor-wait");
+        submitButtonText.textContent = "SUBMITTING...";
+        submitArrow.classList.add("hidden");
+        submitSpinner.classList.remove("hidden");
+      } else {
+        submitButton.classList.remove("opacity-70", "cursor-wait");
+        submitButtonText.textContent = "SUBMIT REGISTRATION";
+        submitArrow.classList.remove("hidden");
+        submitSpinner.classList.add("hidden");
       }
-
-      else {
-
-        submitButton.classList.remove(
-          "opacity-70",
-          "cursor-wait"
-        );
-
-
-        submitButtonText.textContent =
-          "SUBMIT REGISTRATION";
-
-
-        submitArrow.classList.remove(
-          "hidden"
-        );
-
-
-        submitSpinner.classList.add(
-          "hidden"
-        );
-
-      }
-
     }
-
 
     function showError(message) {
-
       registrationMessage.className =
         "block border border-status-invalid/50 bg-status-invalid/10 text-[#f0b8b8] p-4 text-sm";
-
-
-      registrationMessage.textContent =
-        message;
-
+      registrationMessage.textContent = message;
     }
-
 
     function clearSubmissionState() {
-
-      window.clearTimeout(
-        requestTimeout
-      );
-
-
-      submissionInProgress =
-        false;
-
-
-      activeCallbackNonce =
-        "";
-
-
-      callbackNonceInput.value =
-        "";
-
-
-      setSubmitting(
-        false
-      );
-
+      submissionInProgress = false;
+      activeCallbackNonce = "";
+      callbackNonceInput.value = "";
+      setSubmitting(false);
     }
 
-
-    healthCornerForm.addEventListener(
-      "submit",
-      function (event) {
-
-        if (
-          !healthCornerForm.checkValidity()
-        ) {
-
-          event.preventDefault();
-
-
-          healthCornerForm.reportValidity();
-
-
-          return;
-
-        }
-
-
-        if (
-          submissionInProgress
-        ) {
-
-          event.preventDefault();
-
-
-          return;
-
-        }
-
-
-        fullNameInput.value =
-          capitaliseName(
-            fullNameInput.value
-          );
-
-
-        activeCallbackNonce =
-          createNonce();
-
-
-        callbackNonceInput.value =
-          activeCallbackNonce;
-
-
-        registrationMessage.className =
-          "hidden";
-
-
-        registrationMessage.textContent =
-          "";
-
-
-        submissionInProgress =
-          true;
-
-
-        setSubmitting(
-          true
-        );
-
-
-        window.clearTimeout(
-          requestTimeout
-        );
-
-
-        requestTimeout =
-          window.setTimeout(
-            function () {
-
-              if (
-                !submissionInProgress
-              ) {
-
-                return;
-
-              }
-
-
-              clearSubmissionState();
-
-
-              showError(
-                "We could not confirm the registration response. Please do not immediately submit again. Check with the organiser if you are unsure whether the registration was received."
-              );
-
-            },
-            45000
-          );
-
-
-        /*
-         * Do NOT preventDefault.
-         *
-         * The POST continues into registrationReceiver.
-         */
-
+    function handleRegistrationResult(data) {
+      if (
+        !data ||
+        data.source !== "EMERGE_HEALTH_CORNER" ||
+        data.type !== "REGISTRATION_RESULT" ||
+        !activeCallbackNonce ||
+        data.callbackNonce !== activeCallbackNonce
+      ) {
+        throw new Error("The registration response could not be verified.");
       }
-    );
 
+      clearSubmissionState();
 
-    window.addEventListener(
-      "message",
-      function (event) {
-
-        const data =
-          event.data;
-
-
-        if (
-          !data ||
-          typeof data !==
-          "object"
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          data.source !==
-          "EMERGE_HEALTH_CORNER"
-        ) {
-
-          return;
-
-        }
-
-
-        /*
-         * STATUS is no longer received through postMessage.
-         * Only registration POST responses are handled here.
-         */
-
-        if (
-          data.type !==
-          "REGISTRATION_RESULT"
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          !activeCallbackNonce ||
-          !data.callbackNonce ||
-          data.callbackNonce !==
-          activeCallbackNonce
-        ) {
-
-          return;
-
-        }
-
-
-        clearSubmissionState();
-
-
-        if (
-          data.code ===
-          "REGISTRATION_CLOSED"
-        ) {
-
-          showRegistrationClosed();
-
-
-          return;
-
-        }
-
-
-        if (
-          data.success ===
-          true
-        ) {
-
-          document
-            .getElementById(
-              "successName"
-            )
-            .textContent =
-            data.fullName ||
-            "";
-
-
-          document
-            .getElementById(
-              "successRegistrationId"
-            )
-            .textContent =
-            data.registrationId ||
-            "";
-
-
-          document
-            .getElementById(
-              "successTier"
-            )
-            .textContent =
-            data.tier ||
-            "";
-
-
-          document
-            .getElementById(
-              "successStatus"
-            )
-            .textContent =
-            data.status ||
-            "VALID";
-
-
-          registrationIntro.classList.add(
-            "hidden"
-          );
-
-
-          registrationFormCard.classList.add(
-            "hidden"
-          );
-
-
-          registrationSuccess.classList.remove(
-            "hidden"
-          );
-
-
-          healthCornerForm.reset();
-
-
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-
-
-          return;
-
-        }
-
-
-        if (
-          data.code ===
-          "DUPLICATE_REGISTRATION"
-        ) {
-
-          let message =
-            "A registration matching these details already exists.";
-
-
-          if (
-            data.registrationId
-          ) {
-
-            message +=
-              " Existing Registration ID: " +
-              data.registrationId +
-              ".";
-
-          }
-
-
-          showError(
-            message
-          );
-
-
-          return;
-
-        }
-
-
-        showError(
-          data.message ||
-          "Registration could not be completed. Please try again."
-        );
-
+      if (data.code === "REGISTRATION_CLOSED") {
+        showRegistrationClosed();
+        return;
       }
-    );
 
+      if (data.success === true) {
+        document.getElementById("successName").textContent = data.fullName || "";
+        document.getElementById("successRegistrationId").textContent = data.registrationId || "";
+        document.getElementById("successTier").textContent = data.tier || "";
+        document.getElementById("successStatus").textContent = data.status || "VALID";
 
-    registerAnotherButton.addEventListener(
-      "click",
-      function () {
-
-        clearSubmissionState();
-
-
-        registrationSuccess.classList.add(
-          "hidden"
-        );
-
-
-        registrationIntro.classList.remove(
-          "hidden"
-        );
-
-
-        registrationFormCard.classList.remove(
-          "hidden"
-        );
-
-
-        registrationMessage.className =
-          "hidden";
-
-
-        registrationMessage.textContent =
-          "";
-
-
+        registrationIntro.classList.add("hidden");
+        registrationFormCard.classList.add("hidden");
+        registrationSuccess.classList.remove("hidden");
         healthCornerForm.reset();
-
-
         setMaximumDob();
-
-
-        /*
-         * Check the central switch again before
-         * showing another registration.
-         */
-        registrationOpenContent.classList.add(
-          "hidden"
-        );
-
-
-        registrationStatusLoading.classList.remove(
-          "hidden"
-        );
-
-
-        checkRegistrationStatus();
-
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
       }
-    );
 
+      if (data.code === "DUPLICATE_REGISTRATION") {
+        let message = "A registration matching these details already exists.";
+        if (data.registrationId) {
+          message += " Existing Registration ID: " + data.registrationId + ".";
+        }
+        showError(message);
+        return;
+      }
 
+      showError(data.message || "Registration could not be completed. Please try again.");
+    }
+
+    fullNameInput.addEventListener("blur", function () {
+      fullNameInput.value = capitaliseName(fullNameInput.value);
+    });
+
+    healthCornerForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      if (!healthCornerForm.checkValidity()) {
+        healthCornerForm.reportValidity();
+        return;
+      }
+
+      if (submissionInProgress) return;
+
+      fullNameInput.value = capitaliseName(fullNameInput.value);
+      activeCallbackNonce = createNonce();
+      callbackNonceInput.value = activeCallbackNonce;
+      registrationMessage.className = "hidden";
+      registrationMessage.textContent = "";
+      submissionInProgress = true;
+      setSubmitting(true);
+
+      try {
+        const body = new URLSearchParams();
+        new FormData(healthCornerForm).forEach((value, key) => {
+          body.append(key, String(value));
+        });
+
+        const data = await fetchJson(
+          APPS_SCRIPT_URL,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            },
+            body: body.toString()
+          },
+          55000
+        );
+
+        handleRegistrationResult(data);
+      } catch (error) {
+        console.error("Registration request failed:", error);
+        clearSubmissionState();
+        showError(
+          error && error.name === "AbortError"
+            ? "The registration service timed out. Please submit the same details again; duplicate protection will return the existing Registration ID if the first attempt was already saved."
+            : (error.message || "Registration could not be completed. Please try again.")
+        );
+      }
+    });
+
+    registerAnotherButton.addEventListener("click", function () {
+      clearSubmissionState();
+      registrationSuccess.classList.add("hidden");
+      registrationIntro.classList.remove("hidden");
+      registrationFormCard.classList.remove("hidden");
+      registrationMessage.className = "hidden";
+      registrationMessage.textContent = "";
+      healthCornerForm.reset();
+      setMaximumDob();
+      registrationOpenContent.classList.add("hidden");
+      registrationStatusLoading.classList.remove("hidden");
+      checkRegistrationStatus();
+    });
+
+    setMaximumDob();
     checkRegistrationStatus();
-
   </script>
+
 
 </body>
 

@@ -1340,346 +1340,96 @@
        MOBILE-SAFE JSONP REGISTRATION STATUS
        ===================================================== -->
 
+  
   <script>
+    const APPS_SCRIPT_URL = "/api/health-corner";
 
-    const APPS_SCRIPT_URL =
-      "/api/health-corner";
-
-
-    const statusLoading =
-      document.getElementById(
-        "statusLoading"
-      );
-
-
-    const registrationOpenPage =
-      document.getElementById(
-        "registrationOpenPage"
-      );
-
-
-    const registrationClosedPage =
-      document.getElementById(
-        "registrationClosedPage"
-      );
-
-
-    const statusErrorPage =
-      document.getElementById(
-        "statusErrorPage"
-      );
-
-
-    const headerRegisterLink =
-      document.getElementById(
-        "headerRegisterLink"
-      );
-
-
-    let statusNonce =
-      "";
-
-
-    let statusTimeout =
-      null;
-
-
-    let statusScript =
-      null;
-
+    const statusLoading = document.getElementById("statusLoading");
+    const registrationOpenPage = document.getElementById("registrationOpenPage");
+    const registrationClosedPage = document.getElementById("registrationClosedPage");
+    const statusErrorPage = document.getElementById("statusErrorPage");
+    const headerRegisterLink = document.getElementById("headerRegisterLink");
 
     function createNonce() {
-
-      if (
-        window.crypto &&
-        window.crypto.getRandomValues
-      ) {
-
-        const values =
-          new Uint32Array(4);
-
-
-        window.crypto.getRandomValues(
-          values
-        );
-
-
-        return Array
-          .from(values)
-          .map(
-            function (value) {
-
-              return value
-                .toString(16)
-                .padStart(8, "0");
-
-            }
-          )
+      if (window.crypto && window.crypto.getRandomValues) {
+        const values = new Uint32Array(4);
+        window.crypto.getRandomValues(values);
+        return Array.from(values)
+          .map(value => value.toString(16).padStart(8, "0"))
           .join("");
-
       }
-
-
-      return (
-        Date.now().toString(36) +
-        Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2)
-      );
-
+      return Date.now().toString(36) + Math.random().toString(36).slice(2);
     }
-
-
-    function removeStatusScript() {
-
-      if (
-        statusScript &&
-        statusScript.parentNode
-      ) {
-
-        statusScript.parentNode.removeChild(
-          statusScript
-        );
-
-      }
-
-
-      statusScript =
-        null;
-
-    }
-
 
     function hideAllStates() {
-
-      statusLoading.classList.add(
-        "hidden"
-      );
-
-
-      registrationOpenPage.classList.add(
-        "hidden"
-      );
-
-
-      registrationClosedPage.classList.add(
-        "hidden"
-      );
-
-
-      statusErrorPage.classList.add(
-        "hidden"
-      );
-
-
-      headerRegisterLink.classList.add(
-        "hidden"
-      );
-
+      statusLoading.classList.add("hidden");
+      registrationOpenPage.classList.add("hidden");
+      registrationClosedPage.classList.add("hidden");
+      statusErrorPage.classList.add("hidden");
+      headerRegisterLink.classList.add("hidden");
     }
-
 
     function showOpenState() {
-
       hideAllStates();
-
-
-      registrationOpenPage.classList.remove(
-        "hidden"
-      );
-
-
-      headerRegisterLink.classList.remove(
-        "hidden"
-      );
-
+      registrationOpenPage.classList.remove("hidden");
+      headerRegisterLink.classList.remove("hidden");
     }
-
 
     function showClosedState() {
-
       hideAllStates();
-
-
-      registrationClosedPage.classList.remove(
-        "hidden"
-      );
-
+      registrationClosedPage.classList.remove("hidden");
     }
-
 
     function showStatusError() {
-
-      window.clearTimeout(
-        statusTimeout
-      );
-
-
-      removeStatusScript();
-
-
-      statusNonce =
-        "";
-
-
       hideAllStates();
-
-
-      statusErrorPage.classList.remove(
-        "hidden"
-      );
-
+      statusErrorPage.classList.remove("hidden");
     }
 
+    async function checkRegistrationStatus() {
+      const nonce = createNonce();
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), 20000);
 
-    /*
-     * Apps Script JSONP calls this function.
-     */
-    window.emergeRegistrationStatusCallback =
-      function (data) {
-
-        if (
-          !data ||
-          typeof data !==
-          "object"
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          data.source !==
-          "EMERGE_HEALTH_CORNER"
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          data.type !==
-          "REGISTRATION_STATUS_RESULT"
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          !statusNonce ||
-          data.callbackNonce !==
-          statusNonce
-        ) {
-
-          return;
-
-        }
-
-
-        window.clearTimeout(
-          statusTimeout
-        );
-
-
-        removeStatusScript();
-
-
-        statusNonce =
-          "";
-
-
-        if (
-          data.registrationOpen ===
-          true
-        ) {
-
-          showOpenState();
-
-        }
-
-        else {
-
-          showClosedState();
-
-        }
-
-      };
-
-
-    function checkRegistrationStatus() {
-
-      removeStatusScript();
-
-
-      statusNonce =
-        createNonce();
-
-
-      const statusUrl =
-
+      const url =
         APPS_SCRIPT_URL +
-
         "?action=registrationStatus" +
+        "&callbackNonce=" + encodeURIComponent(nonce) +
+        "&_=" + Date.now();
 
-        "&prefix=emergeRegistrationStatusCallback" +
+      try {
+        const response = await fetch(url, {
+          cache: "no-store",
+          signal: controller.signal
+        });
 
-        "&callbackNonce=" +
+        const data = await response.json();
 
-        encodeURIComponent(
-          statusNonce
-        ) +
+        if (
+          !response.ok ||
+          !data ||
+          data.source !== "EMERGE_HEALTH_CORNER" ||
+          data.type !== "REGISTRATION_STATUS_RESULT" ||
+          data.callbackNonce !== nonce
+        ) {
+          throw new Error("Registration status could not be verified.");
+        }
 
-        "&_=" +
-
-        Date.now();
-
-
-      statusScript =
-        document.createElement(
-          "script"
-        );
-
-
-      statusScript.async =
-        true;
-
-
-      statusScript.src =
-        statusUrl;
-
-
-      statusScript.onerror =
-        function () {
-
-          showStatusError();
-
-        };
-
-
-      document.head.appendChild(
-        statusScript
-      );
-
-
-      statusTimeout =
-        window.setTimeout(
-          function () {
-
-            showStatusError();
-
-          },
-          20000
-        );
-
+        if (data.registrationOpen === true) {
+          showOpenState();
+        } else {
+          showClosedState();
+        }
+      } catch (error) {
+        console.error("Health Corner status check failed:", error);
+        showStatusError();
+      } finally {
+        window.clearTimeout(timer);
+      }
     }
-
 
     checkRegistrationStatus();
-
   </script>
+
 
 </body>
 

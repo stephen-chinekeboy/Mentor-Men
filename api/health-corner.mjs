@@ -1,1080 +1,275 @@
 /*
- * ============================================================
- * EMERGE 2026 — HEALTH CORNER
- * VERCEL → GOOGLE APPS SCRIPT BRIDGE
+ * EMERGE 2026 — Health Corner
+ * Same-origin JSON bridge for Vercel -> Google Apps Script.
  *
- * PRODUCTION CALLBACK-NORMALISING VERSION
- * ============================================================
- *
- * Browser:
- *   mentormenforum.org
- *
- *        ↓
- *
- * Vercel:
- *   /api/health-corner
- *
- *        ↓
- *
- * Google Apps Script
- *
- *        ↓
- *
- * Google Sheet
- *
- *
- * IMPORTANT:
- *
- * Google Apps Script HtmlService responses are designed to run
- * inside Google's own iframe/sandbox environment.
- *
- * When we proxy those responses through Vercel, we do NOT send
- * Google's full HtmlService document back to the Health Corner
- * iframe unchanged.
- *
- * Instead:
- *
- * 1. Vercel receives the Apps Script response.
- * 2. Vercel extracts our known `payload` object.
- * 3. Vercel generates a tiny same-origin callback page.
- * 4. That page postMessages directly to the Health Corner page.
- *
- * This preserves the existing frontend implementation while
- * removing the Google iframe/sandbox from the participant's
- * browser.
- *
- * ============================================================
+ * The browser never talks directly to script.google.com.
+ * The browser also never relies on hidden iframes, JSONP or postMessage
+ * for Health Corner backend results. This endpoint always returns JSON.
  */
-
 
 const APPS_SCRIPT_URL =
-    'https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec';
+  'https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec';
 
+const ALLOWED_GET_ACTIONS = new Set(['', 'registrationStatus', 'verify']);
+const ALLOWED_POST_ACTIONS = new Set(['', 'authorizeRedemption', 'redeem']);
 
-/*
- * ============================================================
- * ALLOWED OPERATIONS
- * ============================================================
- */
-
-const ALLOWED_GET_ACTIONS = new Set([
-    '',
-    'registrationStatus',
-    'verify'
-]);
-
-
-const ALLOWED_POST_ACTIONS = new Set([
-    '',
-    'authorizeRedemption',
-    'redeem'
-]);
-
-
-/*
- * ============================================================
- * RESPONSE HEADERS
- * ============================================================
- */
-
-function baseHeaders() {
-
-    return {
-        'cache-control':
-            'no-store, no-cache, must-revalidate, proxy-revalidate',
-
-        'pragma':
-            'no-cache',
-
-        'expires':
-            '0',
-
-        'x-content-type-options':
-            'nosniff',
-
-        'referrer-policy':
-            'no-referrer'
-    };
-
+function responseHeaders(extra = {}) {
+  return {
+    'content-type': 'application/json; charset=utf-8',
+    'cache-control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    pragma: 'no-cache',
+    expires: '0',
+    'x-content-type-options': 'nosniff',
+    'referrer-policy': 'no-referrer',
+    ...extra,
+  };
 }
 
-
-/*
- * ============================================================
- * JSON ERROR
- * ============================================================
- */
-
-function jsonError(
-    message,
-    status = 400
-) {
-
-    return new Response(
-        JSON.stringify({
-            success: false,
-            message
-        }),
-        {
-            status,
-
-            headers: {
-                ...baseHeaders(),
-
-                'content-type':
-                    'application/json; charset=utf-8'
-            }
-        }
-    );
-
+function jsonResponse(payload, status = 200, extraHeaders = {}) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: responseHeaders(extraHeaders),
+  });
 }
 
+function jsonError(message, status = 400, code = 'BRIDGE_ERROR') {
+  return jsonResponse({ success: false, code, message }, status);
+}
 
-/*
- * ============================================================
- * EXTRACT PAYLOAD FROM APPS SCRIPT HTML
- * ============================================================
- *
- * Our Apps Script iframeResponse_() produces:
- *
- *     const payload = {...};
- *
- * This parser finds that assignment and reads the JSON object
- * safely without relying on a fragile one-line regex.
- *
- * ============================================================
- */
+function extractBalancedObject(text, start) {
+  let depth = 0;
+  let insideString = false;
+  let escaped = false;
 
-function extractPayloadFromHtml(
-    html
-) {
+  for (let i = start; i < text.length; i += 1) {
+    const ch = text[i];
 
-    if (
-        !html ||
-        typeof html !== 'string'
-    ) {
-
-        return null;
-
+    if (insideString) {
+      if (escaped) {
+        escaped = false;
+      } else if (ch === '\\') {
+        escaped = true;
+      } else if (ch === '"') {
+        insideString = false;
+      }
+      continue;
     }
 
-
-    /*
-     * Find:
-     *
-     * const payload =
-     * let payload =
-     * var payload =
-     */
-
-    const markerMatch =
-        /(?:const|let|var)\s+payload\s*=/m.exec(
-            html
-        );
-
-
-    if (!markerMatch) {
-
-        return null;
-
+    if (ch === '"') {
+      insideString = true;
+      continue;
     }
 
-
-    let position =
-        markerMatch.index +
-        markerMatch[0].length;
-
-
-    /*
-     * Skip whitespace.
-     */
-
-    while (
-        position < html.length &&
-        /\s/.test(
-            html[position]
-        )
-    ) {
-
-        position++;
-
+    if (ch === '{') depth += 1;
+    if (ch === '}') {
+      depth -= 1;
+      if (depth === 0) return text.slice(start, i + 1);
     }
+  }
 
+  return null;
+}
 
-    /*
-     * The payload generated by our Apps Script is an object.
-     */
+function extractPayloadFromHtml(html) {
+  const marker = /(?:const|let|var)\s+payload\s*=/m.exec(html);
+  if (!marker) return null;
 
-    if (
-        html[position] !== '{'
-    ) {
+  const afterMarker = marker.index + marker[0].length;
+  const objectStart = html.indexOf('{', afterMarker);
+  if (objectStart === -1) return null;
 
-        return null;
+  const jsonText = extractBalancedObject(html, objectStart);
+  if (!jsonText) return null;
 
-    }
-
-
-    const start =
-        position;
-
-
-    let depth =
-        0;
-
-
-    let insideString =
-        false;
-
-
-    let escaped =
-        false;
-
-
-    for (
-        ;
-        position < html.length;
-        position++
-    ) {
-
-        const character =
-            html[position];
-
-
-        /*
-         * Inside JSON string.
-         */
-
-        if (insideString) {
-
-            if (escaped) {
-
-                escaped =
-                    false;
-
-
-                continue;
-
-            }
-
-
-            if (
-                character === '\\'
-            ) {
-
-                escaped =
-                    true;
-
-
-                continue;
-
-            }
-
-
-            if (
-                character === '"'
-            ) {
-
-                insideString =
-                    false;
-
-            }
-
-
-            continue;
-
-        }
-
-
-        /*
-         * Enter JSON string.
-         */
-
-        if (
-            character === '"'
-        ) {
-
-            insideString =
-                true;
-
-
-            continue;
-
-        }
-
-
-        /*
-         * Track nested objects.
-         */
-
-        if (
-            character === '{'
-        ) {
-
-            depth++;
-
-
-            continue;
-
-        }
-
-
-        if (
-            character === '}'
-        ) {
-
-            depth--;
-
-
-            /*
-             * End of root object.
-             */
-
-            if (
-                depth === 0
-            ) {
-
-                const jsonText =
-                    html.slice(
-                        start,
-                        position + 1
-                    );
-
-
-                try {
-
-                    return JSON.parse(
-                        jsonText
-                    );
-
-                }
-
-                catch (error) {
-
-                    console.error(
-                        'Health Corner payload JSON parse failed:',
-                        error
-                    );
-
-
-                    return null;
-
-                }
-
-            }
-
-        }
-
-    }
-
-
+  try {
+    return JSON.parse(jsonText);
+  } catch {
     return null;
-
+  }
 }
 
+function extractPayloadFromJsonp(text) {
+  const firstParen = text.indexOf('(');
+  const lastParen = text.lastIndexOf(')');
+  if (firstParen === -1 || lastParen <= firstParen) return null;
 
-/*
- * ============================================================
- * SAFE JSON FOR INLINE SCRIPT
- * ============================================================
- */
-
-function safeInlineJson(
-    payload
-) {
-
-    return JSON
-        .stringify(
-            payload
-        )
-
-        /*
-         * Prevent user-provided text from terminating the
-         * script element or creating markup.
-         */
-
-        .replace(
-            /</g,
-            '\\u003c'
-        )
-
-        .replace(
-            />/g,
-            '\\u003e'
-        )
-
-        .replace(
-            /&/g,
-            '\\u0026'
-        )
-
-        .replace(
-            /\u2028/g,
-            '\\u2028'
-        )
-
-        .replace(
-            /\u2029/g,
-            '\\u2029'
-        );
-
-}
-
-
-/*
- * ============================================================
- * CLEAN SAME-ORIGIN CALLBACK PAGE
- * ============================================================
- */
-
-function createCallbackHtml(
-    payload
-) {
-
-    const safePayload =
-        safeInlineJson(
-            payload
-        );
-
-
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-  <title>Health Corner Response</title>
-</head>
-
-<body>
-
-<script>
-(function () {
-
-  const payload =
-    ${safePayload};
-
-
-  /*
-   * This page is loaded directly inside the hidden iframe
-   * belonging to mentormenforum.org.
-   *
-   * Its parent is therefore the actual Health Corner page.
-   */
+  const inside = text.slice(firstParen + 1, lastParen).trim();
+  if (!inside.startsWith('{')) return null;
 
   try {
-
-    window.parent.postMessage(
-      payload,
-      '*'
-    );
-
+    return JSON.parse(inside);
+  } catch {
+    return null;
   }
+}
 
-  catch (error) {}
-
-
-  /*
-   * Normally parent === top here.
-   *
-   * Keep this fallback in case the page is ever nested
-   * one level differently.
-   */
+function parseUpstreamPayload(text) {
+  const trimmed = String(text || '').trim();
+  if (!trimmed) return null;
 
   try {
-
-    if (
-      window.top !==
-      window.parent
-    ) {
-
-      window.top.postMessage(
-        payload,
-        '*'
-      );
-
-    }
-
+    const json = JSON.parse(trimmed);
+    if (json && typeof json === 'object') return json;
+  } catch {
+    // Not raw JSON; continue.
   }
 
-  catch (error) {}
+  const htmlPayload = extractPayloadFromHtml(trimmed);
+  if (htmlPayload) return htmlPayload;
 
-})();
-<\/script>
+  const jsonpPayload = extractPayloadFromJsonp(trimmed);
+  if (jsonpPayload) return jsonpPayload;
 
-</body>
-</html>`;
-
+  return null;
 }
 
+function getBodyAction(contentType, body) {
+  if (!body) return '';
 
-/*
- * ============================================================
- * READ POST ACTION
- * ============================================================
- */
-
-function getPostAction(
-    contentType,
-    body
-) {
-
-    if (
-        !body
-    ) {
-
-        return '';
-
+  if (contentType.startsWith('application/x-www-form-urlencoded')) {
+    try {
+      return String(new URLSearchParams(body).get('action') || '').trim();
+    } catch {
+      return '';
     }
+  }
 
-
-    if (
-        contentType.startsWith(
-            'application/x-www-form-urlencoded'
-        )
-    ) {
-
-        try {
-
-            const params =
-                new URLSearchParams(
-                    body
-                );
-
-
-            return String(
-                params.get(
-                    'action'
-                ) ||
-                ''
-            ).trim();
-
-        }
-
-        catch (_) {
-
-            return '';
-
-        }
-
+  if (contentType.startsWith('application/json')) {
+    try {
+      return String(JSON.parse(body).action || '').trim();
+    } catch {
+      return '';
     }
+  }
 
-
-    if (
-        contentType.startsWith(
-            'application/json'
-        )
-    ) {
-
-        try {
-
-            const data =
-                JSON.parse(
-                    body
-                );
-
-
-            return String(
-                data.action ||
-                ''
-            ).trim();
-
-        }
-
-        catch (_) {
-
-            return '';
-
-        }
-
-    }
-
-
-    return '';
-
+  return '';
 }
-
-
-/*
- * ============================================================
- * MAIN VERCEL FUNCTION
- * ============================================================
- */
 
 export default {
-
-    async fetch(
-        request
-    ) {
-
-        const startedAt =
-            Date.now();
-
-
-        const method =
-            request.method.toUpperCase();
-
-
-        /*
-         * We require only GET and POST.
-         */
-
-        if (
-            method !== 'GET' &&
-            method !== 'POST'
-        ) {
-
-            return jsonError(
-                'Method not allowed.',
-                405
-            );
-
-        }
-
-
-        const incomingUrl =
-            new URL(
-                request.url
-            );
-
-
-        /*
-         * ========================================================
-         * READ REQUEST BODY
-         * ========================================================
-         */
-
-        let upstreamBody;
-
-
-        let contentType =
-            '';
-
-
-        let bodyAction =
-            '';
-
-
-        if (
-            method === 'POST'
-        ) {
-
-            contentType =
-                request.headers.get(
-                    'content-type'
-                ) ||
-                'application/x-www-form-urlencoded';
-
-
-            const supported =
-
-                contentType.startsWith(
-                    'application/x-www-form-urlencoded'
-                )
-
-                ||
-
-                contentType.startsWith(
-                    'application/json'
-                )
-
-                ||
-
-                contentType.startsWith(
-                    'text/plain'
-                );
-
-
-            if (!supported) {
-
-                return jsonError(
-                    'Unsupported request content type.',
-                    415
-                );
-
-            }
-
-
-            upstreamBody =
-                await request.text();
-
-
-            bodyAction =
-                getPostAction(
-                    contentType,
-                    upstreamBody
-                );
-
-        }
-
-
-        /*
-         * ========================================================
-         * ACTION
-         * ========================================================
-         */
-
-        const queryAction =
-            String(
-                incomingUrl.searchParams.get(
-                    'action'
-                ) ||
-                ''
-            ).trim();
-
-
-        /*
-         * For form posts, Apps Script action may be in the body.
-         */
-
-        const action =
-            queryAction ||
-            bodyAction ||
-            '';
-
-
-        /*
-         * ========================================================
-         * ALLOWLIST
-         * ========================================================
-         */
-
-        if (
-            method === 'GET' &&
-            !ALLOWED_GET_ACTIONS.has(
-                action
-            )
-        ) {
-
-            return jsonError(
-                'Unsupported Health Corner request.',
-                400
-            );
-
-        }
-
-
-        if (
-            method === 'POST' &&
-            !ALLOWED_POST_ACTIONS.has(
-                action
-            )
-        ) {
-
-            return jsonError(
-                'Unsupported Health Corner request.',
-                400
-            );
-
-        }
-
-
-        /*
-         * ========================================================
-         * BUILD APPS SCRIPT URL
-         * ========================================================
-         */
-
-        const upstreamUrl =
-            new URL(
-                APPS_SCRIPT_URL
-            );
-
-
-        /*
-         * Preserve every query parameter supplied by the
-         * existing frontend.
-         */
-
-        incomingUrl.searchParams.forEach(
-            (value, key) => {
-
-                upstreamUrl.searchParams.append(
-                    key,
-                    value
-                );
-
-            }
-        );
-
-
-        /*
-         * ========================================================
-         * UPSTREAM HEADERS
-         * ========================================================
-         */
-
-        const upstreamHeaders =
-            new Headers();
-
-
-        if (
-            method === 'POST'
-        ) {
-
-            upstreamHeaders.set(
-                'content-type',
-                contentType
-            );
-
-        }
-
-
-        /*
-         * ========================================================
-         * TIMEOUT
-         * ========================================================
-         *
-         * This is intentionally longer than the old 25 second
-         * bridge timeout.
-         *
-         * Normal requests should finish much sooner.
-         */
-
-        const controller =
-            new AbortController();
-
-
-        const timeout =
-            setTimeout(
-                () => {
-
-                    controller.abort();
-
-                },
-                40000
-            );
-
-
-        let upstreamResponse;
-
-
-        try {
-
-            upstreamResponse =
-                await fetch(
-                    upstreamUrl.toString(),
-                    {
-                        method,
-
-                        headers:
-                            upstreamHeaders,
-
-                        body:
-                            method === 'POST'
-                                ? upstreamBody
-                                : undefined,
-
-                        /*
-                         * Google ContentService and web-app responses
-                         * can redirect to googleusercontent.com.
-                         *
-                         * Vercel follows that redirect server-side.
-                         */
-
-                        redirect:
-                            'follow',
-
-                        signal:
-                            controller.signal
-                    }
-                );
-
-        }
-
-        catch (error) {
-
-            clearTimeout(
-                timeout
-            );
-
-
-            console.error(
-                'Health Corner Apps Script request failed:',
-                error
-            );
-
-
-            if (
-                error &&
-                error.name ===
-                'AbortError'
-            ) {
-
-                return jsonError(
-                    'The Health Corner service took too long to respond. Please try again.',
-                    504
-                );
-
-            }
-
-
-            return jsonError(
-                'The Health Corner service is temporarily unavailable.',
-                502
-            );
-
-        }
-
-
-        clearTimeout(
-            timeout
-        );
-
-
-        /*
-         * ========================================================
-         * READ APPS SCRIPT RESPONSE
-         * ========================================================
-         */
-
-        let upstreamText;
-
-
-        try {
-
-            upstreamText =
-                await upstreamResponse.text();
-
-        }
-
-        catch (error) {
-
-            console.error(
-                'Health Corner response could not be read:',
-                error
-            );
-
-
-            return jsonError(
-                'The Health Corner service returned an unreadable response.',
-                502
-            );
-
-        }
-
-
-        const upstreamContentType =
-            String(
-                upstreamResponse.headers.get(
-                    'content-type'
-                ) ||
-                ''
-            ).toLowerCase();
-
-
-        /*
-         * ========================================================
-         * NORMALISE HTMLSERVICE CALLBACK RESPONSES
-         * ========================================================
-         *
-         * Registration
-         * Verification
-         * Hospital authorisation
-         * Redemption
-         *
-         * all currently return an Apps Script HtmlService document
-         * containing our known payload object.
-         *
-         * Extract the payload server-side and create a tiny direct
-         * callback page instead.
-         */
-
-        if (
-            upstreamContentType.includes(
-                'text/html'
-            )
-
-            ||
-
-            upstreamText.includes(
-                'payload'
-            )
-        ) {
-
-            const payload =
-                extractPayloadFromHtml(
-                    upstreamText
-                );
-
-
-            if (payload) {
-
-                const callbackHtml =
-                    createCallbackHtml(
-                        payload
-                    );
-
-
-                return new Response(
-                    callbackHtml,
-                    {
-                        status:
-                            upstreamResponse.ok
-                                ? 200
-                                : upstreamResponse.status,
-
-                        headers: {
-                            ...baseHeaders(),
-
-                            'content-type':
-                                'text/html; charset=utf-8',
-
-                            'x-health-corner-response':
-                                'normalised',
-
-                            'x-health-corner-upstream-ms':
-                                String(
-                                    Date.now() -
-                                    startedAt
-                                )
-                        }
-                    }
-                );
-
-            }
-
-        }
-
-
-        /*
-         * ========================================================
-         * PASSTHROUGH
-         * ========================================================
-         *
-         * This covers:
-         *
-         * - backend JSON health check
-         * - registration-status JSONP
-         * - any legitimate non-HtmlService response
-         */
-
-        return new Response(
-            upstreamText,
-            {
-                status:
-                    upstreamResponse.status,
-
-                headers: {
-                    ...baseHeaders(),
-
-                    'content-type':
-                        upstreamContentType ||
-                        'text/plain; charset=utf-8',
-
-                    'x-health-corner-response':
-                        'passthrough',
-
-                    'x-health-corner-upstream-ms':
-                        String(
-                            Date.now() -
-                            startedAt
-                        )
-                }
-            }
-        );
-
+  async fetch(request) {
+    const startedAt = Date.now();
+    const method = request.method.toUpperCase();
+
+    if (method !== 'GET' && method !== 'POST') {
+      return jsonError('Method not allowed.', 405, 'METHOD_NOT_ALLOWED');
     }
 
+    const incomingUrl = new URL(request.url);
+    let upstreamBody;
+    let contentType = '';
+    let bodyAction = '';
+
+    if (method === 'POST') {
+      contentType =
+        request.headers.get('content-type') ||
+        'application/x-www-form-urlencoded;charset=UTF-8';
+
+      const supported =
+        contentType.startsWith('application/x-www-form-urlencoded') ||
+        contentType.startsWith('application/json') ||
+        contentType.startsWith('text/plain');
+
+      if (!supported) {
+        return jsonError(
+          'Unsupported request content type.',
+          415,
+          'UNSUPPORTED_CONTENT_TYPE',
+        );
+      }
+
+      upstreamBody = await request.text();
+      bodyAction = getBodyAction(contentType, upstreamBody);
+    }
+
+    const queryAction = String(incomingUrl.searchParams.get('action') || '').trim();
+    const action = queryAction || bodyAction || '';
+
+    if (method === 'GET' && !ALLOWED_GET_ACTIONS.has(action)) {
+      return jsonError('Unsupported Health Corner request.', 400, 'UNSUPPORTED_ACTION');
+    }
+
+    if (method === 'POST' && !ALLOWED_POST_ACTIONS.has(action)) {
+      return jsonError('Unsupported Health Corner request.', 400, 'UNSUPPORTED_ACTION');
+    }
+
+    const upstreamUrl = new URL(APPS_SCRIPT_URL);
+    incomingUrl.searchParams.forEach((value, key) => {
+      // The bridge itself no longer uses JSONP.
+      if (key !== 'prefix') upstreamUrl.searchParams.append(key, value);
+    });
+
+    const upstreamHeaders = new Headers();
+    if (method === 'POST') upstreamHeaders.set('content-type', contentType);
+
+    // Keep the upstream timeout below the Vercel function's configured
+    // 60-second maximum so we can return a controlled JSON error.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 50000);
+
+    let upstreamResponse;
+    try {
+      upstreamResponse = await fetch(upstreamUrl.toString(), {
+        method,
+        headers: upstreamHeaders,
+        body: method === 'POST' ? upstreamBody : undefined,
+        redirect: 'follow',
+        cache: 'no-store',
+        signal: controller.signal,
+      });
+    } catch (error) {
+      clearTimeout(timeout);
+
+      if (error && error.name === 'AbortError') {
+        return jsonError(
+          'The Health Corner backend took too long to respond. Please try again.',
+          504,
+          'UPSTREAM_TIMEOUT',
+        );
+      }
+
+      return jsonError(
+        'The Health Corner backend is temporarily unavailable.',
+        502,
+        'UPSTREAM_UNAVAILABLE',
+      );
+    }
+
+    clearTimeout(timeout);
+
+    let upstreamText;
+    try {
+      upstreamText = await upstreamResponse.text();
+    } catch {
+      return jsonError(
+        'The Health Corner backend returned an unreadable response.',
+        502,
+        'UPSTREAM_UNREADABLE',
+      );
+    }
+
+    const payload = parseUpstreamPayload(upstreamText);
+
+    if (!payload) {
+      console.error('Health Corner upstream response could not be normalised', {
+        status: upstreamResponse.status,
+        contentType: upstreamResponse.headers.get('content-type') || '',
+        length: upstreamText.length,
+        elapsedMs: Date.now() - startedAt,
+      });
+
+      return jsonError(
+        'The Health Corner backend returned an unexpected response.',
+        502,
+        'UPSTREAM_BAD_RESPONSE',
+      );
+    }
+
+    return jsonResponse(
+      payload,
+      upstreamResponse.ok ? 200 : upstreamResponse.status,
+      {
+        'x-health-corner-upstream-ms': String(Date.now() - startedAt),
+      },
+    );
+  },
 };

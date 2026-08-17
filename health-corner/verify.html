@@ -2449,74 +2449,196 @@
            POST TO APPS SCRIPT
            ===================================================== */
 
-        function postToBackend(
+        async function postToBackend(
             values
         ) {
 
-            const form =
-                document.createElement(
-                    "form"
-                );
-
-
-            form.method =
-                "POST";
-
-
-            form.action =
-                APPS_SCRIPT_URL;
-
-
-            form.target =
-                "backendReceiver";
+            const body =
+                new URLSearchParams();
 
 
             Object
-                .entries(
-                    values
-                )
+                .entries(values)
                 .forEach(
                     ([key, value]) => {
 
-                        const input =
-                            document.createElement(
-                                "input"
-                            );
-
-
-                        input.type =
-                            "hidden";
-
-
-                        input.name =
-                            key;
-
-
-                        input.value =
+                        body.append(
+                            key,
                             value == null
                                 ? ""
-                                : String(
-                                    value
-                                );
-
-
-                        form.appendChild(
-                            input
+                                : String(value)
                         );
 
                     }
                 );
 
 
-            document.body.appendChild(
-                form
-            );
+            const controller =
+                new AbortController();
 
 
-            form.submit();
+            const hardTimeout =
+                setTimeout(
+                    () => controller.abort(),
+                    52000
+                );
 
 
-            form.remove();
+            try {
+
+                const response =
+                    await fetch(
+                        APPS_SCRIPT_URL,
+                        {
+                            method:
+                                "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/x-www-form-urlencoded;charset=UTF-8"
+                            },
+
+                            body:
+                                body.toString(),
+
+                            cache:
+                                "no-store",
+
+                            signal:
+                                controller.signal
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "The Health Corner service could not complete the request."
+                    );
+
+                }
+
+
+                /*
+                 * Keep the existing response-handling code intact.
+                 * We feed the JSON result into the same handler by
+                 * dispatching a local MessageEvent.
+                 */
+                window.dispatchEvent(
+                    new MessageEvent(
+                        "message",
+                        {
+                            data:
+                                data
+                        }
+                    )
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Health Corner POST failed:",
+                    error
+                );
+
+
+                const action =
+                    String(
+                        values.action ||
+                        ""
+                    );
+
+
+                if (
+                    action ===
+                    "authorizeRedemption"
+                ) {
+
+                    window.dispatchEvent(
+                        new MessageEvent(
+                            "message",
+                            {
+                                data: {
+                                    source:
+                                        "EMERGE_HEALTH_CORNER",
+
+                                    type:
+                                        "REDEMPTION_AUTH_RESULT",
+
+                                    callbackNonce:
+                                        values.callbackNonce ||
+                                        "",
+
+                                    success:
+                                        false,
+
+                                    code:
+                                        "NETWORK_ERROR",
+
+                                    message:
+                                        error.message ||
+                                        "Hospital authorisation could not be completed. Please try again."
+                                }
+                            }
+                        )
+                    );
+
+                }
+
+                else if (
+                    action ===
+                    "redeem"
+                ) {
+
+                    window.dispatchEvent(
+                        new MessageEvent(
+                            "message",
+                            {
+                                data: {
+                                    source:
+                                        "EMERGE_HEALTH_CORNER",
+
+                                    type:
+                                        "REDEMPTION_RESULT",
+
+                                    callbackNonce:
+                                        values.callbackNonce ||
+                                        "",
+
+                                    success:
+                                        false,
+
+                                    code:
+                                        "NETWORK_ERROR",
+
+                                    message:
+                                        error.message ||
+                                        "The benefit could not be redeemed. Please try again."
+                                }
+                            }
+                        )
+                    );
+
+                }
+
+            }
+
+            finally {
+
+                clearTimeout(
+                    hardTimeout
+                );
+
+            }
 
         }
 
@@ -2525,17 +2647,15 @@
            INITIAL VERIFICATION
            ===================================================== */
 
-        function beginVerification() {
+        async function beginVerification() {
 
             if (
                 !qrToken
             ) {
 
                 showVerification({
-
                     verificationState:
                         "INVALID"
-
                 });
 
 
@@ -2546,6 +2666,10 @@
 
             verificationNonce =
                 createNonce();
+
+
+            const currentNonce =
+                verificationNonce;
 
 
             const url =
@@ -2563,29 +2687,141 @@
                 "&callbackNonce=" +
 
                 encodeURIComponent(
-                    verificationNonce
+                    currentNonce
+                ) +
+
+                "&_=" +
+
+                Date.now();
+
+
+            const controller =
+                new AbortController();
+
+
+            const hardTimeout =
+                setTimeout(
+                    () => controller.abort(),
+                    52000
                 );
 
 
-            document
-                .getElementById(
-                    "backendReceiver"
-                )
-                .src =
-                url;
+            clearTimeout(
+                responseTimeout
+            );
 
 
             responseTimeout =
                 setTimeout(
                     function () {
 
+                        if (
+                            verificationNonce !==
+                            currentNonce
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        verificationNonce =
+                            "";
+
+
                         showSystemError(
-                            "Verification is taking longer than expected. Please check your connection and try again."
+                            "Verification is temporarily unavailable. Please try again."
                         );
 
                     },
-                    30000
+                    55000
                 );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            cache:
+                                "no-store",
+
+                            signal:
+                                controller.signal
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data ||
+                    data.source !==
+                    "EMERGE_HEALTH_CORNER" ||
+                    data.type !==
+                    "VERIFICATION_RESULT" ||
+                    data.callbackNonce !==
+                    currentNonce
+                ) {
+
+                    throw new Error(
+                        data && data.message
+                            ? data.message
+                            : "Verification could not be completed."
+                    );
+
+                }
+
+
+                window.dispatchEvent(
+                    new MessageEvent(
+                        "message",
+                        {
+                            data:
+                                data
+                        }
+                    )
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Health Corner verification failed:",
+                    error
+                );
+
+
+                if (
+                    verificationNonce ===
+                    currentNonce
+                ) {
+
+                    verificationNonce =
+                        "";
+
+
+                    showSystemError(
+                        error.message ||
+                        "Verification is temporarily unavailable. Please try again."
+                    );
+
+                }
+
+            }
+
+            finally {
+
+                clearTimeout(
+                    hardTimeout
+                );
+
+            }
 
         }
 
@@ -3236,7 +3472,7 @@
                             );
 
                         },
-                        30000
+                        55000
                     );
 
             }
@@ -3434,7 +3670,7 @@
                             );
 
                         },
-                        30000
+                        55000
                     );
 
             }
