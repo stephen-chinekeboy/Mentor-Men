@@ -5,53 +5,29 @@
 
   <meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="description"
-    content="EMERGE 2026 Health Corner — register for the 30% healthcare discount benefit."
-  >
+  <meta name="description" content="EMERGE 2026 Health Corner — register for the 30% healthcare discount benefit.">
 
   <title>
     Health Corner - EMERGE 2026
   </title>
 
 
-  <!-- Tailwind -->
-
-  <script
-    src="https://cdn.tailwindcss.com?plugins=forms,container-queries"
-  ></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
 
-  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&display=swap"
-    rel="stylesheet"
-  >
+    rel="stylesheet">
 
 
-  <!-- Material Symbols -->
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet">
 
 
   <script>
@@ -81,9 +57,6 @@
 
             "surface-container":
               "#1e2020",
-
-            "surface-container-high":
-              "#282a2b",
 
             "surface-variant":
               "#333535",
@@ -145,19 +118,15 @@
 
 
   <style>
-
     html {
-      scroll-behavior:
-        smooth;
+      scroll-behavior: smooth;
     }
 
 
     body {
-
       font-family:
         Inter,
         sans-serif;
-
     }
 
 
@@ -165,17 +134,13 @@
 
       background-image:
 
-        radial-gradient(
-          circle at 10% 15%,
+        radial-gradient(circle at 10% 15%,
           rgba(212, 175, 55, 0.06),
-          transparent 25%
-        ),
+          transparent 25%),
 
-        radial-gradient(
-          circle at 90% 80%,
+        radial-gradient(circle at 90% 80%,
           rgba(142, 15, 40, 0.08),
-          transparent 28%
-        );
+          transparent 28%);
 
     }
 
@@ -184,11 +149,9 @@
 
       background-image:
 
-        radial-gradient(
-          circle at 2px 2px,
+        radial-gradient(circle at 2px 2px,
           rgba(212, 175, 55, 0.045) 1px,
-          transparent 0
-        );
+          transparent 0);
 
       background-size:
         24px 24px;
@@ -222,10 +185,8 @@
     @keyframes spin {
 
       to {
-
         transform:
           rotate(360deg);
-
       }
 
     }
@@ -249,14 +210,12 @@
         translateY(-3px);
 
     }
-
   </style>
 
 </head>
 
 
-<body
-  class="
+<body class="
     bg-background
     text-on-surface
     min-h-screen
@@ -265,16 +224,12 @@
     antialiased
     health-background
     dot-pattern
-  "
->
+  ">
 
 
-  <!-- =====================================================
-       HEADER
-       ===================================================== -->
+  <!-- HEADER -->
 
-  <header
-    class="
+  <header class="
       bg-background/95
       backdrop-blur
       border-b
@@ -282,11 +237,9 @@
       sticky
       top-0
       z-50
-    "
-  >
+    ">
 
-    <div
-      class="
+    <div class="
         w-full
         max-w-[1200px]
         mx-auto
@@ -296,38 +249,28 @@
         flex
         items-center
         justify-between
-      "
-    >
+      ">
 
-      <a
-        href="../index.html#emerge-2026"
-
-        class="
+      <a href="../index.html#emerge-2026" class="
           font-display
           font-bold
           text-primary
           text-xl
           md:text-2xl
           tracking-wider
-        "
-      >
+        ">
         EMERGE 2026
       </a>
 
 
-      <nav
-        class="
+      <nav class="
           hidden
           md:flex
           items-center
           gap-8
-        "
-      >
+        ">
 
-        <a
-          href="index.html"
-
-          class="
+        <a href="index.html" class="
             text-primary
             text-xs
             uppercase
@@ -336,17 +279,12 @@
             border-b
             border-primary
             pb-1
-          "
-        >
+          ">
           Health Corner
         </a>
 
 
-        <a
-          id="headerRegisterLink"
-          href="register.html"
-
-          class="
+        <a id="headerRegisterLink" href="register.html" class="
             hidden
             text-on-surface-variant
             hover:text-primary
@@ -355,16 +293,12 @@
             tracking-[0.14em]
             font-semibold
             transition-colors
-          "
-        >
+          ">
           Register
         </a>
 
 
-        <a
-          href="../index.html"
-
-          class="
+        <a href="../index.html" class="
             text-on-surface-variant
             hover:text-primary
             text-xs
@@ -372,30 +306,21 @@
             tracking-[0.14em]
             font-semibold
             transition-colors
-          "
-        >
+          ">
           Mentor Men Website
         </a>
 
       </nav>
 
 
-      <a
-        href="../index.html"
-
-        class="
+      <a href="../index.html" class="
           md:hidden
           text-on-surface-variant
           hover:text-primary
           transition-colors
-        "
+        " aria-label="Return to Mentor Men website">
 
-        aria-label="Return to Mentor Men website"
-      >
-
-        <span
-          class="material-symbols-outlined"
-        >
+        <span class="material-symbols-outlined">
           home
         </span>
 
@@ -406,69 +331,53 @@
   </header>
 
 
-  <!-- =====================================================
-       STATUS CHECK
-       ===================================================== -->
+  <!-- STATUS LOADING -->
 
-  <main
-    id="statusLoading"
-
-    class="
+  <main id="statusLoading" class="
       flex-grow
       flex
       items-center
       justify-center
       px-5
       py-20
-    "
-  >
+    ">
 
-    <div
-      class="
+    <div class="
         text-center
         max-w-md
-      "
-    >
+      ">
 
-      <div
-        class="
+      <div class="
           loader
           mx-auto
           mb-6
-        "
-      ></div>
+        "></div>
 
 
-      <div
-        class="
+      <div class="
           text-primary
           text-xs
           uppercase
           tracking-[0.18em]
           font-bold
-        "
-      >
+        ">
         EMERGE 2026
       </div>
 
 
-      <h1
-        class="
+      <h1 class="
           font-display
           text-3xl
           mt-3
-        "
-      >
+        ">
         Health Corner
       </h1>
 
 
-      <p
-        class="
+      <p class="
           text-on-surface-variant
           mt-4
-        "
-      >
+        ">
         Checking Health Corner registration status...
       </p>
 
@@ -477,30 +386,20 @@
   </main>
 
 
-  <!-- =====================================================
-       REGISTRATION OPEN
-       ===================================================== -->
+  <!-- REGISTRATION OPEN -->
 
-  <main
-    id="registrationOpenPage"
-    class="
+  <main id="registrationOpenPage" class="
       hidden
       flex-grow
-    "
-  >
+    ">
 
 
-    <!-- HERO -->
-
-    <section
-      class="
+    <section class="
         relative
         overflow-hidden
-      "
-    >
+      ">
 
-      <div
-        class="
+      <div class="
           w-full
           max-w-[1200px]
           mx-auto
@@ -510,20 +409,16 @@
           md:pt-20
           pb-16
           md:pb-24
-        "
-      >
+        ">
 
 
-        <div
-          class="
+        <div class="
             flex
             justify-center
             mb-7
-          "
-        >
+          ">
 
-          <div
-            class="
+          <div class="
               inline-flex
               items-center
               gap-2
@@ -533,29 +428,24 @@
               px-4
               py-2
               rounded-full
-            "
-          >
+            ">
 
-            <span
-              class="
+            <span class="
                 w-2
                 h-2
                 rounded-full
                 bg-status-valid
                 animate-pulse
-              "
-            ></span>
+              "></span>
 
 
-            <span
-              class="
+            <span class="
                 text-status-valid
                 text-xs
                 uppercase
                 tracking-[0.14em]
                 font-semibold
-              "
-            >
+              ">
               Registration Open
             </span>
 
@@ -564,57 +454,48 @@
         </div>
 
 
-        <div
-          class="
+        <div class="
             text-center
             max-w-3xl
             mx-auto
-          "
-        >
+          ">
 
-          <div
-            class="
+          <div class="
               text-primary-container
               text-xs
               uppercase
               tracking-[0.2em]
               font-bold
               mb-5
-            "
-          >
+            ">
             EMERGE 2026
           </div>
 
 
-          <h1
-            class="
+          <h1 class="
               font-display
               text-[42px]
               leading-[48px]
               sm:text-5xl
               md:text-6xl
               font-bold
-            "
-          >
+            ">
             Health Corner
           </h1>
 
 
-          <h2
-            class="
+          <h2 class="
               font-display
               text-xl
               md:text-2xl
               text-on-surface-variant
               mt-4
-            "
-          >
+            ">
             Men's Lives and the Curves
           </h2>
 
 
-          <div
-            class="
+          <div class="
               inline-flex
               items-center
               gap-3
@@ -626,36 +507,30 @@
               py-4
               mt-8
               rounded-lg
-            "
-          >
+            ">
 
-            <span
-              class="
+            <span class="
                 material-symbols-outlined
                 text-primary
-              "
-            >
+              ">
               health_and_safety
             </span>
 
 
-            <span
-              class="
+            <span class="
                 text-primary
                 text-sm
                 sm:text-base
                 font-bold
                 tracking-[0.08em]
-              "
-            >
+              ">
               30% HEALTHCARE DISCOUNT
             </span>
 
           </div>
 
 
-          <p
-            class="
+          <p class="
               text-on-surface-variant
               text-base
               md:text-lg
@@ -664,29 +539,23 @@
               max-w-2xl
               mx-auto
               mt-7
-            "
-          >
+            ">
             Eligible EMERGE 2026 participants can register for
             the Health Corner benefit and receive a unique personal
             QR credential for use at the participating hospital.
           </p>
 
 
-          <div
-            class="
+          <div class="
               mt-9
               flex
               flex-col
               sm:flex-row
               justify-center
               gap-3
-            "
-          >
+            ">
 
-            <a
-              href="register.html"
-
-              class="
+            <a href="register.html" class="
                 inline-flex
                 items-center
                 justify-center
@@ -702,27 +571,21 @@
                 font-bold
                 hover:bg-primary
                 transition-colors
-              "
-            >
+              ">
 
               Register for Health Corner
 
-              <span
-                class="
+              <span class="
                   material-symbols-outlined
                   text-lg
-                "
-              >
+                ">
                 arrow_forward
               </span>
 
             </a>
 
 
-            <a
-              href="#how-it-works"
-
-              class="
+            <a href="#how-it-works" class="
                 inline-flex
                 items-center
                 justify-center
@@ -739,8 +602,7 @@
                 hover:border-primary
                 hover:text-primary
                 transition-colors
-              "
-            >
+              ">
               How It Works
             </a>
 
@@ -755,93 +617,77 @@
 
     <!-- HEALTH CURVE -->
 
-    <section
-      class="
+    <section class="
         bg-surface-container-low
         border-y
         border-surface-variant
-      "
-    >
+      ">
 
-      <div
-        class="
+      <div class="
           max-w-[1000px]
           mx-auto
           px-5
           md:px-6
           py-11
-        "
-      >
+        ">
 
-        <div
-          class="
+        <div class="
             grid
             md:grid-cols-[0.7fr_1.3fr]
             gap-8
             md:gap-14
             items-center
-          "
-        >
+          ">
 
           <div>
 
-            <div
-              class="
+            <div class="
                 text-secondary-container
                 text-xs
                 uppercase
                 tracking-[0.18em]
                 font-bold
-              "
-            >
+              ">
               The Health Curve
             </div>
 
 
-            <h2
-              class="
+            <h2 class="
                 font-display
                 text-3xl
                 md:text-4xl
                 text-primary
                 mt-3
-              "
-            >
+              ">
               Men's Health Matters
             </h2>
 
           </div>
 
 
-          <div
-            class="
+          <div class="
               md:border-l
               md:border-surface-variant
               md:pl-12
-            "
-          >
+            ">
 
-            <div
-              class="
+            <div class="
                 text-xs
                 text-outline
                 uppercase
                 tracking-[0.16em]
                 mb-3
-              "
-            >
+              ">
               Focus
             </div>
 
 
-            <p
-              class="
+            <p class="
                 font-display
                 text-2xl
                 md:text-3xl
                 leading-snug
-              "
-            >
+              ">
               Libido, Erectile Dysfunction &amp; Prostate
             </p>
 
@@ -856,68 +702,55 @@
 
     <!-- HOW IT WORKS -->
 
-    <section
-      id="how-it-works"
-    >
+    <section id="how-it-works">
 
-      <div
-        class="
+      <div class="
           max-w-[1100px]
           mx-auto
           px-5
           md:px-6
           py-16
           md:py-20
-        "
-      >
+        ">
 
-        <div
-          class="
+        <div class="
             text-center
             max-w-2xl
             mx-auto
             mb-10
-          "
-        >
+          ">
 
-          <div
-            class="
+          <div class="
               text-primary-container
               text-xs
               uppercase
               tracking-[0.18em]
               font-bold
-            "
-          >
+            ">
             Simple &amp; Secure
           </div>
 
 
-          <h2
-            class="
+          <h2 class="
               font-display
               text-3xl
               md:text-4xl
               mt-3
-            "
-          >
+            ">
             How the Health Corner Benefit Works
           </h2>
 
         </div>
 
 
-        <div
-          class="
+        <div class="
             grid
             md:grid-cols-3
             gap-4
-          "
-        >
+          ">
 
 
-          <article
-            class="
+          <article class="
               feature-card
               bg-charcoal-surface
               border
@@ -925,39 +758,32 @@
               border-t-secondary-container
               p-6
               rounded-lg
-            "
-          >
+            ">
 
-            <div
-              class="
+            <div class="
                 text-primary
                 font-display
                 text-xl
                 mb-5
-              "
-            >
+              ">
               01
             </div>
 
 
-            <h3
-              class="
+            <h3 class="
                 font-display
                 text-2xl
-              "
-            >
+              ">
               Register
             </h3>
 
 
-            <p
-              class="
+            <p class="
                 text-on-surface-variant
                 text-sm
                 leading-6
                 mt-3
-              "
-            >
+              ">
               Complete the Health Corner form and select
               your applicable VIP or Standard tier.
             </p>
@@ -965,8 +791,7 @@
           </article>
 
 
-          <article
-            class="
+          <article class="
               feature-card
               bg-charcoal-surface
               border
@@ -974,39 +799,32 @@
               border-t-primary-container
               p-6
               rounded-lg
-            "
-          >
+            ">
 
-            <div
-              class="
+            <div class="
                 text-primary
                 font-display
                 text-xl
                 mb-5
-              "
-            >
+              ">
               02
             </div>
 
 
-            <h3
-              class="
+            <h3 class="
                 font-display
                 text-2xl
-              "
-            >
+              ">
               Receive Your QR
             </h3>
 
 
-            <p
-              class="
+            <p class="
                 text-on-surface-variant
                 text-sm
                 leading-6
                 mt-3
-              "
-            >
+              ">
               Your registration receives a unique personal
               QR credential that can be stored on your phone.
             </p>
@@ -1014,8 +832,7 @@
           </article>
 
 
-          <article
-            class="
+          <article class="
               feature-card
               bg-charcoal-surface
               border
@@ -1023,39 +840,32 @@
               border-t-status-valid
               p-6
               rounded-lg
-            "
-          >
+            ">
 
-            <div
-              class="
+            <div class="
                 text-primary
                 font-display
                 text-xl
                 mb-5
-              "
-            >
+              ">
               03
             </div>
 
 
-            <h3
-              class="
+            <h3 class="
                 font-display
                 text-2xl
-              "
-            >
+              ">
               Present at Hospital
             </h3>
 
 
-            <p
-              class="
+            <p class="
                 text-on-surface-variant
                 text-sm
                 leading-6
                 mt-3
-              "
-            >
+              ">
               Hospital personnel scan your QR and securely
               authorise your one-time 30% benefit.
             </p>
@@ -1071,97 +881,79 @@
 
     <!-- EVENT DETAILS -->
 
-    <section
-      class="
+    <section class="
         bg-surface-container-lowest
         border-t
         border-surface-variant
-      "
-    >
+      ">
 
-      <div
-        class="
+      <div class="
           max-w-[1000px]
           mx-auto
           px-5
           md:px-6
           py-14
-        "
-      >
+        ">
 
-        <div
-          class="
+        <div class="
             grid
             lg:grid-cols-2
             gap-10
-          "
-        >
+          ">
 
           <div>
 
-            <div
-              class="
+            <div class="
                 text-primary-container
                 text-xs
                 uppercase
                 tracking-[0.18em]
                 font-bold
-              "
-            >
+              ">
               The Conference
             </div>
 
 
-            <h2
-              class="
+            <h2 class="
                 font-display
                 text-4xl
                 text-primary
                 mt-3
-              "
-            >
+              ">
               EMERGE 2026
             </h2>
 
 
-            <p
-              class="
+            <p class="
                 font-display
                 text-2xl
                 mt-3
-              "
-            >
+              ">
               Men's Lives and the Curves
             </p>
 
           </div>
 
 
-          <div
-            class="
+          <div class="
               border-t
               border-surface-variant
-            "
-          >
+            ">
 
-            <div
-              class="
+            <div class="
                 py-4
                 border-b
                 border-surface-variant
                 flex
                 justify-between
                 gap-5
-              "
-            >
+              ">
 
-              <span
-                class="
+              <span class="
                   text-xs
                   text-outline
                   uppercase
-                "
-              >
+                ">
                 Dates
               </span>
 
@@ -1173,41 +965,33 @@
             </div>
 
 
-            <div
-              class="
+            <div class="
                 py-4
                 border-b
                 border-surface-variant
                 flex
                 justify-between
                 gap-5
-              "
-            >
+              ">
 
-              <span
-                class="
+              <span class="
                   text-xs
                   text-outline
                   uppercase
-                "
-              >
+                ">
                 Venue
               </span>
 
 
-              <strong
-                class="text-right"
-              >
+              <strong class="text-right">
                 AMADEO Event Centre
                 <br>
 
-                <span
-                  class="
+                <span class="
                     text-sm
                     font-normal
                     text-on-surface-variant
-                  "
-                >
+                  ">
                   Enugu, Enugu State
                 </span>
               </strong>
@@ -1215,23 +999,19 @@
             </div>
 
 
-            <div
-              class="
+            <div class="
                 py-4
                 border-b
                 border-surface-variant
                 flex
                 justify-between
-              "
-            >
+              ">
 
-              <span
-                class="
+              <span class="
                   text-xs
                   text-outline
                   uppercase
-                "
-              >
+                ">
                 Saturday
               </span>
 
@@ -1243,21 +1023,17 @@
             </div>
 
 
-            <div
-              class="
+            <div class="
                 py-4
                 flex
                 justify-between
-              "
-            >
+              ">
 
-              <span
-                class="
+              <span class="
                   text-xs
                   text-outline
                   uppercase
-                "
-              >
+                ">
                 Sunday
               </span>
 
@@ -1279,14 +1055,9 @@
   </main>
 
 
-  <!-- =====================================================
-       REGISTRATION CLOSED
-       ===================================================== -->
+  <!-- REGISTRATION CLOSED -->
 
-  <main
-    id="registrationClosedPage"
-
-    class="
+  <main id="registrationClosedPage" class="
       hidden
       flex-grow
       flex
@@ -1294,11 +1065,9 @@
       justify-center
       px-5
       py-16
-    "
-  >
+    ">
 
-    <div
-      class="
+    <div class="
         w-full
         max-w-2xl
         bg-charcoal-surface
@@ -1308,11 +1077,9 @@
         p-8
         md:p-12
         text-center
-      "
-    >
+      ">
 
-      <div
-        class="
+      <div class="
           w-20
           h-20
           rounded-full
@@ -1323,98 +1090,81 @@
           items-center
           justify-center
           mx-auto
-        "
-      >
+        ">
 
-        <span
-          class="
+        <span class="
             material-symbols-outlined
             text-status-invalid
             text-4xl
-          "
-        >
+          ">
           event_busy
         </span>
 
       </div>
 
 
-      <div
-        class="
+      <div class="
           text-primary-container
           text-xs
           uppercase
           tracking-[0.18em]
           font-bold
           mt-7
-        "
-      >
+        ">
         EMERGE 2026 Health Corner
       </div>
 
 
-      <h1
-        class="
+      <h1 class="
           font-display
           text-3xl
           md:text-4xl
           mt-4
-        "
-      >
+        ">
         Registration Has Closed
       </h1>
 
 
-      <p
-        class="
+      <p class="
           text-on-surface-variant
           leading-7
           mt-6
           max-w-lg
           mx-auto
-        "
-      >
+        ">
         Registration for the EMERGE 2026 Health Corner
         programme is no longer accepting new participants.
       </p>
 
 
-      <div
-        class="
+      <div class="
           border
           border-primary/20
           bg-primary/5
           p-5
           mt-8
           text-left
-        "
-      >
+        ">
 
-        <div
-          class="
+        <div class="
             flex
             gap-3
             items-start
-          "
-        >
+          ">
 
-          <span
-            class="
+          <span class="
               material-symbols-outlined
               text-primary
-            "
-          >
+            ">
             qr_code_2
           </span>
 
 
-          <p
-            class="
+          <p class="
               text-sm
               text-on-surface-variant
               leading-6
-            "
-          >
+            ">
             Participants who already registered can continue
             using their personal Health Corner QR for verification
             and redemption.
@@ -1425,10 +1175,7 @@
       </div>
 
 
-      <a
-        href="../index.html#emerge-2026"
-
-        class="
+      <a href="../index.html#emerge-2026" class="
           inline-flex
           items-center
           justify-center
@@ -1446,15 +1193,12 @@
           font-bold
           hover:border-primary
           transition-colors
-        "
-      >
+        ">
 
-        <span
-          class="
+        <span class="
             material-symbols-outlined
             text-base
-          "
-        >
+          ">
           arrow_back
         </span>
 
@@ -1467,14 +1211,9 @@
   </main>
 
 
-  <!-- =====================================================
-       STATUS SERVICE ERROR
-       ===================================================== -->
+  <!-- STATUS ERROR -->
 
-  <main
-    id="statusErrorPage"
-
-    class="
+  <main id="statusErrorPage" class="
       hidden
       flex-grow
       flex
@@ -1482,11 +1221,9 @@
       justify-center
       px-5
       py-16
-    "
-  >
+    ">
 
-    <div
-      class="
+    <div class="
         max-w-xl
         text-center
         bg-charcoal-surface
@@ -1494,70 +1231,65 @@
         border-surface-variant
         border-t-status-invalid
         p-9
-      "
-    >
+      ">
 
-      <span
-        class="
+      <span class="
           material-symbols-outlined
           text-status-invalid
           text-5xl
-        "
-      >
+        ">
         error_outline
       </span>
 
 
-      <h1
-        class="
+      <h1 class="
           font-display
           text-3xl
           mt-5
-        "
-      >
+        ">
         Registration Status Unavailable
       </h1>
 
 
-      <p
-        class="
+      <p class="
           text-on-surface-variant
           mt-4
           leading-7
-        "
-      >
+        ">
         We could not safely confirm whether registration is
         currently open. Please refresh the page or try again later.
       </p>
+
+
+      <button type="button" onclick="window.location.reload()" class="
+          border
+          border-primary/50
+          text-primary
+          px-7
+          py-4
+          mt-7
+          rounded
+          text-xs
+          uppercase
+          font-bold
+        ">
+        Try Again
+      </button>
 
     </div>
 
   </main>
 
 
-  <!-- BACKEND RECEIVER -->
+  <!-- FOOTER -->
 
-  <iframe
-    id="statusReceiver"
-    class="hidden"
-    title="Registration Status"
-  ></iframe>
-
-
-  <!-- =====================================================
-       FOOTER
-       ===================================================== -->
-
-  <footer
-    class="
+  <footer class="
       bg-surface-container-lowest
       border-t
       border-surface-variant
-    "
-  >
+    ">
 
-    <div
-      class="
+    <div class="
         max-w-[1200px]
         mx-auto
         px-5
@@ -1569,42 +1301,33 @@
         items-center
         justify-between
         gap-4
-      "
-    >
+      ">
 
-      <div
-        class="
+      <div class="
           font-display
           text-primary
           text-xl
           font-bold
-        "
-      >
+        ">
         EMERGE 2026
       </div>
 
 
-      <div
-        class="
+      <div class="
           text-xs
           text-on-surface-variant
           text-center
-        "
-      >
+        ">
         © 2026 Mentor Men Leadership Forum.
         All Rights Reserved.
       </div>
 
 
-      <a
-        href="https://mentormenforum.org"
-
-        class="
+      <a href="https://mentormenforum.org" class="
           text-xs
           text-on-surface-variant
           hover:text-primary
-        "
-      >
+        ">
         mentormenforum.org
       </a>
 
@@ -1614,7 +1337,7 @@
 
 
   <!-- =====================================================
-       REGISTRATION STATUS LOGIC
+       MOBILE-SAFE JSONP REGISTRATION STATUS
        ===================================================== -->
 
   <script>
@@ -1647,12 +1370,6 @@
       );
 
 
-    const statusReceiver =
-      document.getElementById(
-        "statusReceiver"
-      );
-
-
     const headerRegisterLink =
       document.getElementById(
         "headerRegisterLink"
@@ -1667,6 +1384,10 @@
       null;
 
 
+    let statusScript =
+      null;
+
+
     function createNonce() {
 
       if (
@@ -1675,9 +1396,7 @@
       ) {
 
         const values =
-          new Uint32Array(
-            4
-          );
+          new Uint32Array(4);
 
 
         window.crypto.getRandomValues(
@@ -1686,14 +1405,15 @@
 
 
         return Array
-          .from(
-            values
-          )
+          .from(values)
           .map(
-            value =>
-              value
+            function (value) {
+
+              return value
                 .toString(16)
-                .padStart(8, "0")
+                .padStart(8, "0");
+
+            }
           )
           .join("");
 
@@ -1702,8 +1422,29 @@
 
       return (
         Date.now().toString(36) +
+        Math.random().toString(36).slice(2) +
         Math.random().toString(36).slice(2)
       );
+
+    }
+
+
+    function removeStatusScript() {
+
+      if (
+        statusScript &&
+        statusScript.parentNode
+      ) {
+
+        statusScript.parentNode.removeChild(
+          statusScript
+        );
+
+      }
+
+
+      statusScript =
+        null;
 
     }
 
@@ -1768,6 +1509,18 @@
 
     function showStatusError() {
 
+      window.clearTimeout(
+        statusTimeout
+      );
+
+
+      removeStatusScript();
+
+
+      statusNonce =
+        "";
+
+
       hideAllStates();
 
 
@@ -1778,55 +1531,11 @@
     }
 
 
-    function checkRegistrationStatus() {
-
-      statusNonce =
-        createNonce();
-
-
-      const statusUrl =
-
-        APPS_SCRIPT_URL +
-
-        "?action=registrationStatus" +
-
-        "&callbackNonce=" +
-
-        encodeURIComponent(
-          statusNonce
-        ) +
-
-        "&_=" +
-
-        Date.now();
-
-
-      statusReceiver.src =
-        statusUrl;
-
-
-      statusTimeout =
-        window.setTimeout(
-          function () {
-
-            showStatusError();
-
-          },
-          20000
-        );
-
-    }
-
-
-    window.addEventListener(
-      "message",
-      function (
-        event
-      ) {
-
-        const data =
-          event.data;
-
+    /*
+     * Apps Script JSONP calls this function.
+     */
+    window.emergeRegistrationStatusCallback =
+      function (data) {
 
         if (
           !data ||
@@ -1875,6 +1584,9 @@
         );
 
 
+        removeStatusScript();
+
+
         statusNonce =
           "";
 
@@ -1894,8 +1606,75 @@
 
         }
 
-      }
-    );
+      };
+
+
+    function checkRegistrationStatus() {
+
+      removeStatusScript();
+
+
+      statusNonce =
+        createNonce();
+
+
+      const statusUrl =
+
+        APPS_SCRIPT_URL +
+
+        "?action=registrationStatus" +
+
+        "&prefix=emergeRegistrationStatusCallback" +
+
+        "&callbackNonce=" +
+
+        encodeURIComponent(
+          statusNonce
+        ) +
+
+        "&_=" +
+
+        Date.now();
+
+
+      statusScript =
+        document.createElement(
+          "script"
+        );
+
+
+      statusScript.async =
+        true;
+
+
+      statusScript.src =
+        statusUrl;
+
+
+      statusScript.onerror =
+        function () {
+
+          showStatusError();
+
+        };
+
+
+      document.head.appendChild(
+        statusScript
+      );
+
+
+      statusTimeout =
+        window.setTimeout(
+          function () {
+
+            showStatusError();
+
+          },
+          20000
+        );
+
+    }
 
 
     checkRegistrationStatus();

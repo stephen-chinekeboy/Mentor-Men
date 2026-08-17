@@ -108,11 +108,9 @@
 
   <style>
     body {
-
       font-family:
         Inter,
         sans-serif;
-
     }
 
 
@@ -191,10 +189,8 @@
     @keyframes spin {
 
       to {
-
         transform:
           rotate(360deg);
-
       }
 
     }
@@ -213,9 +209,7 @@
   ">
 
 
-  <!-- =====================================================
-       HEADER
-       ===================================================== -->
+  <!-- HEADER -->
 
   <header class="
       bg-surface
@@ -266,9 +260,7 @@
   </header>
 
 
-  <!-- =====================================================
-       STATUS CHECK
-       ===================================================== -->
+  <!-- STATUS CHECK -->
 
   <main id="registrationStatusLoading" class="
       flex-grow
@@ -312,9 +304,7 @@
   </main>
 
 
-  <!-- =====================================================
-       OPEN REGISTRATION CONTENT
-       ===================================================== -->
+  <!-- OPEN REGISTRATION -->
 
   <main id="registrationOpenContent" class="
       hidden
@@ -333,8 +323,6 @@
         mx-auto
       ">
 
-
-      <!-- INTRO -->
 
       <div id="registrationIntro">
 
@@ -407,9 +395,7 @@
       </div>
 
 
-      <!-- =================================================
-           FORM
-           ================================================= -->
+      <!-- FORM -->
 
       <div id="registrationFormCard" class="
           bg-charcoal-surface
@@ -424,12 +410,8 @@
 
         <form id="healthCornerForm"
           action="https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec"
-          method="POST" target="registrationReceiver" class="
-            space-y-6
-          ">
+          method="POST" target="registrationReceiver" class="space-y-6">
 
-
-          <!-- CALLBACK NONCE -->
 
           <input id="callbackNonce" name="callbackNonce" type="hidden" value="">
 
@@ -551,9 +533,6 @@
               gap-6
             ">
 
-
-            <!-- DOB -->
-
             <div>
 
               <label for="dateOfBirth" class="
@@ -584,8 +563,6 @@
 
             </div>
 
-
-            <!-- SEX -->
 
             <div>
 
@@ -618,16 +595,13 @@
                   Select...
                 </option>
 
-
                 <option value="Male">
                   Male
                 </option>
 
-
                 <option value="Female">
                   Female
                 </option>
-
 
                 <option value="Other">
                   Other
@@ -696,9 +670,6 @@
                 gap-3
               ">
 
-
-              <!-- VIP -->
-
               <label for="tierVIP" class="
                   tier-card
                   flex
@@ -744,8 +715,6 @@
 
               </label>
 
-
-              <!-- STANDARD -->
 
               <label for="tierStandard" class="
                   tier-card
@@ -797,15 +766,7 @@
           </div>
 
 
-          <!-- =================================================
-               CONSENT
-
-               IMPORTANT:
-               name="consent"
-               value="YES"
-
-               means consent now travels to the backend.
-               ================================================= -->
+          <!-- CONSENT -->
 
           <div class="
               flex
@@ -838,12 +799,8 @@
           </div>
 
 
-          <!-- MESSAGE -->
-
           <div id="registrationMessage" class="hidden" role="alert"></div>
 
-
-          <!-- SUBMIT -->
 
           <button id="submitButton" type="submit" class="
               w-full
@@ -893,9 +850,7 @@
       </div>
 
 
-      <!-- =================================================
-           SUCCESS
-           ================================================= -->
+      <!-- SUCCESS -->
 
       <div id="registrationSuccess" class="
           hidden
@@ -1084,9 +1039,7 @@
   </main>
 
 
-  <!-- =====================================================
-       REGISTRATION CLOSED
-       ===================================================== -->
+  <!-- REGISTRATION CLOSED -->
 
   <main id="registrationClosedContent" class="
       hidden
@@ -1211,9 +1164,7 @@
   </main>
 
 
-  <!-- =====================================================
-       STATUS ERROR
-       ===================================================== -->
+  <!-- STATUS ERROR -->
 
   <main id="registrationStatusError" class="
       hidden
@@ -1283,16 +1234,13 @@
   </main>
 
 
-  <!-- =====================================================
-       BACKEND FRAME
-       ===================================================== -->
+  <!-- POST CALLBACK IFRAME -->
+  <!-- Kept because form POSTs already work reliably. -->
 
   <iframe id="registrationReceiver" name="registrationReceiver" class="hidden" title="Health Corner Backend"></iframe>
 
 
-  <!-- =====================================================
-       FOOTER
-       ===================================================== -->
+  <!-- FOOTER -->
 
   <footer class="
       bg-surface-container-lowest
@@ -1322,24 +1270,12 @@
   </footer>
 
 
-  <!-- =====================================================
-       JAVASCRIPT
-       ===================================================== -->
+  <!-- JAVASCRIPT -->
 
   <script>
 
     const APPS_SCRIPT_URL =
       "https://script.google.com/macros/s/AKfycbx7q4v02ASIbSxKjtbKsh4__MbdGAe8anK5GpSn14OiAvoNNP_6r0fgsI2nKlkIfDmsCQ/exec";
-
-
-    /* =====================================================
-       ELEMENTS
-       ===================================================== */
-
-    const registrationReceiver =
-      document.getElementById(
-        "registrationReceiver"
-      );
 
 
     const registrationStatusLoading =
@@ -1369,6 +1305,12 @@
     const healthCornerForm =
       document.getElementById(
         "healthCornerForm"
+      );
+
+
+    const registrationReceiver =
+      document.getElementById(
+        "registrationReceiver"
       );
 
 
@@ -1444,10 +1386,6 @@
       );
 
 
-    /* =====================================================
-       STATE
-       ===================================================== */
-
     let statusNonce =
       "";
 
@@ -1464,9 +1402,9 @@
       null;
 
 
-    /* =====================================================
-       NONCE
-       ===================================================== */
+    let statusScript =
+      null;
+
 
     function createNonce() {
 
@@ -1476,9 +1414,7 @@
       ) {
 
         const values =
-          new Uint32Array(
-            4
-          );
+          new Uint32Array(4);
 
 
         window.crypto.getRandomValues(
@@ -1487,75 +1423,34 @@
 
 
         return Array
-          .from(
-            values
-          )
+          .from(values)
           .map(
-            function (
-              value
-            ) {
+            function (value) {
 
               return value
-                .toString(
-                  16
-                )
-                .padStart(
-                  8,
-                  "0"
-                );
+                .toString(16)
+                .padStart(8, "0");
 
             }
           )
-          .join(
-            ""
-          );
+          .join("");
 
       }
 
 
       return (
-
-        Date.now()
-          .toString(
-            36
-          )
-
-        +
-
-        Math.random()
-          .toString(
-            36
-          )
-          .slice(
-            2
-          )
-
-        +
-
-        Math.random()
-          .toString(
-            36
-          )
-          .slice(
-            2
-          )
-
+        Date.now().toString(36) +
+        Math.random().toString(36).slice(2) +
+        Math.random().toString(36).slice(2)
       );
 
     }
 
 
-    /* =====================================================
-       NAME CAPITALISATION
-       ===================================================== */
-
-    function capitaliseName(
-      value
-    ) {
+    function capitaliseName(value) {
 
       return String(
-        value ||
-        ""
+        value || ""
       )
         .trim()
         .replace(
@@ -1594,10 +1489,6 @@
     );
 
 
-    /* =====================================================
-       PREVENT FUTURE DOB IN BROWSER
-       ===================================================== */
-
     function setMaximumDob() {
 
       const now =
@@ -1635,9 +1526,25 @@
     setMaximumDob();
 
 
-    /* =====================================================
-       PAGE STATES
-       ===================================================== */
+    function removeStatusScript() {
+
+      if (
+        statusScript &&
+        statusScript.parentNode
+      ) {
+
+        statusScript.parentNode.removeChild(
+          statusScript
+        );
+
+      }
+
+
+      statusScript =
+        null;
+
+    }
+
 
     function hideRegistrationStates() {
 
@@ -1689,6 +1596,18 @@
 
     function showStatusError() {
 
+      window.clearTimeout(
+        requestTimeout
+      );
+
+
+      removeStatusScript();
+
+
+      statusNonce =
+        "";
+
+
       hideRegistrationStates();
 
 
@@ -1699,11 +1618,88 @@
     }
 
 
-    /* =====================================================
-       REGISTRATION STATUS
-       ===================================================== */
+    /*
+     * MOBILE-SAFE JSONP STATUS CALLBACK
+     */
+    window.emergeRegistrationStatusCallback =
+      function (data) {
+
+        if (
+          !data ||
+          typeof data !==
+          "object"
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          data.source !==
+          "EMERGE_HEALTH_CORNER"
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          data.type !==
+          "REGISTRATION_STATUS_RESULT"
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          !statusNonce ||
+          data.callbackNonce !==
+          statusNonce
+        ) {
+
+          return;
+
+        }
+
+
+        window.clearTimeout(
+          requestTimeout
+        );
+
+
+        removeStatusScript();
+
+
+        statusNonce =
+          "";
+
+
+        if (
+          data.registrationOpen ===
+          true
+        ) {
+
+          showRegistrationOpen();
+
+        }
+
+        else {
+
+          showRegistrationClosed();
+
+        }
+
+      };
+
 
     function checkRegistrationStatus() {
+
+      removeStatusScript();
+
 
       statusNonce =
         createNonce();
@@ -1714,6 +1710,8 @@
         APPS_SCRIPT_URL +
 
         "?action=registrationStatus" +
+
+        "&prefix=emergeRegistrationStatusCallback" +
 
         "&callbackNonce=" +
 
@@ -1726,8 +1724,31 @@
         Date.now();
 
 
-      registrationReceiver.src =
+      statusScript =
+        document.createElement(
+          "script"
+        );
+
+
+      statusScript.async =
+        true;
+
+
+      statusScript.src =
         url;
+
+
+      statusScript.onerror =
+        function () {
+
+          showStatusError();
+
+        };
+
+
+      document.head.appendChild(
+        statusScript
+      );
 
 
       requestTimeout =
@@ -1743,21 +1764,13 @@
     }
 
 
-    /* =====================================================
-       SUBMISSION UI
-       ===================================================== */
-
-    function setSubmitting(
-      value
-    ) {
+    function setSubmitting(value) {
 
       submitButton.disabled =
         value;
 
 
-      if (
-        value
-      ) {
+      if (value) {
 
         submitButton.classList.add(
           "opacity-70",
@@ -1806,9 +1819,7 @@
     }
 
 
-    function showError(
-      message
-    ) {
+    function showError(message) {
 
       registrationMessage.className =
         "block border border-status-invalid/50 bg-status-invalid/10 text-[#f0b8b8] p-4 text-sm";
@@ -1846,15 +1857,9 @@
     }
 
 
-    /* =====================================================
-       FORM SUBMISSION
-       ===================================================== */
-
     healthCornerForm.addEventListener(
       "submit",
-      function (
-        event
-      ) {
+      function (event) {
 
         if (
           !healthCornerForm.checkValidity()
@@ -1888,11 +1893,6 @@
             fullNameInput.value
           );
 
-
-        /*
-         * Generate one unpredictable nonce for
-         * this exact registration submission.
-         */
 
         activeCallbackNonce =
           createNonce();
@@ -1950,25 +1950,18 @@
 
 
         /*
-         * DO NOT preventDefault here.
+         * Do NOT preventDefault.
          *
-         * The normal POST continues into the
-         * hidden Apps Script iframe.
+         * The POST continues into registrationReceiver.
          */
 
       }
     );
 
 
-    /* =====================================================
-       BACKEND MESSAGES
-       ===================================================== */
-
     window.addEventListener(
       "message",
-      function (
-        event
-      ) {
+      function (event) {
 
         const data =
           event.data;
@@ -1995,49 +1988,42 @@
         }
 
 
-        /* -------------------------------------------------
-           REGISTRATION STATUS
-           ------------------------------------------------- */
+        /*
+         * STATUS is no longer received through postMessage.
+         * Only registration POST responses are handled here.
+         */
 
         if (
-          data.type ===
-          "REGISTRATION_STATUS_RESULT"
+          data.type !==
+          "REGISTRATION_RESULT"
         ) {
 
-          if (
-            !statusNonce ||
-            data.callbackNonce !==
-            statusNonce
-          ) {
+          return;
 
-            return;
-
-          }
+        }
 
 
-          window.clearTimeout(
-            requestTimeout
-          );
+        if (
+          !activeCallbackNonce ||
+          !data.callbackNonce ||
+          data.callbackNonce !==
+          activeCallbackNonce
+        ) {
+
+          return;
+
+        }
 
 
-          statusNonce =
-            "";
+        clearSubmissionState();
 
 
-          if (
-            data.registrationOpen ===
-            true
-          ) {
+        if (
+          data.code ===
+          "REGISTRATION_CLOSED"
+        ) {
 
-            showRegistrationOpen();
-
-          }
-
-          else {
-
-            showRegistrationClosed();
-
-          }
+          showRegistrationClosed();
 
 
           return;
@@ -2045,189 +2031,115 @@
         }
 
 
-        /* -------------------------------------------------
-           REGISTRATION RESULT
-           ------------------------------------------------- */
-
         if (
-          data.type ===
-          "REGISTRATION_RESULT"
+          data.success ===
+          true
         ) {
 
-          if (
-            !activeCallbackNonce ||
-            !data.callbackNonce ||
-            data.callbackNonce !==
-            activeCallbackNonce
-          ) {
-
-            return;
-
-          }
+          document
+            .getElementById(
+              "successName"
+            )
+            .textContent =
+            data.fullName ||
+            "";
 
 
-          clearSubmissionState();
+          document
+            .getElementById(
+              "successRegistrationId"
+            )
+            .textContent =
+            data.registrationId ||
+            "";
 
 
-          /*
-           * The backend remains authoritative.
-           *
-           * Registration could have closed after the
-           * participant loaded the form.
-           */
-
-          if (
-            data.code ===
-            "REGISTRATION_CLOSED"
-          ) {
-
-            showRegistrationClosed();
+          document
+            .getElementById(
+              "successTier"
+            )
+            .textContent =
+            data.tier ||
+            "";
 
 
-            return;
-
-          }
-
-
-          /* -----------------------------------------------
-             SUCCESS
-             ----------------------------------------------- */
-
-          if (
-            data.success ===
-            true
-          ) {
-
-            document
-              .getElementById(
-                "successName"
-              )
-              .textContent =
-              data.fullName ||
-              "";
+          document
+            .getElementById(
+              "successStatus"
+            )
+            .textContent =
+            data.status ||
+            "VALID";
 
 
-            document
-              .getElementById(
-                "successRegistrationId"
-              )
-              .textContent =
-              data.registrationId ||
-              "";
-
-
-            document
-              .getElementById(
-                "successTier"
-              )
-              .textContent =
-              data.tier ||
-              "";
-
-
-            document
-              .getElementById(
-                "successStatus"
-              )
-              .textContent =
-              data.status ||
-              "VALID";
-
-
-            registrationIntro.classList.add(
-              "hidden"
-            );
-
-
-            registrationFormCard.classList.add(
-              "hidden"
-            );
-
-
-            registrationSuccess.classList.remove(
-              "hidden"
-            );
-
-
-            healthCornerForm.reset();
-
-
-            window.scrollTo({
-
-              top:
-                0,
-
-              behavior:
-                "smooth"
-
-            });
-
-
-            return;
-
-          }
-
-
-          /* -----------------------------------------------
-             DUPLICATE
-             ----------------------------------------------- */
-
-          if (
-            data.code ===
-            "DUPLICATE_REGISTRATION"
-          ) {
-
-            let message =
-              "A registration matching these details already exists.";
-
-
-            if (
-              data.registrationId
-            ) {
-
-              message +=
-
-                " Existing Registration ID: " +
-
-                data.registrationId +
-
-                ".";
-
-            }
-
-
-            showError(
-              message
-            );
-
-
-            return;
-
-          }
-
-
-          /*
-           * Consent and DOB errors returned by the backend
-           * also arrive here.
-           */
-
-          showError(
-
-            data.message ||
-
-            "Registration could not be completed. Please try again."
-
+          registrationIntro.classList.add(
+            "hidden"
           );
 
+
+          registrationFormCard.classList.add(
+            "hidden"
+          );
+
+
+          registrationSuccess.classList.remove(
+            "hidden"
+          );
+
+
+          healthCornerForm.reset();
+
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+
+
+          return;
+
         }
+
+
+        if (
+          data.code ===
+          "DUPLICATE_REGISTRATION"
+        ) {
+
+          let message =
+            "A registration matching these details already exists.";
+
+
+          if (
+            data.registrationId
+          ) {
+
+            message +=
+              " Existing Registration ID: " +
+              data.registrationId +
+              ".";
+
+          }
+
+
+          showError(
+            message
+          );
+
+
+          return;
+
+        }
+
+
+        showError(
+          data.message ||
+          "Registration could not be completed. Please try again."
+        );
 
       }
     );
 
-
-    /* =====================================================
-       REGISTER ANOTHER
-       ===================================================== */
 
     registerAnotherButton.addEventListener(
       "click",
@@ -2265,26 +2177,25 @@
         setMaximumDob();
 
 
-        fullNameInput.focus();
+        /*
+         * Check the central switch again before
+         * showing another registration.
+         */
+        registrationOpenContent.classList.add(
+          "hidden"
+        );
 
 
-        window.scrollTo({
+        registrationStatusLoading.classList.remove(
+          "hidden"
+        );
 
-          top:
-            0,
 
-          behavior:
-            "smooth"
-
-        });
+        checkRegistrationStatus();
 
       }
     );
 
-
-    /* =====================================================
-       START
-       ===================================================== */
 
     checkRegistrationStatus();
 
