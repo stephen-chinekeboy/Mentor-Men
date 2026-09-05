@@ -2,1354 +2,1473 @@
 <html class="dark" lang="en">
 
 <head>
-
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Health Corner Administration - EMERGE 2026
-    </title>
-
+    <title>Health Corner Administration - EMERGE 2026</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&display=swap"
         rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet">
 
-
     <script>
-
         tailwind.config = {
-
-            darkMode:
-                "class",
-
+            darkMode: "class",
             theme: {
-
                 extend: {
-
                     colors: {
-
-                        surface:
-                            "#121414",
-
-                        panel:
-                            "#1A1A1A",
-
-                        primary:
-                            "#f2ca50",
-
-                        gold:
-                            "#d4af37",
-
-                        muted:
-                            "#d0c5af",
-
-                        outline:
-                            "#4d4635",
-
-                        valid:
-                            "#50C878",
-
-                        invalid:
-                            "#B22222"
-
+                        surface: "#121414",
+                        panel: "#1A1A1A",
+                        panel2: "#202222",
+                        primary: "#f2ca50",
+                        gold: "#d4af37",
+                        muted: "#d0c5af",
+                        outline: "#4d4635",
+                        valid: "#50C878",
+                        invalid: "#B22222",
+                        pending: "#d8ad45"
                     },
-
                     fontFamily: {
-
-                        display: [
-                            "Libre Caslon Text",
-                            "serif"
-                        ],
-
-                        body: [
-                            "Inter",
-                            "sans-serif"
-                        ]
-
+                        display: ["Libre Caslon Text", "serif"],
+                        body: ["Inter", "sans-serif"]
                     }
-
                 }
-
             }
-
         };
-
     </script>
-
 
     <style>
         body {
-            font-family:
-                Inter,
-                sans-serif;
+            font-family: Inter, sans-serif;
         }
-
 
         .loader {
-
-            width:
-                30px;
-
-            height:
-                30px;
-
-            border:
-                3px solid rgba(242, 202, 80, .15);
-
-            border-top-color:
-                #f2ca50;
-
-            border-radius:
-                50%;
-
-            animation:
-                spin .8s linear infinite;
-
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(242, 202, 80, .15);
+            border-top-color: #f2ca50;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
         }
-
 
         @keyframes spin {
-
             to {
-                transform:
-                    rotate(360deg);
+                transform: rotate(360deg);
             }
-
         }
-
 
         #generalQrWorking {
+            position: fixed;
+            left: -10000px;
+            top: -10000px;
+            pointer-events: none;
+            opacity: 0;
+        }
 
-            position:
-                fixed;
+        .modal-backdrop {
+            background: rgba(0, 0, 0, .76);
+            backdrop-filter: blur(3px);
+        }
 
-            left:
-                -10000px;
+        .status-tab.active {
+            border-color: #d4af37;
+            color: #f2ca50;
+            background: rgba(212, 175, 55, .08);
+        }
 
-            top:
-                -10000px;
+        .tier-tab.active {
+            border-color: #d4af37;
+            color: #f2ca50;
+        }
 
-            pointer-events:
-                none;
+        .admin-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%) translateY(24px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+            transition: opacity .2s ease, transform .2s ease;
+        }
 
-            opacity:
-                0;
-
+        .admin-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
     </style>
-
 </head>
 
-
-<body class="
-  bg-surface
-  text-white
-  min-h-screen
-">
-
+<body class="bg-surface text-white min-h-screen">
 
     <!-- HEADER -->
-
-    <header class="
-    border-b
-    border-[#333]
-  ">
-
-        <div class="
-      max-w-[1100px]
-      mx-auto
-      px-5
-      md:px-6
-      h-20
-      flex
-      justify-between
-      items-center
-    ">
-
+    <header class="border-b border-[#333] bg-surface/95 sticky top-0 z-40 backdrop-blur">
+        <div class="max-w-[1180px] mx-auto px-5 md:px-6 h-20 flex justify-between items-center gap-4">
             <div>
-
-                <div class="
-          font-display
-          text-primary
-          font-bold
-          text-xl
-        ">
-                    EMERGE 2026
-                </div>
-
-                <div class="
-          text-[10px]
-          uppercase
-          tracking-[0.18em]
-          text-muted
-          mt-1
-        ">
-                    Health Corner Administration
-                </div>
-
+                <div class="font-display text-primary font-bold text-xl">EMERGE 2026</div>
+                <div class="text-[10px] uppercase tracking-[0.18em] text-muted mt-1">Health Corner Administration</div>
             </div>
 
-
-            <button id="logoutButton" type="button" class="
-          hidden
-          text-xs
-          uppercase
-          tracking-widest
-          text-muted
-          hover:text-primary
-        ">
+            <button id="logoutButton" type="button"
+                class="hidden text-xs uppercase tracking-widest text-muted hover:text-primary transition-colors">
                 Sign Out
             </button>
-
         </div>
-
     </header>
 
-
-    <main class="
-    max-w-[800px]
-    mx-auto
-    px-5
-    py-12
-  ">
-
+    <main class="max-w-[1180px] mx-auto px-5 md:px-6 py-10 md:py-12">
 
         <!-- LOGIN -->
-
-        <section id="loginPanel" class="
-        max-w-md
-        mx-auto
-        bg-panel
-        border
-        border-[#333]
-        border-t-gold
-        rounded-lg
-        p-7
-        md:p-9
-      ">
-
-            <div class="
-        w-14
-        h-14
-        rounded-full
-        border
-        border-primary/40
-        flex
-        items-center
-        justify-center
-        mb-6
-      ">
-
-                <span class="
-          material-symbols-outlined
-          text-primary
-          text-3xl
-        ">
-                    admin_panel_settings
-                </span>
-
+        <section id="loginPanel"
+            class="max-w-md mx-auto bg-panel border border-[#333] border-t-gold rounded-lg p-7 md:p-9">
+            <div class="w-14 h-14 rounded-full border border-primary/40 flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-primary text-3xl">admin_panel_settings</span>
             </div>
 
-
-            <div class="
-        text-xs
-        uppercase
-        tracking-[0.18em]
-        text-primary
-        font-bold
-      ">
-                Organiser Access
-            </div>
-
-
-            <h1 class="
-        font-display
-        text-3xl
-        mt-3
-      ">
-                Health Corner Administration
-            </h1>
-
-
-            <p class="
-        text-muted
-        leading-6
-        mt-4
-      ">
-                Enter the private organiser PIN to access
-                the General 30% QR and organiser controls.
+            <div class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Organiser Access</div>
+            <h1 class="font-display text-3xl mt-3">Health Corner Administration</h1>
+            <p class="text-muted leading-6 mt-4">
+                Enter the private organiser PIN to review Health Corner payments, manage credentials, and access
+                organiser-only QR controls.
             </p>
 
-
             <form id="loginForm" class="mt-7">
-
-                <label for="organiserCode" class="
-    text-xs
-    uppercase
-    tracking-widest
-    text-muted
-    font-semibold
-  ">
-                    4-Digit Organiser PIN
-                </label>
-
+                <label for="organiserCode" class="text-xs uppercase tracking-widest text-muted font-semibold">4-Digit
+                    Organiser PIN</label>
 
                 <input id="organiserCode" type="password" inputmode="numeric" autocomplete="off" maxlength="4"
-                    pattern="[0-9]{4}" required class="
-    mt-3
-    w-full
-    bg-[#101111]
-    border
-    border-[#3a3a3a]
-    rounded-lg
-    p-4
-    text-white
-    text-center
-    tracking-[0.5em]
-    text-2xl
-    focus:border-primary
-    focus:ring-0
-  ">
-
+                    pattern="[0-9]{4}" required
+                    class="mt-3 w-full bg-[#101111] border border-[#3a3a3a] rounded-lg p-4 text-white text-center tracking-[0.5em] text-2xl focus:border-primary focus:ring-0">
 
                 <div id="loginMessage" class="hidden"></div>
 
-
-                <button id="loginButton" type="submit" class="
-            mt-5
-            w-full
-            bg-gold
-            text-[#121414]
-            rounded-lg
-            py-4
-            uppercase
-            text-xs
-            tracking-[0.16em]
-            font-bold
-          ">
+                <button id="loginButton" type="submit"
+                    class="mt-5 w-full bg-gold text-[#121414] rounded-lg py-4 uppercase text-xs tracking-[0.16em] font-bold disabled:opacity-50 disabled:cursor-wait">
                     Access Administration
                 </button>
-
             </form>
-
         </section>
-
 
         <!-- ADMIN DASHBOARD -->
-
         <section id="adminPanel" class="hidden">
 
-            <div class="
-        flex
-        flex-col
-        sm:flex-row
-        sm:items-end
-        justify-between
-        gap-5
-        mb-8
-      ">
-
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-8">
                 <div>
-
-                    <div class="
-            text-xs
-            uppercase
-            tracking-[0.18em]
-            text-primary
-            font-bold
-          ">
-                        Organiser Dashboard
-                    </div>
-
-
-                    <h1 class="
-            font-display
-            text-3xl
-            md:text-4xl
-            mt-2
-          ">
-                        Health Corner Administration
-                    </h1>
-
+                    <div class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Organiser Dashboard</div>
+                    <h1 class="font-display text-3xl md:text-4xl mt-2">Health Corner Administration</h1>
+                    <p class="text-muted mt-3 max-w-2xl leading-6">
+                        Review manually submitted bank transfers. Approve only after confirming the credit in the Mentor
+                        Men Zenith Bank account.
+                    </p>
                 </div>
 
-
-                <button id="refreshButton" type="button" class="
-            border
-            border-outline
-            text-primary
-            px-5
-            py-3
-            rounded-lg
-            text-xs
-            uppercase
-            tracking-widest
-            font-bold
-            flex
-            items-center
-            gap-2
-          ">
-
-                    <span class="
-            material-symbols-outlined
-            text-lg
-          ">
-                        refresh
-                    </span>
-
+                <button id="refreshButton" type="button"
+                    class="border border-outline text-primary px-5 py-3 rounded-lg text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 hover:bg-primary/5 disabled:opacity-50">
+                    <span class="material-symbols-outlined text-lg">refresh</span>
                     Refresh
-
                 </button>
-
             </div>
 
-
-            <!-- STATUS -->
-
-            <div class="
-        bg-panel
-        border
-        border-[#333]
-        rounded-lg
-        overflow-hidden
-      ">
-
-                <div class="
-          p-6
-          flex
-          justify-between
-          gap-4
-          items-center
-        ">
-
-                    <div>
-
-                        <div class="
-              text-xs
-              uppercase
-              tracking-widest
-              text-muted
-            ">
-                            Registration
-                        </div>
-
-
-                        <div id="statusText" class="
-                text-xl
-                font-bold
-                mt-2
-              ">
-                            Checking...
-                        </div>
-
-                    </div>
-
-
-                    <div id="statusBadge" class="
-              px-4
-              py-2
-              rounded-full
-              text-xs
-              font-bold
-              uppercase
-              tracking-widest
-              border
-            ">
-                        Checking
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- GENERAL QR -->
-
-            <div class="
-        bg-panel
-        border
-        border-[#333]
-        rounded-lg
-        mt-6
-        overflow-hidden
-      ">
-
-                <div class="
-          px-6
-          py-5
-          border-b
-          border-[#333]
-        ">
-
-                    <div class="
-            text-xs
-            uppercase
-            tracking-[0.18em]
-            text-primary
-            font-bold
-          ">
-                        General Card QR Asset
-                    </div>
-
-
-                    <h2 class="
-            font-display
-            text-2xl
-            mt-2
-          ">
-                        General 30% Health Corner QR
-                    </h2>
-
-                </div>
-
-
-                <div class="p-6">
-
-                    <p class="
-            text-muted
-            leading-7
-          ">
-                        This is the single shared QR for the general
-                        EMERGE 2026 Health Corner card artwork.
-                        It directs participants to the Health Corner
-                        registration page.
-                    </p>
-
-
-                    <div id="openNotice" class="
-              hidden
-              mt-5
-              border-l-2
-              border-valid
-              bg-valid/5
-              p-4
-            ">
-
-                        <div class="
-              text-valid
-              font-bold
-            ">
-                            General QR Active
-                        </div>
-
-                        <div class="
-              text-sm
-              text-muted
-              mt-1
-            ">
-                            Registration is open. The General 30% QR
-                            can currently be downloaded and used.
-                        </div>
-
-                    </div>
-
-
-                    <div id="closedNotice" class="
-              hidden
-              mt-5
-              border-l-2
-              border-invalid
-              bg-invalid/5
-              p-4
-            ">
-
-                        <div class="
-              text-[#e08a8a]
-              font-bold
-            ">
-                            General QR Closed
-                        </div>
-
-                        <div class="
-              text-sm
-              text-muted
-              mt-1
-            ">
-                            Registration is closed. The General 30% QR
-                            download has been disabled.
-                        </div>
-
-                    </div>
-
-
-                    <button id="downloadButton" type="button" disabled class="
-              mt-6
-              w-full
-              bg-gold
-              text-[#121414]
-              py-4
-              rounded-lg
-              uppercase
-              text-xs
-              tracking-[0.15em]
-              font-bold
-              flex
-              justify-center
-              items-center
-              gap-2
-              disabled:opacity-35
-              disabled:cursor-not-allowed
-            ">
-
-                        <span class="
-              material-symbols-outlined
-              text-lg
-            ">
-                            download
-                        </span>
-
-                        Download General 30% QR
-
-                    </button>
-
-
-                    <p class="
-            text-xs
-            text-muted
-            mt-4
-            leading-5
-          ">
-                        The registration status is checked again immediately
-                        before every download. Closing registration in Google
-                        Sheets therefore disables this download even if this
-                        page was already open.
-                    </p>
-
-                </div>
-
-            </div>
-
-
+            <!-- ADMIN ERROR -->
             <div id="adminMessage" class="hidden"></div>
 
-        </section>
+            <!-- TOP STATUS GRID -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
+                <!-- REGISTRATION STATUS -->
+                <div class="bg-panel border border-[#333] rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="text-xs uppercase tracking-widest text-muted">Registration</div>
+                        <div class="flex justify-between gap-4 items-center mt-3">
+                            <div id="statusText" class="text-xl font-bold">Checking...</div>
+                            <div id="statusBadge"
+                                class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border">
+                                Checking</div>
+                        </div>
+                        <p class="text-sm text-muted mt-4 leading-6">
+                            Registration status controls new submissions. It does not cancel already-issued Health
+                            Corner credentials.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SETTLEMENT ACCOUNT -->
+                <div class="bg-panel border border-[#333] rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="text-xs uppercase tracking-widest text-primary">Payment Account</div>
+                        <div id="adminBankName" class="font-semibold mt-3">Zenith Bank</div>
+                        <div id="adminAccountName" class="text-muted mt-1 break-words">—</div>
+                        <div id="adminAccountNumber" class="font-mono text-primary font-bold tracking-wider mt-2">—
+                        </div>
+                        <div id="paymentConfigBadge"
+                            class="inline-flex mt-4 px-3 py-1.5 rounded-full border text-[10px] uppercase tracking-wider font-bold">
+                            Checking</div>
+                    </div>
+                </div>
+
+                <!-- CREDENTIAL WINDOW -->
+                <div class="bg-panel border border-[#333] rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="text-xs uppercase tracking-widest text-primary">Credential Validity</div>
+                        <div class="mt-3 grid grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-[10px] uppercase tracking-wider text-muted">Valid From</div>
+                                <div id="adminValidFrom" class="font-semibold mt-1">—</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase tracking-wider text-muted">Valid Until</div>
+                                <div id="adminValidUntil" class="font-semibold mt-1">—</div>
+                            </div>
+                        </div>
+                        <div id="validityConfigBadge"
+                            class="inline-flex mt-4 px-3 py-1.5 rounded-full border text-[10px] uppercase tracking-wider font-bold">
+                            Checking</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GENERAL QR -->
+            <div class="bg-panel border border-[#333] rounded-lg mt-6 overflow-hidden">
+                <div
+                    class="px-6 py-5 border-b border-[#333] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Organiser-Only Asset
+                        </div>
+                        <h2 class="font-display text-2xl mt-2">General 30% Health Corner QR</h2>
+                    </div>
+
+                    <button id="downloadButton" type="button" disabled
+                        class="bg-gold text-[#121414] px-5 py-3 rounded-lg uppercase text-xs tracking-[0.14em] font-bold flex justify-center items-center gap-2 disabled:opacity-35 disabled:cursor-not-allowed">
+                        <span class="material-symbols-outlined text-lg">download</span>
+                        Download General QR
+                    </button>
+                </div>
+
+                <div class="p-6">
+                    <p class="text-muted leading-7">
+                        This shared QR directs participants to the Health Corner registration experience. It contains no
+                        participant credential or personal token.
+                    </p>
+
+                    <div id="openNotice" class="hidden mt-5 border-l-2 border-valid bg-valid/5 p-4">
+                        <div class="text-valid font-bold">General QR Active</div>
+                        <div class="text-sm text-muted mt-1">Registration is open, so the General 30% QR can currently
+                            be downloaded.</div>
+                    </div>
+
+                    <div id="closedNotice" class="hidden mt-5 border-l-2 border-invalid bg-invalid/5 p-4">
+                        <div class="text-[#e08a8a] font-bold">General QR Closed</div>
+                        <div class="text-sm text-muted mt-1">Registration is closed, so the General 30% QR download is
+                            disabled.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAYMENT REVIEW SUMMARY -->
+            <div class="mt-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                    <div class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Payment Review</div>
+                    <h2 class="font-display text-3xl mt-2">Manual Verification Queue</h2>
+                    <p class="text-sm text-muted mt-2">Match each submission against the actual incoming credit in the
+                        Zenith Bank account.</p>
+                </div>
+                <div id="lastRefreshText" class="text-xs text-muted">Not refreshed yet</div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                <button type="button" data-status="AWAITING_CONFIRMATION"
+                    class="summary-filter text-left bg-panel border border-[#333] rounded-lg p-5 hover:border-primary/60 transition-colors">
+                    <div class="text-[10px] uppercase tracking-widest text-pending font-bold">Awaiting Confirmation
+                    </div>
+                    <div id="countAwaiting" class="font-display text-4xl mt-3">0</div>
+                    <div class="text-xs text-muted mt-2">Requires account check</div>
+                </button>
+
+                <button type="button" data-status="NEEDS_REVIEW"
+                    class="summary-filter text-left bg-panel border border-[#333] rounded-lg p-5 hover:border-primary/60 transition-colors">
+                    <div class="text-[10px] uppercase tracking-widest text-pending font-bold">Needs Review</div>
+                    <div id="countReview" class="font-display text-4xl mt-3">0</div>
+                    <div class="text-xs text-muted mt-2">Additional verification</div>
+                </button>
+
+                <button type="button" data-status="APPROVED"
+                    class="summary-filter text-left bg-panel border border-[#333] rounded-lg p-5 hover:border-primary/60 transition-colors">
+                    <div class="text-[10px] uppercase tracking-widest text-valid font-bold">Approved</div>
+                    <div id="countApproved" class="font-display text-4xl mt-3">0</div>
+                    <div class="text-xs text-muted mt-2">Credentials activated</div>
+                </button>
+
+                <button type="button" data-status="DENIED"
+                    class="summary-filter text-left bg-panel border border-[#333] rounded-lg p-5 hover:border-primary/60 transition-colors">
+                    <div class="text-[10px] uppercase tracking-widest text-[#e08a8a] font-bold">Denied</div>
+                    <div id="countDenied" class="font-display text-4xl mt-3">0</div>
+                    <div class="text-xs text-muted mt-2">No credential issued</div>
+                </button>
+            </div>
+
+            <!-- SEARCH + FILTERS -->
+            <div class="bg-panel border border-[#333] rounded-lg mt-6 p-4 md:p-5">
+                <div class="relative">
+                    <span
+                        class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted">search</span>
+                    <input id="paymentSearch" type="search"
+                        placeholder="Search participant, email, payment reference, transfer name or bank reference..."
+                        class="w-full bg-[#0f1010] border border-[#343434] rounded-lg py-3.5 pl-12 pr-4 text-white placeholder:text-[#777] focus:border-primary focus:ring-0">
+                </div>
+
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <button type="button" data-filter-status=""
+                        class="status-tab active border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold">All</button>
+                    <button type="button" data-filter-status="AWAITING_CONFIRMATION"
+                        class="status-tab border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold text-muted">Awaiting</button>
+                    <button type="button" data-filter-status="NEEDS_REVIEW"
+                        class="status-tab border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold text-muted">Needs
+                        Review</button>
+                    <button type="button" data-filter-status="APPROVED"
+                        class="status-tab border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold text-muted">Approved</button>
+                    <button type="button" data-filter-status="DENIED"
+                        class="status-tab border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold text-muted">Denied</button>
+
+                    <span class="hidden sm:block w-px bg-[#3b3b3b] mx-1"></span>
+
+                    <button type="button" data-filter-tier=""
+                        class="tier-tab active border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold">All
+                        Tiers</button>
+                    <button type="button" data-filter-tier="Standard"
+                        class="tier-tab border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold text-muted">Standard
+                        · ₦10k</button>
+                    <button type="button" data-filter-tier="VIP"
+                        class="tier-tab border border-[#3b3b3b] rounded px-3 py-2 text-[10px] uppercase tracking-wider font-bold text-muted">VIP
+                        · ₦50k</button>
+                </div>
+            </div>
+
+            <!-- QUEUE -->
+            <div class="mt-7">
+                <div class="flex items-center justify-between gap-4 mb-4">
+                    <h3 id="queueTitle" class="font-display text-2xl">All Payment Submissions</h3>
+                    <div id="queueResultCount" class="text-xs text-muted">0 records</div>
+                </div>
+
+                <div id="queueLoading" class="hidden bg-panel border border-[#333] rounded-lg p-8">
+                    <div class="flex items-center justify-center gap-4 text-muted">
+                        <div class="loader"></div>
+                        Loading payment submissions...
+                    </div>
+                </div>
+
+                <div id="paymentQueue" class="space-y-4"></div>
+
+                <div id="emptyQueue" class="hidden bg-panel border border-[#333] rounded-lg p-9 text-center">
+                    <span class="material-symbols-outlined text-primary text-4xl">inbox</span>
+                    <h4 class="font-display text-2xl mt-4">No Matching Payments</h4>
+                    <p class="text-muted mt-3">There are no payment submissions matching the current search and filters.
+                    </p>
+                </div>
+            </div>
+
+        </section>
     </main>
 
-
+    <!-- GENERAL QR WORKING AREA -->
     <div id="generalQrWorking"></div>
 
+    <!-- CONFIRM PAYMENT MODAL -->
+    <div id="confirmModal" class="hidden fixed inset-0 z-50 modal-backdrop p-4 overflow-y-auto">
+        <div class="min-h-full flex items-center justify-center">
+            <div class="w-full max-w-xl bg-panel border border-[#3a3a3a] rounded-lg shadow-2xl">
+                <div class="p-6 border-b border-[#333]">
+                    <div class="text-xs uppercase tracking-[0.16em] text-valid font-bold">Financial Confirmation</div>
+                    <h3 class="font-display text-3xl mt-2">Confirm Payment Received</h3>
+                </div>
+
+                <div class="p-6">
+                    <div class="bg-[#101111] border border-[#333] rounded-lg p-5 space-y-3">
+                        <div class="flex justify-between gap-4"><span
+                                class="text-muted text-sm">Participant</span><strong id="confirmParticipant"
+                                class="text-right"></strong></div>
+                        <div class="flex justify-between gap-4"><span class="text-muted text-sm">Tier</span><strong
+                                id="confirmTier" class="text-right"></strong></div>
+                        <div class="flex justify-between gap-4"><span class="text-muted text-sm">Expected
+                                Amount</span><strong id="confirmAmount" class="text-primary text-right"></strong></div>
+                        <div class="flex justify-between gap-4"><span class="text-muted text-sm">Transfer
+                                Name</span><strong id="confirmTransferName" class="text-right"></strong></div>
+                    </div>
+
+                    <div class="mt-5 border-l-2 border-valid bg-valid/5 p-4">
+                        <p class="text-sm text-muted leading-6">
+                            Continue only after you have confirmed that this payment was actually received in the Mentor
+                            Men Zenith Bank account. Approval will create the final HC-2026 Registration ID, generate
+                            the personal QR, and send the credential email.
+                        </p>
+                    </div>
+
+                    <label for="confirmAdminNote"
+                        class="block text-xs uppercase tracking-wider text-muted font-semibold mt-5">Admin Note <span
+                            class="normal-case tracking-normal font-normal">(optional)</span></label>
+                    <textarea id="confirmAdminNote" rows="3"
+                        class="mt-2 w-full bg-[#101111] border border-[#3a3a3a] rounded p-3 text-white focus:border-primary focus:ring-0"
+                        placeholder="Internal note, if needed"></textarea>
+
+                    <div id="confirmModalMessage" class="hidden"></div>
+
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
+                        <button type="button" data-close-modal="confirmModal"
+                            class="border border-[#444] text-muted px-5 py-3 rounded text-xs uppercase tracking-wider font-bold">Cancel</button>
+                        <button id="confirmPaymentButton" type="button"
+                            class="bg-valid text-[#0d2415] px-5 py-3 rounded text-xs uppercase tracking-wider font-bold disabled:opacity-50">
+                            Confirm Payment Received
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEEDS REVIEW MODAL -->
+    <div id="reviewModal" class="hidden fixed inset-0 z-50 modal-backdrop p-4 overflow-y-auto">
+        <div class="min-h-full flex items-center justify-center">
+            <div class="w-full max-w-xl bg-panel border border-[#3a3a3a] rounded-lg shadow-2xl">
+                <div class="p-6 border-b border-[#333]">
+                    <div class="text-xs uppercase tracking-[0.16em] text-pending font-bold">Additional Verification
+                    </div>
+                    <h3 class="font-display text-3xl mt-2">Mark Payment as Needs Review</h3>
+                </div>
+
+                <div class="p-6">
+                    <p class="text-muted leading-6">Use this when you cannot confidently approve or deny the submitted
+                        transfer yet. No credential will be issued.</p>
+
+                    <label for="reviewReason"
+                        class="block text-xs uppercase tracking-wider text-muted font-semibold mt-5">Reason</label>
+                    <select id="reviewReason"
+                        class="mt-2 w-full bg-[#101111] border border-[#3a3a3a] rounded p-3 text-white focus:border-primary focus:ring-0">
+                        <option value="Payment not yet visible">Payment not yet visible</option>
+                        <option value="Incorrect amount">Incorrect amount</option>
+                        <option value="Sender details unclear">Sender details unclear</option>
+                        <option value="Reference does not match">Reference does not match</option>
+                        <option value="Possible duplicate submission">Possible duplicate submission</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label for="reviewAdminNote"
+                        class="block text-xs uppercase tracking-wider text-muted font-semibold mt-5">Admin Note <span
+                            class="normal-case tracking-normal font-normal">(optional)</span></label>
+                    <textarea id="reviewAdminNote" rows="3"
+                        class="mt-2 w-full bg-[#101111] border border-[#3a3a3a] rounded p-3 text-white focus:border-primary focus:ring-0"></textarea>
+
+                    <div id="reviewModalMessage" class="hidden"></div>
+
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
+                        <button type="button" data-close-modal="reviewModal"
+                            class="border border-[#444] text-muted px-5 py-3 rounded text-xs uppercase tracking-wider font-bold">Cancel</button>
+                        <button id="markReviewButton" type="button"
+                            class="bg-pending text-[#241c06] px-5 py-3 rounded text-xs uppercase tracking-wider font-bold disabled:opacity-50">Mark
+                            Needs Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DENY MODAL -->
+    <div id="denyModal" class="hidden fixed inset-0 z-50 modal-backdrop p-4 overflow-y-auto">
+        <div class="min-h-full flex items-center justify-center">
+            <div class="w-full max-w-xl bg-panel border border-[#3a3a3a] rounded-lg shadow-2xl">
+                <div class="p-6 border-b border-[#333]">
+                    <div class="text-xs uppercase tracking-[0.16em] text-[#e08a8a] font-bold">Payment Not Confirmed
+                    </div>
+                    <h3 class="font-display text-3xl mt-2">Deny Payment?</h3>
+                </div>
+
+                <div class="p-6">
+                    <div class="bg-[#101111] border border-[#333] rounded-lg p-5 space-y-3">
+                        <div class="flex justify-between gap-4"><span
+                                class="text-muted text-sm">Participant</span><strong id="denyParticipant"
+                                class="text-right"></strong></div>
+                        <div class="flex justify-between gap-4"><span class="text-muted text-sm">Tier</span><strong
+                                id="denyTier" class="text-right"></strong></div>
+                        <div class="flex justify-between gap-4"><span class="text-muted text-sm">Expected
+                                Amount</span><strong id="denyAmount" class="text-primary text-right"></strong></div>
+                    </div>
+
+                    <p class="text-muted leading-6 mt-5">
+                        Denying this submission will keep the registration inactive, issue no QR, and automatically
+                        email the participant that the payment was not confirmed.
+                    </p>
+
+                    <label for="denyReason"
+                        class="block text-xs uppercase tracking-wider text-muted font-semibold mt-5">Denial Reason
+                        *</label>
+                    <select id="denyReason"
+                        class="mt-2 w-full bg-[#101111] border border-[#3a3a3a] rounded p-3 text-white focus:border-primary focus:ring-0">
+                        <option value="Payment not received">Payment not received</option>
+                        <option value="Incorrect amount">Incorrect amount</option>
+                        <option value="Payment details do not match">Payment details do not match</option>
+                        <option value="Duplicate submission">Duplicate submission</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label for="denyAdminNote"
+                        class="block text-xs uppercase tracking-wider text-muted font-semibold mt-5">Admin Note <span
+                            class="normal-case tracking-normal font-normal">(optional)</span></label>
+                    <textarea id="denyAdminNote" rows="3"
+                        class="mt-2 w-full bg-[#101111] border border-[#3a3a3a] rounded p-3 text-white focus:border-primary focus:ring-0"></textarea>
+
+                    <div id="denyModalMessage" class="hidden"></div>
+
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
+                        <button type="button" data-close-modal="denyModal"
+                            class="border border-[#444] text-muted px-5 py-3 rounded text-xs uppercase tracking-wider font-bold">Cancel</button>
+                        <button id="denyPaymentButton" type="button"
+                            class="bg-[#7c2020] text-white px-5 py-3 rounded text-xs uppercase tracking-wider font-bold disabled:opacity-50">Deny
+                            Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="adminToast"
+        class="admin-toast bg-panel2 border border-primary/30 shadow-2xl rounded-lg px-5 py-4 min-w-[260px] max-w-[90vw]">
+        <div class="flex items-start gap-3">
+            <span id="adminToastIcon" class="material-symbols-outlined text-valid">check_circle</span>
+            <div>
+                <div id="adminToastTitle" class="font-semibold">Done</div>
+                <div id="adminToastText" class="text-sm text-muted mt-1"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
+        const API = "/api/health-corner";
+        const GENERAL_URL = "https://mentormenforum.org/health-corner/index.html";
+        const AUTO_REFRESH_MS = 30000;
 
-        const API =
-            "/api/health-corner";
+        const loginPanel = document.getElementById("loginPanel");
+        const adminPanel = document.getElementById("adminPanel");
+        const loginForm = document.getElementById("loginForm");
+        const organiserCode = document.getElementById("organiserCode");
+        const loginButton = document.getElementById("loginButton");
+        const loginMessage = document.getElementById("loginMessage");
+        const logoutButton = document.getElementById("logoutButton");
+        const refreshButton = document.getElementById("refreshButton");
+        const adminMessage = document.getElementById("adminMessage");
 
+        const statusText = document.getElementById("statusText");
+        const statusBadge = document.getElementById("statusBadge");
+        const openNotice = document.getElementById("openNotice");
+        const closedNotice = document.getElementById("closedNotice");
+        const downloadButton = document.getElementById("downloadButton");
+        const workingQr = document.getElementById("generalQrWorking");
 
-        /*
-         * The general QR contains no individual
-         * registration/token information.
-         */
-        const GENERAL_URL =
-            "https://mentormenforum.org/health-corner/index.html";
+        const adminBankName = document.getElementById("adminBankName");
+        const adminAccountName = document.getElementById("adminAccountName");
+        const adminAccountNumber = document.getElementById("adminAccountNumber");
+        const paymentConfigBadge = document.getElementById("paymentConfigBadge");
+        const adminValidFrom = document.getElementById("adminValidFrom");
+        const adminValidUntil = document.getElementById("adminValidUntil");
+        const validityConfigBadge = document.getElementById("validityConfigBadge");
 
+        const countAwaiting = document.getElementById("countAwaiting");
+        const countReview = document.getElementById("countReview");
+        const countApproved = document.getElementById("countApproved");
+        const countDenied = document.getElementById("countDenied");
+        const lastRefreshText = document.getElementById("lastRefreshText");
 
-        const loginPanel =
-            document.getElementById(
-                "loginPanel"
-            );
+        const paymentSearch = document.getElementById("paymentSearch");
+        const paymentQueue = document.getElementById("paymentQueue");
+        const queueLoading = document.getElementById("queueLoading");
+        const emptyQueue = document.getElementById("emptyQueue");
+        const queueTitle = document.getElementById("queueTitle");
+        const queueResultCount = document.getElementById("queueResultCount");
 
-        const adminPanel =
-            document.getElementById(
-                "adminPanel"
-            );
+        const confirmModal = document.getElementById("confirmModal");
+        const confirmParticipant = document.getElementById("confirmParticipant");
+        const confirmTier = document.getElementById("confirmTier");
+        const confirmAmount = document.getElementById("confirmAmount");
+        const confirmTransferName = document.getElementById("confirmTransferName");
+        const confirmAdminNote = document.getElementById("confirmAdminNote");
+        const confirmModalMessage = document.getElementById("confirmModalMessage");
+        const confirmPaymentButton = document.getElementById("confirmPaymentButton");
 
-        const loginForm =
-            document.getElementById(
-                "loginForm"
-            );
+        const reviewModal = document.getElementById("reviewModal");
+        const reviewReason = document.getElementById("reviewReason");
+        const reviewAdminNote = document.getElementById("reviewAdminNote");
+        const reviewModalMessage = document.getElementById("reviewModalMessage");
+        const markReviewButton = document.getElementById("markReviewButton");
 
-        const organiserCode =
-            document.getElementById(
-                "organiserCode"
-            );
+        const denyModal = document.getElementById("denyModal");
+        const denyParticipant = document.getElementById("denyParticipant");
+        const denyTier = document.getElementById("denyTier");
+        const denyAmount = document.getElementById("denyAmount");
+        const denyReason = document.getElementById("denyReason");
+        const denyAdminNote = document.getElementById("denyAdminNote");
+        const denyModalMessage = document.getElementById("denyModalMessage");
+        const denyPaymentButton = document.getElementById("denyPaymentButton");
 
-        const loginButton =
-            document.getElementById(
-                "loginButton"
-            );
+        const adminToast = document.getElementById("adminToast");
+        const adminToastIcon = document.getElementById("adminToastIcon");
+        const adminToastTitle = document.getElementById("adminToastTitle");
+        const adminToastText = document.getElementById("adminToastText");
 
-        const loginMessage =
-            document.getElementById(
-                "loginMessage"
-            );
+        let adminToken = sessionStorage.getItem("emergeHealthCornerAdminToken") || "";
+        let registrationOpen = false;
+        let currentStatusFilter = "";
+        let currentTierFilter = "";
+        let currentQuery = "";
+        let selectedSubmission = null;
+        let queueRequestInProgress = false;
+        let refreshTimer = null;
+        let searchTimer = null;
+        let toastTimer = null;
 
-        const logoutButton =
-            document.getElementById(
-                "logoutButton"
-            );
+        async function postApi(params) {
+            const response = await fetch(API, {
+                method: "POST",
+                cache: "no-store",
+                credentials: "same-origin",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body: new URLSearchParams(params).toString()
+            });
 
-        const refreshButton =
-            document.getElementById(
-                "refreshButton"
-            );
+            let data;
+            try {
+                data = await response.json();
+            } catch (_) {
+                throw new Error("The Health Corner service returned an invalid response.");
+            }
 
-        const statusText =
-            document.getElementById(
-                "statusText"
-            );
+            if (!response.ok) {
+                throw new Error(data && data.message ? data.message : "The Health Corner request failed.");
+            }
 
-        const statusBadge =
-            document.getElementById(
-                "statusBadge"
-            );
-
-        const openNotice =
-            document.getElementById(
-                "openNotice"
-            );
-
-        const closedNotice =
-            document.getElementById(
-                "closedNotice"
-            );
-
-        const downloadButton =
-            document.getElementById(
-                "downloadButton"
-            );
-
-        const workingQr =
-            document.getElementById(
-                "generalQrWorking"
-            );
-
-        const adminMessage =
-            document.getElementById(
-                "adminMessage"
-            );
-
-
-        let adminToken =
-            sessionStorage.getItem(
-                "emergeHealthCornerAdminToken"
-            ) || "";
-
-
-        let registrationOpen =
-            false;
-
-
-        async function postApi(
-            params
-        ) {
-            const response =
-                await fetch(
-                    API,
-                    {
-                        method:
-                            "POST",
-
-                        cache:
-                            "no-store",
-
-                        credentials:
-                            "same-origin",
-
-                        headers: {
-                            "Accept":
-                                "application/json",
-
-                            "Content-Type":
-                                "application/x-www-form-urlencoded;charset=UTF-8"
-                        },
-
-                        body:
-                            new URLSearchParams(
-                                params
-                            ).toString()
-                    }
-                );
-
-            return response.json();
+            return data;
         }
 
-
-        function showLoginError(
-            text
-        ) {
-            loginMessage.className =
-                "block mt-4 border border-invalid/40 bg-invalid/10 text-[#e8a4a4] p-4 text-sm";
-
-            loginMessage.textContent =
-                text;
+        function escapeHtml(value) {
+            return String(value || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
 
-
-        function showAdminError(
-            text
-        ) {
-            adminMessage.className =
-                "block mt-6 border border-invalid/40 bg-invalid/10 text-[#e8a4a4] p-4 text-sm";
-
-            adminMessage.textContent =
-                text;
+        function showLoginError(text) {
+            loginMessage.className = "block mt-4 border border-invalid/40 bg-invalid/10 text-[#e8a4a4] p-4 text-sm rounded";
+            loginMessage.textContent = text;
         }
 
+        function showAdminError(text) {
+            adminMessage.className = "block mb-6 border border-invalid/40 bg-invalid/10 text-[#e8a4a4] p-4 text-sm rounded";
+            adminMessage.textContent = text;
+        }
 
         function clearAdminError() {
-            adminMessage.className =
-                "hidden";
-
-            adminMessage.textContent =
-                "";
+            adminMessage.className = "hidden";
+            adminMessage.textContent = "";
         }
 
+        function showModalError(element, text) {
+            element.className = "block mt-4 border border-invalid/40 bg-invalid/10 text-[#e8a4a4] p-3 text-sm rounded";
+            element.textContent = text;
+        }
+
+        function clearModalMessage(element) {
+            element.className = "hidden";
+            element.textContent = "";
+        }
+
+        function showToast(title, text, type = "success") {
+            if (toastTimer) clearTimeout(toastTimer);
+
+            adminToastTitle.textContent = title;
+            adminToastText.textContent = text || "";
+
+            if (type === "error") {
+                adminToastIcon.textContent = "error";
+                adminToastIcon.className = "material-symbols-outlined text-[#e08a8a]";
+            } else if (type === "warning") {
+                adminToastIcon.textContent = "warning";
+                adminToastIcon.className = "material-symbols-outlined text-pending";
+            } else {
+                adminToastIcon.textContent = "check_circle";
+                adminToastIcon.className = "material-symbols-outlined text-valid";
+            }
+
+            adminToast.classList.add("show");
+            toastTimer = setTimeout(() => adminToast.classList.remove("show"), 5200);
+        }
 
         function showDashboard() {
-            loginPanel.classList.add(
-                "hidden"
-            );
-
-            adminPanel.classList.remove(
-                "hidden"
-            );
-
-            logoutButton.classList.remove(
-                "hidden"
-            );
+            loginPanel.classList.add("hidden");
+            adminPanel.classList.remove("hidden");
+            logoutButton.classList.remove("hidden");
+            startAutoRefresh();
         }
-
 
         function showLogin() {
-            adminPanel.classList.add(
-                "hidden"
-            );
-
-            loginPanel.classList.remove(
-                "hidden"
-            );
-
-            logoutButton.classList.add(
-                "hidden"
-            );
+            stopAutoRefresh();
+            adminPanel.classList.add("hidden");
+            loginPanel.classList.remove("hidden");
+            logoutButton.classList.add("hidden");
         }
 
+        function sessionExpired(message) {
+            adminToken = "";
+            sessionStorage.removeItem("emergeHealthCornerAdminToken");
+            closeAllModals();
+            showLogin();
+            showLoginError(message || "Your organiser session has expired. Please sign in again.");
+        }
 
-        function updateStatus(
-            isOpen
-        ) {
-            registrationOpen =
-                isOpen === true;
-
-            if (registrationOpen) {
-                statusText.textContent =
-                    "Registration Open";
-
-                statusText.className =
-                    "text-xl font-bold mt-2 text-valid";
-
-                statusBadge.textContent =
-                    "OPEN";
-
-                statusBadge.className =
-                    "px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-valid/40 text-valid bg-valid/5";
-
-                openNotice.classList.remove(
-                    "hidden"
-                );
-
-                closedNotice.classList.add(
-                    "hidden"
-                );
-
-                downloadButton.disabled =
-                    false;
-
+        function setConfigBadge(element, configured) {
+            if (configured) {
+                element.textContent = "Configured";
+                element.className = "inline-flex mt-4 px-3 py-1.5 rounded-full border border-valid/40 text-valid bg-valid/5 text-[10px] uppercase tracking-wider font-bold";
             } else {
-                statusText.textContent =
-                    "Registration Closed";
-
-                statusText.className =
-                    "text-xl font-bold mt-2 text-[#e08a8a]";
-
-                statusBadge.textContent =
-                    "CLOSED";
-
-                statusBadge.className =
-                    "px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-invalid/40 text-[#e08a8a] bg-invalid/5";
-
-                openNotice.classList.add(
-                    "hidden"
-                );
-
-                closedNotice.classList.remove(
-                    "hidden"
-                );
-
-                downloadButton.disabled =
-                    true;
+                element.textContent = "Needs Setup";
+                element.className = "inline-flex mt-4 px-3 py-1.5 rounded-full border border-invalid/40 text-[#e08a8a] bg-invalid/5 text-[10px] uppercase tracking-wider font-bold";
             }
         }
 
+        function updateRegistrationStatus(isOpen) {
+            registrationOpen = isOpen === true;
 
-        function sessionExpired(
-            message
-        ) {
-            adminToken =
-                "";
-
-            sessionStorage.removeItem(
-                "emergeHealthCornerAdminToken"
-            );
-
-            showLogin();
-
-            showLoginError(
-                message ||
-                "Your organiser session has expired. Please sign in again."
-            );
+            if (registrationOpen) {
+                statusText.textContent = "Registration Open";
+                statusText.className = "text-xl font-bold text-valid";
+                statusBadge.textContent = "OPEN";
+                statusBadge.className = "px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-valid/40 text-valid bg-valid/5";
+                openNotice.classList.remove("hidden");
+                closedNotice.classList.add("hidden");
+                downloadButton.disabled = false;
+            } else {
+                statusText.textContent = "Registration Closed";
+                statusText.className = "text-xl font-bold text-[#e08a8a]";
+                statusBadge.textContent = "CLOSED";
+                statusBadge.className = "px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-invalid/40 text-[#e08a8a] bg-invalid/5";
+                openNotice.classList.add("hidden");
+                closedNotice.classList.remove("hidden");
+                downloadButton.disabled = true;
+            }
         }
 
+        function updateAdminConfiguration(data) {
+            adminBankName.textContent = data.paymentBankName || "Zenith Bank";
+            adminAccountName.textContent = data.paymentAccountName || "—";
+            adminAccountNumber.textContent = data.paymentAccountNumber || "—";
+            setConfigBadge(paymentConfigBadge, data.paymentConfigured === true);
 
-        async function refreshStatus() {
-            clearAdminError();
+            adminValidFrom.textContent = data.credentialValidFromFormatted || "—";
+            adminValidUntil.textContent = data.credentialValidUntilFormatted || "—";
+            setConfigBadge(validityConfigBadge, data.credentialValidityConfigured === true);
+        }
 
+        async function refreshAdminStatus({ silent = false } = {}) {
             if (!adminToken) {
                 showLogin();
                 return false;
             }
 
             try {
-                const data =
-                    await postApi({
-                        action:
-                            "adminStatus",
+                const data = await postApi({
+                    action: "adminStatus",
+                    adminAuthToken: adminToken
+                });
 
-                        adminAuthToken:
-                            adminToken
-                    });
+                if (!data || data.success !== true) {
+                    if (data && data.code === "ADMIN_SESSION_INVALID") {
+                        sessionExpired(data.message);
+                        return false;
+                    }
 
-                if (
-                    !data ||
-                    data.success !==
-                    true
-                ) {
-                    sessionExpired(
-                        data &&
-                            data.message
-                            ? data.message
-                            : "Your organiser session has expired."
-                    );
-
-                    return false;
+                    throw new Error(data && data.message ? data.message : "The organiser status could not be checked.");
                 }
 
                 showDashboard();
-
-                updateStatus(
-                    data.registrationOpen
-                );
-
+                updateRegistrationStatus(data.registrationOpen);
+                updateAdminConfiguration(data);
                 return true;
 
             } catch (error) {
                 console.error(error);
-
-                showAdminError(
-                    "The registration status could not be checked."
-                );
-
-                downloadButton.disabled =
-                    true;
-
+                downloadButton.disabled = true;
+                if (!silent) showAdminError(error.message || "The organiser status could not be checked.");
                 return false;
             }
         }
 
+        function updateCounts(counts = {}) {
+            countAwaiting.textContent = String(counts.awaitingConfirmation || 0).padStart(2, "0");
+            countReview.textContent = String(counts.needsReview || 0).padStart(2, "0");
+            countApproved.textContent = String(counts.approved || 0).padStart(2, "0");
+            countDenied.textContent = String(counts.denied || 0).padStart(2, "0");
+        }
 
-        loginForm.addEventListener(
-            "submit",
+        function statusLabel(status) {
+            const map = {
+                AWAITING_CONFIRMATION: "Awaiting Confirmation",
+                NEEDS_REVIEW: "Needs Review",
+                APPROVED: "Approved",
+                DENIED: "Denied"
+            };
+            return map[status] || status || "Unknown";
+        }
 
-            async function (event) {
-                event.preventDefault();
+        function statusClasses(status) {
+            if (status === "APPROVED") return "border-valid/40 text-valid bg-valid/5";
+            if (status === "DENIED") return "border-invalid/40 text-[#e08a8a] bg-invalid/5";
+            return "border-pending/40 text-pending bg-pending/5";
+        }
 
-                const code =
-                    organiserCode.value
-                        .trim();
+        function notificationSummary(item) {
+            const state = String(item.participantNotification || "");
 
-                if (
-                    !/^\d{4}$/.test(
-                        code
-                    )
-                ) {
-                    showLoginError(
-                        "Enter the complete 4-digit organiser PIN."
-                    );
+            if (!state) return "";
 
-                    return;
+            if (state.endsWith("_SENT")) {
+                return `<span class="text-valid">✓ Notification sent${item.notificationSentAt ? ` · ${escapeHtml(item.notificationSentAt)}` : ""}</span>`;
+            }
+
+            if (state.endsWith("_FAILED")) {
+                return `<span class="text-[#e08a8a]">⚠ Notification email failed</span>`;
+            }
+
+            if (state.endsWith("_PENDING")) {
+                return `<span class="text-pending">Notification pending</span>`;
+            }
+
+            return escapeHtml(state.replaceAll("_", " "));
+        }
+
+        function actionButtonsHtml(item) {
+            const reference = escapeHtml(item.paymentSubmissionReference);
+            const status = item.status;
+            const failedEmail = String(item.participantNotification || "").endsWith("_FAILED");
+
+            let buttons = "";
+
+            if (status === "AWAITING_CONFIRMATION" || status === "NEEDS_REVIEW") {
+                buttons += `
+          <button type="button" data-action="confirm" data-reference="${reference}" class="bg-gold text-[#121414] px-4 py-3 rounded text-xs uppercase tracking-wider font-bold hover:bg-primary">Confirm Payment</button>
+          <button type="button" data-action="review" data-reference="${reference}" class="border border-pending/40 text-pending px-4 py-3 rounded text-xs uppercase tracking-wider font-bold hover:bg-pending/5">Needs Review</button>
+          <button type="button" data-action="deny" data-reference="${reference}" class="bg-[#692020] text-white px-4 py-3 rounded text-xs uppercase tracking-wider font-bold hover:bg-[#7c2424]">Deny Payment</button>
+        `;
+            }
+
+            if (failedEmail) {
+                const label = status === "APPROVED" ? "Resend QR Email" : status === "DENIED" ? "Resend Denial Email" : "Resend Pending Email";
+                buttons += `
+          <button type="button" data-action="resend" data-reference="${reference}" class="border border-primary/40 text-primary px-4 py-3 rounded text-xs uppercase tracking-wider font-bold hover:bg-primary/5">${label}</button>
+        `;
+            }
+
+            return buttons;
+        }
+
+        function renderPaymentQueue(submissions) {
+            paymentQueue.innerHTML = "";
+            queueResultCount.textContent = `${submissions.length} ${submissions.length === 1 ? "record" : "records"}`;
+
+            if (!submissions.length) {
+                emptyQueue.classList.remove("hidden");
+                return;
+            }
+
+            emptyQueue.classList.add("hidden");
+
+            submissions.forEach(item => {
+                const card = document.createElement("article");
+                card.className = "bg-panel border border-[#333] rounded-lg overflow-hidden";
+                card.dataset.reference = item.paymentSubmissionReference;
+
+                const reviewBlock = item.reviewReason
+                    ? `<div class="mt-4 border-l-2 ${item.status === "DENIED" ? "border-invalid bg-invalid/5" : "border-pending bg-pending/5"} p-4">
+               <div class="text-[10px] uppercase tracking-wider text-muted">${item.status === "DENIED" ? "Denial Reason" : "Review Reason"}</div>
+               <div class="text-sm mt-1">${escapeHtml(item.reviewReason)}</div>
+               ${item.adminNote ? `<div class="text-xs text-muted mt-2">Admin note: ${escapeHtml(item.adminNote)}</div>` : ""}
+             </div>`
+                    : "";
+
+                const registrationBlock = item.registrationId
+                    ? `<div class="mt-4 text-sm"><span class="text-muted">Registration ID:</span> <strong class="text-primary font-mono">${escapeHtml(item.registrationId)}</strong></div>`
+                    : "";
+
+                card.innerHTML = `
+          <div class="p-5 md:p-6">
+            <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <h4 class="font-semibold text-lg">${escapeHtml(item.fullName)}</h4>
+                  <span class="text-sm text-muted">${escapeHtml(item.email)}</span>
+                  <span class="border border-primary/20 bg-primary/5 text-primary px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold rounded">${escapeHtml(item.tier)} · ${escapeHtml(item.expectedAmountFormatted)}</span>
+                </div>
+                <div class="text-xs text-muted mt-2">Submitted ${escapeHtml(item.submittedAt || "—")}</div>
+              </div>
+
+              <span class="inline-flex self-start px-3 py-2 border rounded-full text-[10px] uppercase tracking-wider font-bold ${statusClasses(item.status)}">${escapeHtml(statusLabel(item.status))}</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-5 mt-6">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted">Submission Reference</div>
+                <div class="font-mono text-primary font-bold mt-1 break-all">${escapeHtml(item.paymentSubmissionReference)}</div>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted">Transfer Name</div>
+                <div class="mt-1">${escapeHtml(item.transferName || "—")}</div>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted">Sending Bank</div>
+                <div class="mt-1">${escapeHtml(item.sendingBank || "—")}</div>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted">Transaction / Session ID</div>
+                <div class="font-mono mt-1 break-all">${escapeHtml(item.transactionReference || "Not supplied")}</div>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-muted">Transfer Timing</div>
+                <div class="mt-1">${escapeHtml(item.transferDateFormatted || item.transferDate || "—")}</div>
+                <div class="text-xs text-muted mt-1">${escapeHtml(item.approximateTime || "Time not supplied")}</div>
+              </div>
+            </div>
+
+            ${registrationBlock}
+            ${reviewBlock}
+
+            <div class="mt-5 pt-5 border-t border-[#303030] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div class="text-xs text-muted">${notificationSummary(item)}</div>
+              <div class="flex flex-wrap gap-2">${actionButtonsHtml(item)}</div>
+            </div>
+          </div>
+        `;
+
+                paymentQueue.appendChild(card);
+            });
+        }
+
+        function setQueueTitle() {
+            const statusPart = currentStatusFilter ? statusLabel(currentStatusFilter) : "All Payment Submissions";
+            const tierPart = currentTierFilter ? ` · ${currentTierFilter}` : "";
+            queueTitle.textContent = statusPart + tierPart;
+        }
+
+        async function loadPaymentQueue({ silent = false } = {}) {
+            if (!adminToken || queueRequestInProgress) return false;
+
+            queueRequestInProgress = true;
+
+            if (!silent) {
+                queueLoading.classList.remove("hidden");
+                paymentQueue.classList.add("hidden");
+                emptyQueue.classList.add("hidden");
+            }
+
+            try {
+                const data = await postApi({
+                    action: "listPaymentSubmissions",
+                    adminAuthToken: adminToken,
+                    status: currentStatusFilter,
+                    tier: currentTierFilter,
+                    query: currentQuery
+                });
+
+                if (!data || data.success !== true) {
+                    if (data && data.code === "ADMIN_SESSION_INVALID") {
+                        sessionExpired(data.message);
+                        return false;
+                    }
+
+                    throw new Error(data && data.message ? data.message : "Payment submissions could not be loaded.");
                 }
 
-                loginButton.disabled =
-                    true;
+                updateCounts(data.counts || {});
+                renderPaymentQueue(Array.isArray(data.submissions) ? data.submissions : []);
+                setQueueTitle();
+                lastRefreshText.textContent = `Last refreshed ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+                clearAdminError();
+                return true;
 
-                loginButton.textContent =
-                    "CHECKING...";
+            } catch (error) {
+                console.error(error);
+                if (!silent) showAdminError(error.message || "Payment submissions could not be loaded.");
+                return false;
 
-                loginMessage.className =
-                    "hidden";
+            } finally {
+                queueRequestInProgress = false;
+                queueLoading.classList.add("hidden");
+                paymentQueue.classList.remove("hidden");
+            }
+        }
 
-                try {
-                    const data =
-                        await postApi({
-                            action:
-                                "authorizeAdmin",
+        async function refreshAll({ silent = false } = {}) {
+            refreshButton.disabled = true;
 
-                            organiserCode:
-                                code
-                        });
+            try {
+                const statusOkay = await refreshAdminStatus({ silent });
+                if (!statusOkay) return false;
+                await loadPaymentQueue({ silent });
+                return true;
+            } finally {
+                refreshButton.disabled = false;
+            }
+        }
 
-                    if (
-                        !data ||
-                        data.success !==
-                        true
-                    ) {
-                        showLoginError(
-                            data &&
-                                data.message
-                                ? data.message
-                                : "Organiser access could not be confirmed."
-                        );
+        function findSubmission(reference) {
+            const card = paymentQueue.querySelector(`[data-reference="${CSS.escape(reference)}"]`);
+            if (!card) return null;
 
+            const buttons = card.querySelectorAll("[data-reference]");
+            if (!buttons.length) return null;
+
+            // The authoritative full object is fetched from the current rendered dataset through the queue cache below.
+            return currentSubmissions.find(item => item.paymentSubmissionReference === reference) || null;
+        }
+
+        let currentSubmissions = [];
+        const originalRenderPaymentQueue = renderPaymentQueue;
+        renderPaymentQueue = function (submissions) {
+            currentSubmissions = submissions;
+            originalRenderPaymentQueue(submissions);
+        };
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove("hidden");
+            document.body.classList.add("overflow-hidden");
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add("hidden");
+            document.body.classList.remove("overflow-hidden");
+            selectedSubmission = null;
+        }
+
+        function closeAllModals() {
+            ["confirmModal", "reviewModal", "denyModal"].forEach(id => document.getElementById(id).classList.add("hidden"));
+            document.body.classList.remove("overflow-hidden");
+            selectedSubmission = null;
+        }
+
+        function prepareConfirmModal(item) {
+            selectedSubmission = item;
+            confirmParticipant.textContent = item.fullName;
+            confirmTier.textContent = item.tier;
+            confirmAmount.textContent = item.expectedAmountFormatted;
+            confirmTransferName.textContent = item.transferName || "—";
+            confirmAdminNote.value = "";
+            clearModalMessage(confirmModalMessage);
+            confirmPaymentButton.textContent = `CONFIRM ${item.expectedAmountFormatted} RECEIVED`;
+            openModal("confirmModal");
+        }
+
+        function prepareReviewModal(item) {
+            selectedSubmission = item;
+            reviewReason.value = item.reviewReason || "Payment not yet visible";
+            reviewAdminNote.value = item.adminNote || "";
+            clearModalMessage(reviewModalMessage);
+            openModal("reviewModal");
+        }
+
+        function prepareDenyModal(item) {
+            selectedSubmission = item;
+            denyParticipant.textContent = item.fullName;
+            denyTier.textContent = item.tier;
+            denyAmount.textContent = item.expectedAmountFormatted;
+            denyReason.value = "Payment not received";
+            denyAdminNote.value = "";
+            clearModalMessage(denyModalMessage);
+            openModal("denyModal");
+        }
+
+        async function performAdminAction(action, params, button, modalMessageElement) {
+            button.disabled = true;
+
+            try {
+                const data = await postApi({
+                    action,
+                    adminAuthToken: adminToken,
+                    ...params
+                });
+
+                if (!data || data.success !== true) {
+                    if (data && data.code === "ADMIN_SESSION_INVALID") {
+                        sessionExpired(data.message);
+                        return null;
+                    }
+
+                    throw new Error(data && data.message ? data.message : "The requested action could not be completed.");
+                }
+
+                return data;
+
+            } catch (error) {
+                console.error(error);
+                if (modalMessageElement) showModalError(modalMessageElement, error.message || "The requested action could not be completed.");
+                else showAdminError(error.message || "The requested action could not be completed.");
+                return null;
+
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        async function confirmSelectedPayment() {
+            if (!selectedSubmission) return;
+
+            const data = await performAdminAction(
+                "confirmPaymentSubmission",
+                {
+                    reference: selectedSubmission.paymentSubmissionReference,
+                    adminNote: confirmAdminNote.value.trim()
+                },
+                confirmPaymentButton,
+                confirmModalMessage
+            );
+
+            if (!data) return;
+
+            closeModal("confirmModal");
+
+            if (data.qrEmailSent) {
+                showToast(
+                    "Payment Confirmed",
+                    `${data.participant} has been activated as ${data.registrationId}. QR email sent to ${data.email}.`
+                );
+            } else {
+                showToast(
+                    "Credential Created — Email Failed",
+                    `${data.participant} was activated as ${data.registrationId}, but the QR email was not sent. Use Resend QR Email from the approved record.`,
+                    "warning"
+                );
+            }
+
+            await loadPaymentQueue();
+        }
+
+        async function markSelectedNeedsReview() {
+            if (!selectedSubmission) return;
+
+            const data = await performAdminAction(
+                "markPaymentNeedsReview",
+                {
+                    reference: selectedSubmission.paymentSubmissionReference,
+                    reason: reviewReason.value,
+                    adminNote: reviewAdminNote.value.trim()
+                },
+                markReviewButton,
+                reviewModalMessage
+            );
+
+            if (!data) return;
+
+            closeModal("reviewModal");
+            showToast("Marked Needs Review", `${data.participant}'s payment remains inactive pending additional verification.`, "warning");
+            await loadPaymentQueue();
+        }
+
+        async function denySelectedPayment() {
+            if (!selectedSubmission) return;
+
+            const data = await performAdminAction(
+                "denyPaymentSubmission",
+                {
+                    reference: selectedSubmission.paymentSubmissionReference,
+                    reason: denyReason.value,
+                    adminNote: denyAdminNote.value.trim()
+                },
+                denyPaymentButton,
+                denyModalMessage
+            );
+
+            if (!data) return;
+
+            closeModal("denyModal");
+
+            if (data.notificationEmailSent) {
+                showToast("Payment Denied", `${data.participant} was denied and the notification email was sent.`);
+            } else {
+                showToast("Payment Denied — Email Failed", `${data.participant} was denied, but the notification email failed. Use Resend Denial Email from the denied record.`, "warning");
+            }
+
+            await loadPaymentQueue();
+        }
+
+        async function resendNotification(item, button) {
+            const originalText = button.textContent;
+            button.disabled = true;
+            button.textContent = "SENDING...";
+
+            try {
+                const data = await postApi({
+                    action: "resendParticipantNotification",
+                    adminAuthToken: adminToken,
+                    reference: item.paymentSubmissionReference
+                });
+
+                if (!data || data.success !== true) {
+                    if (data && data.code === "ADMIN_SESSION_INVALID") {
+                        sessionExpired(data.message);
                         return;
                     }
 
-                    adminToken =
-                        data.adminAuthToken;
-
-                    sessionStorage.setItem(
-                        "emergeHealthCornerAdminToken",
-                        adminToken
-                    );
-
-                    organiserCode.value =
-                        "";
-
-                    showDashboard();
-
-                    updateStatus(
-                        data.registrationOpen
-                    );
-
-                } catch (error) {
-                    console.error(error);
-
-                    showLoginError(
-                        "The organiser service could not be reached."
-                    );
-
-                } finally {
-                    loginButton.disabled =
-                        false;
-
-                    loginButton.textContent =
-                        "Access Administration";
+                    throw new Error(data && data.message ? data.message : "The email could not be resent.");
                 }
+
+                showToast("Email Sent", data.message || `Notification sent to ${item.email}.`);
+                await loadPaymentQueue();
+
+            } catch (error) {
+                console.error(error);
+                showToast("Email Not Sent", error.message || "The email could not be resent.", "error");
+            } finally {
+                button.disabled = false;
+                button.textContent = originalText;
             }
-        );
-
-
-        logoutButton.addEventListener(
-            "click",
-
-            function () {
-                adminToken =
-                    "";
-
-                sessionStorage.removeItem(
-                    "emergeHealthCornerAdminToken"
-                );
-
-                showLogin();
-            }
-        );
-
-
-        refreshButton.addEventListener(
-            "click",
-            refreshStatus
-        );
-
-
-        function getQrCanvas() {
-            return workingQr.querySelector(
-                "canvas"
-            );
         }
 
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const code = organiserCode.value.trim();
+
+            if (!/^\d{4}$/.test(code)) {
+                showLoginError("Enter the complete 4-digit organiser PIN.");
+                return;
+            }
+
+            loginButton.disabled = true;
+            loginButton.textContent = "CHECKING...";
+            loginMessage.className = "hidden";
+
+            try {
+                const data = await postApi({
+                    action: "authorizeAdmin",
+                    organiserCode: code
+                });
+
+                if (!data || data.success !== true) {
+                    showLoginError(data && data.message ? data.message : "Organiser access could not be confirmed.");
+                    return;
+                }
+
+                adminToken = data.adminAuthToken;
+                sessionStorage.setItem("emergeHealthCornerAdminToken", adminToken);
+                organiserCode.value = "";
+                showDashboard();
+                await refreshAll();
+
+            } catch (error) {
+                console.error(error);
+                showLoginError(error.message || "The organiser service could not be reached.");
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = "Access Administration";
+            }
+        });
+
+        logoutButton.addEventListener("click", function () {
+            adminToken = "";
+            sessionStorage.removeItem("emergeHealthCornerAdminToken");
+            closeAllModals();
+            showLogin();
+        });
+
+        refreshButton.addEventListener("click", () => refreshAll());
+
+        paymentSearch.addEventListener("input", function () {
+            currentQuery = paymentSearch.value.trim();
+            if (searchTimer) clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => loadPaymentQueue(), 450);
+        });
+
+        document.querySelectorAll("[data-filter-status]").forEach(button => {
+            button.addEventListener("click", function () {
+                currentStatusFilter = button.dataset.filterStatus || "";
+                document.querySelectorAll("[data-filter-status]").forEach(item => item.classList.toggle("active", item === button));
+                loadPaymentQueue();
+            });
+        });
+
+        document.querySelectorAll("[data-filter-tier]").forEach(button => {
+            button.addEventListener("click", function () {
+                currentTierFilter = button.dataset.filterTier || "";
+                document.querySelectorAll("[data-filter-tier]").forEach(item => item.classList.toggle("active", item === button));
+                loadPaymentQueue();
+            });
+        });
+
+        document.querySelectorAll(".summary-filter").forEach(button => {
+            button.addEventListener("click", function () {
+                currentStatusFilter = button.dataset.status || "";
+                document.querySelectorAll("[data-filter-status]").forEach(item => item.classList.toggle("active", item.dataset.filterStatus === currentStatusFilter));
+                loadPaymentQueue();
+                document.getElementById("paymentSearch").scrollIntoView({ behavior: "smooth", block: "center" });
+            });
+        });
+
+        paymentQueue.addEventListener("click", function (event) {
+            const button = event.target.closest("[data-action][data-reference]");
+            if (!button) return;
+
+            const item = currentSubmissions.find(record => record.paymentSubmissionReference === button.dataset.reference);
+            if (!item) {
+                showToast("Record Not Found", "Refresh the payment queue and try again.", "error");
+                return;
+            }
+
+            if (button.dataset.action === "confirm") prepareConfirmModal(item);
+            if (button.dataset.action === "review") prepareReviewModal(item);
+            if (button.dataset.action === "deny") prepareDenyModal(item);
+            if (button.dataset.action === "resend") resendNotification(item, button);
+        });
+
+        document.querySelectorAll("[data-close-modal]").forEach(button => {
+            button.addEventListener("click", () => closeModal(button.dataset.closeModal));
+        });
+
+        [confirmModal, reviewModal, denyModal].forEach(modal => {
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) closeModal(modal.id);
+            });
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") closeAllModals();
+        });
+
+        confirmPaymentButton.addEventListener("click", confirmSelectedPayment);
+        markReviewButton.addEventListener("click", markSelectedNeedsReview);
+        denyPaymentButton.addEventListener("click", denySelectedPayment);
+
+        function getQrCanvas() {
+            return workingQr.querySelector("canvas");
+        }
 
         function generateGeneralQr() {
-            workingQr.innerHTML =
-                "";
+            workingQr.innerHTML = "";
 
-            new QRCode(
-                workingQr,
-                {
-                    text:
-                        GENERAL_URL,
-
-                    width:
-                        500,
-
-                    height:
-                        500,
-
-                    colorDark:
-                        "#000000",
-
-                    colorLight:
-                        "#ffffff",
-
-                    correctLevel:
-                        QRCode.CorrectLevel.H
-                }
-            );
+            new QRCode(workingQr, {
+                text: GENERAL_URL,
+                width: 500,
+                height: 500,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
 
             return getQrCanvas();
         }
 
-
         function buildGeneralQrExport() {
-            const source =
-                generateGeneralQr();
+            const source = generateGeneralQr();
+            if (!source) return null;
 
-            if (!source) {
-                return null;
-            }
+            const size = 1800;
+            const quiet = 145;
+            const qrSize = size - quiet * 2;
+            const canvas = document.createElement("canvas");
+            canvas.width = size;
+            canvas.height = size;
 
-            /*
-             * High-resolution print asset.
-             */
-            const size =
-                1800;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, size, size);
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(source, quiet, quiet, qrSize, qrSize);
 
-            const quiet =
-                145;
+            const cx = size / 2;
+            const cy = size / 2;
 
-            const qrSize =
-                size -
-                quiet * 2;
-
-            const canvas =
-                document.createElement(
-                    "canvas"
-                );
-
-            canvas.width =
-                size;
-
-            canvas.height =
-                size;
-
-            const ctx =
-                canvas.getContext(
-                    "2d"
-                );
-
-
-            /* WHITE BACKGROUND */
-
-            ctx.fillStyle =
-                "#ffffff";
-
-            ctx.fillRect(
-                0,
-                0,
-                size,
-                size
-            );
-
-
-            /* QR */
-
-            ctx.imageSmoothingEnabled =
-                false;
-
-            ctx.drawImage(
-                source,
-
-                quiet,
-                quiet,
-
-                qrSize,
-                qrSize
-            );
-
-
-            /*
-             * Small centre badge.
-             *
-             * Error correction level H allows a small
-             * central graphic while maintaining
-             * good scan reliability.
-             */
-
-            const cx =
-                size / 2;
-
-            const cy =
-                size / 2;
-
-
-            ctx.fillStyle =
-                "#ffffff";
-
+            ctx.fillStyle = "#ffffff";
             ctx.beginPath();
-
-            ctx.arc(
-                cx,
-                cy,
-                145,
-                0,
-                Math.PI * 2
-            );
-
+            ctx.arc(cx, cy, 145, 0, Math.PI * 2);
             ctx.fill();
 
-
-            ctx.fillStyle =
-                "#d4af37";
-
+            ctx.fillStyle = "#d4af37";
             ctx.beginPath();
-
-            ctx.arc(
-                cx,
-                cy,
-                120,
-                0,
-                Math.PI * 2
-            );
-
+            ctx.arc(cx, cy, 120, 0, Math.PI * 2);
             ctx.fill();
 
-
-            ctx.fillStyle =
-                "#121414";
-
-            ctx.textAlign =
-                "center";
-
-            ctx.textBaseline =
-                "middle";
-
-            ctx.font =
-                "700 70px Arial";
-
-            ctx.fillText(
-                "30%",
-                cx,
-                cy + 3
-            );
-
+            ctx.fillStyle = "#121414";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.font = "700 70px Arial";
+            ctx.fillText("30%", cx, cy + 3);
 
             return canvas;
         }
 
+        downloadButton.addEventListener("click", async function () {
+            downloadButton.disabled = true;
 
-        downloadButton.addEventListener(
-            "click",
+            const validSession = await refreshAdminStatus();
+            if (!validSession) return;
 
-            async function () {
-                /*
-                 * CRITICAL:
-                 * Re-check registration before every download.
-                 */
-                downloadButton.disabled =
-                    true;
-
-                const validSession =
-                    await refreshStatus();
-
-                if (!validSession) {
-                    return;
-                }
-
-                if (
-                    !registrationOpen
-                ) {
-                    showAdminError(
-                        "Registration is closed. The General 30% QR cannot be downloaded."
-                    );
-
-                    return;
-                }
-
-                clearAdminError();
-
-                try {
-                    const canvas =
-                        buildGeneralQrExport();
-
-                    if (!canvas) {
-                        throw new Error(
-                            "QR generation failed."
-                        );
-                    }
-
-                    const link =
-                        document.createElement(
-                            "a"
-                        );
-
-                    link.href =
-                        canvas.toDataURL(
-                            "image/png"
-                        );
-
-                    link.download =
-                        "EMERGE-2026-General-30-Percent-Health-Corner-QR.png";
-
-                    document.body.appendChild(
-                        link
-                    );
-
-                    link.click();
-
-                    document.body.removeChild(
-                        link
-                    );
-
-                } catch (error) {
-                    console.error(error);
-
-                    showAdminError(
-                        "The General 30% QR could not be generated."
-                    );
-
-                } finally {
-                    downloadButton.disabled =
-                        !registrationOpen;
-                }
+            if (!registrationOpen) {
+                showAdminError("Registration is closed. The General 30% QR cannot be downloaded.");
+                return;
             }
-        );
 
+            clearAdminError();
 
-        /*
-         * Restore organiser session on refresh.
-         */
+            try {
+                const canvas = buildGeneralQrExport();
+                if (!canvas) throw new Error("QR generation failed.");
+
+                const link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = "EMERGE-2026-General-30-Percent-Health-Corner-QR.png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast("General QR Ready", "The General 30% QR download has started.");
+
+            } catch (error) {
+                console.error(error);
+                showAdminError("The General 30% QR could not be generated.");
+            } finally {
+                downloadButton.disabled = !registrationOpen;
+            }
+        });
+
+        function startAutoRefresh() {
+            if (refreshTimer) return;
+
+            refreshTimer = setInterval(() => {
+                if (!document.hidden && adminToken) refreshAll({ silent: true });
+            }, AUTO_REFRESH_MS);
+        }
+
+        function stopAutoRefresh() {
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+                refreshTimer = null;
+            }
+        }
+
+        document.addEventListener("visibilitychange", function () {
+            if (!document.hidden && adminToken) refreshAll({ silent: true });
+        });
+
         if (adminToken) {
-            refreshStatus();
-
+            showDashboard();
+            refreshAll();
         } else {
             showLogin();
         }
-
     </script>
-
 </body>
 
 </html>

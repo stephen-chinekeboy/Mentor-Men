@@ -390,7 +390,11 @@
             </a>
 
 
-            <a href="../index.html" class="
+            <nav class="flex items-center gap-4 md:gap-6">
+
+                <a href="index.html" class="
+          hidden
+          sm:inline-flex
           text-on-surface-variant
           hover:text-primary
           transition-colors
@@ -399,8 +403,51 @@
           tracking-widest
           font-semibold
         ">
-                Mentor Men Website
-            </a>
+                    Health Corner
+                </a>
+
+
+                <a href="admin.html" class="
+          inline-flex
+          items-center
+          gap-1.5
+          border
+          border-primary/35
+          text-primary
+          hover:bg-primary/10
+          transition-colors
+          rounded
+          px-3
+          py-2
+          text-[10px]
+          sm:text-xs
+          uppercase
+          tracking-widest
+          font-bold
+        ">
+                    <span class="material-symbols-outlined text-sm">
+                        admin_panel_settings
+                    </span>
+
+                    Admin
+                </a>
+
+
+                <a href="../index.html" class="
+          hidden
+          md:inline-flex
+          text-on-surface-variant
+          hover:text-primary
+          transition-colors
+          text-xs
+          uppercase
+          tracking-widest
+          font-semibold
+        ">
+                    Mentor Men Website
+                </a>
+
+            </nav>
 
         </div>
 
@@ -637,8 +684,54 @@
 
 
                             <strong>
-                                30% Discount
+                                30% Health Care Rebate
                             </strong>
+
+                        </div>
+
+
+                        <div id="validFromRow" class="
+                flex
+                justify-between
+                gap-5
+                py-4
+                border-b
+                border-surface-variant
+              ">
+
+                            <span class="
+                  text-xs
+                  text-on-surface-variant
+                  uppercase
+                ">
+                                Valid From
+                            </span>
+
+
+                            <strong id="credentialValidFrom" class="text-right"></strong>
+
+                        </div>
+
+
+                        <div id="validUntilRow" class="
+                flex
+                justify-between
+                gap-5
+                py-4
+                border-b
+                border-surface-variant
+              ">
+
+                            <span class="
+                  text-xs
+                  text-on-surface-variant
+                  uppercase
+                ">
+                                Valid Until
+                            </span>
+
+
+                            <strong id="credentialValidUntil" class="text-right"></strong>
 
                         </div>
 
@@ -949,7 +1042,7 @@
 
 
                         <strong>
-                            30% Discount
+                            30% Health Care Rebate
                         </strong>
 
                     </div>
@@ -1342,7 +1435,7 @@
 
 
                     <strong>
-                        30% Discount
+                        30% Health Care Rebate
                     </strong>
 
                 </div>
@@ -2206,6 +2299,30 @@
             );
 
 
+        const validFromRow =
+            document.getElementById(
+                "validFromRow"
+            );
+
+
+        const credentialValidFrom =
+            document.getElementById(
+                "credentialValidFrom"
+            );
+
+
+        const validUntilRow =
+            document.getElementById(
+                "validUntilRow"
+            );
+
+
+        const credentialValidUntil =
+            document.getElementById(
+                "credentialValidUntil"
+            );
+
+
         const statusValue =
             document.getElementById(
                 "statusValue"
@@ -2784,10 +2901,10 @@
                     "check_circle",
 
                 title:
-                    "VALID BENEFIT",
+                    "VALID HEALTH CORNER CREDENTIAL",
 
                 message:
-                    "This Health Corner benefit is valid and has not yet been redeemed."
+                    "This Health Corner credential is currently valid and has not yet been redeemed."
 
             },
 
@@ -2818,10 +2935,10 @@
                     "schedule",
 
                 title:
-                    "REGISTRATION PENDING",
+                    "CREDENTIAL NOT YET ACTIVE",
 
                 message:
-                    "This Health Corner registration exists, but the benefit is not yet active."
+                    "This Health Corner credential has been issued, but its validity period has not started yet."
 
             },
 
@@ -2835,10 +2952,10 @@
                     "event_busy",
 
                 title:
-                    "BENEFIT EXPIRED",
+                    "CREDENTIAL EXPIRED",
 
                 message:
-                    "This Health Corner benefit is no longer available for redemption."
+                    "This EMERGE 2026 Health Corner credential is outside its validity period and can no longer be redeemed."
 
             },
 
@@ -2953,6 +3070,7 @@
 
 
             statusMessage.textContent =
+                data.message ||
                 theme.message;
 
 
@@ -2970,6 +3088,16 @@
             ) {
 
                 participantDetails.classList.add(
+                    "hidden"
+                );
+
+
+                validFromRow.classList.add(
+                    "hidden"
+                );
+
+
+                validUntilRow.classList.add(
                     "hidden"
                 );
 
@@ -2995,6 +3123,62 @@
                 tier.textContent =
                     data.tier ||
                     "—";
+
+
+                const validFromText =
+                    data.credentialValidFromFormatted ||
+                    data.credentialValidFrom ||
+                    "";
+
+
+                const validUntilText =
+                    data.credentialValidUntilFormatted ||
+                    data.credentialValidUntil ||
+                    "";
+
+
+                if (
+                    validFromText
+                ) {
+
+                    credentialValidFrom.textContent =
+                        validFromText;
+
+                    validFromRow.classList.remove(
+                        "hidden"
+                    );
+
+                }
+
+                else {
+
+                    validFromRow.classList.add(
+                        "hidden"
+                    );
+
+                }
+
+
+                if (
+                    validUntilText
+                ) {
+
+                    credentialValidUntil.textContent =
+                        validUntilText;
+
+                    validUntilRow.classList.remove(
+                        "hidden"
+                    );
+
+                }
+
+                else {
+
+                    validUntilRow.classList.add(
+                        "hidden"
+                    );
+
+                }
 
             }
 
@@ -3740,7 +3924,7 @@
 
                 benefit:
                     data.benefit ||
-                    "30% Discount",
+                    "30% Health Care Rebate",
 
                 redeemedAt:
                     data.redeemedAt ||
@@ -4424,45 +4608,98 @@
             data
         ) {
 
-                if (
-                    !data ||
-                    typeof data !==
-                    "object"
-                ) {
+            if (
+                !data ||
+                typeof data !==
+                "object"
+            ) {
 
-                    showSystemError(
-                        "The Health Corner service returned an invalid response."
-                    );
+                showSystemError(
+                    "The Health Corner service returned an invalid response."
+                );
+
+                return;
+
+            }
+
+
+            /* -------------------------------------------------
+               VERIFICATION
+               ------------------------------------------------- */
+
+            if (
+                data.type ===
+                "VERIFICATION_RESULT"
+            ) {
+
+                if (
+                    data.callbackNonce !==
+                    verificationNonce
+                ) {
 
                     return;
 
                 }
 
 
-                /* -------------------------------------------------
-                   VERIFICATION
-                   ------------------------------------------------- */
+                verificationNonce =
+                    "";
+
+
+                showVerification(
+                    data
+                );
+
+
+                return;
+
+            }
+
+
+            /* -------------------------------------------------
+               HOSPITAL AUTHORISATION
+               ------------------------------------------------- */
+
+            if (
+                data.type ===
+                "REDEMPTION_AUTH_RESULT"
+            ) {
 
                 if (
-                    data.type ===
-                    "VERIFICATION_RESULT"
+                    data.callbackNonce !==
+                    actionNonce
                 ) {
 
-                    if (
-                        data.callbackNonce !==
-                        verificationNonce
-                    ) {
+                    return;
 
-                        return;
-
-                    }
+                }
 
 
-                    verificationNonce =
-                        "";
+                clearTimeout(
+                    responseTimeout
+                );
 
 
-                    showVerification(
+                actionNonce =
+                    "";
+
+
+                verifyAuthCodeButton.disabled =
+                    false;
+
+
+                verifyAuthCodeButton.textContent =
+                    "Verify Code";
+
+
+                if (
+                    data.success ===
+                    true &&
+                    data.code ===
+                    "AUTHORISED"
+                ) {
+
+                    openConfirmation(
                         data
                     );
 
@@ -4472,188 +4709,192 @@
                 }
 
 
-                /* -------------------------------------------------
-                   HOSPITAL AUTHORISATION
-                   ------------------------------------------------- */
-
                 if (
-                    data.type ===
-                    "REDEMPTION_AUTH_RESULT"
+                    data.code ===
+                    "INCORRECT_CODE"
                 ) {
 
-                    if (
-                        data.callbackNonce !==
-                        actionNonce
-                    ) {
+                    const attempts =
 
-                        return;
+                        data.attemptsRemaining != null
 
-                    }
+                            ? " " +
+                            data.attemptsRemaining +
+                            " attempt(s) remaining."
 
-
-                    clearTimeout(
-                        responseTimeout
-                    );
-
-
-                    actionNonce =
-                        "";
-
-
-                    verifyAuthCodeButton.disabled =
-                        false;
-
-
-                    verifyAuthCodeButton.textContent =
-                        "Verify Code";
-
-
-                    if (
-                        data.success ===
-                        true &&
-                        data.code ===
-                        "AUTHORISED"
-                    ) {
-
-                        openConfirmation(
-                            data
-                        );
-
-
-                        return;
-
-                    }
-
-
-                    if (
-                        data.code ===
-                        "INCORRECT_CODE"
-                    ) {
-
-                        const attempts =
-
-                            data.attemptsRemaining != null
-
-                                ? " " +
-                                data.attemptsRemaining +
-                                " attempt(s) remaining."
-
-                                : "";
-
-
-                        showAuthMessage(
-
-                            data.message +
-                            attempts,
-
-                            false
-
-                        );
-
-
-                        pinBoxes.forEach(
-                            box =>
-                                box.value =
-                                ""
-                        );
-
-
-                        pinBoxes[
-                            0
-                        ].focus();
-
-
-                        return;
-
-                    }
-
-
-                    if (
-                        data.code ===
-                        "AUTH_LOCKED"
-                    ) {
-
-                        showAuthMessage(
-
-                            data.message +
-
-                            (
-                                data.lockedUntil
-
-                                    ? " Locked until " +
-                                    data.lockedUntil +
-                                    "."
-
-                                    : ""
-                            ),
-
-                            false
-
-                        );
-
-
-                        pinBoxes.forEach(
-                            box =>
-                                box.disabled =
-                                true
-                        );
-
-
-                        verifyAuthCodeButton.disabled =
-                            true;
-
-
-                        return;
-
-                    }
-
-
-                    if (
-                        data.code ===
-                        "ALREADY_REDEEMED"
-                    ) {
-
-                        closeAuthModal();
-
-
-                        showVerification({
-
-                            verificationState:
-                                "REDEEMED",
-
-                            participant:
-                                data.participant,
-
-                            registrationId:
-                                data.registrationId,
-
-                            tier:
-                                data.tier,
-
-                            benefit:
-                                "30% Discount",
-
-                            redeemedAt:
-                                data.redeemedAt,
-
-                            redemptionReference:
-                                data.redemptionReference
-
-                        });
-
-
-                        return;
-
-                    }
+                            : "";
 
 
                     showAuthMessage(
 
-                        data.message ||
-                        "Hospital authorisation failed.",
+                        data.message +
+                        attempts,
 
                         false
 
+                    );
+
+
+                    pinBoxes.forEach(
+                        box =>
+                            box.value =
+                            ""
+                    );
+
+
+                    pinBoxes[
+                        0
+                    ].focus();
+
+
+                    return;
+
+                }
+
+
+                if (
+                    data.code ===
+                    "AUTH_LOCKED"
+                ) {
+
+                    showAuthMessage(
+
+                        data.message +
+
+                        (
+                            data.lockedUntil
+
+                                ? " Locked until " +
+                                data.lockedUntil +
+                                "."
+
+                                : ""
+                        ),
+
+                        false
+
+                    );
+
+
+                    pinBoxes.forEach(
+                        box =>
+                            box.disabled =
+                            true
+                    );
+
+
+                    verifyAuthCodeButton.disabled =
+                        true;
+
+
+                    return;
+
+                }
+
+
+                if (
+                    data.code ===
+                    "ALREADY_REDEEMED"
+                ) {
+
+                    closeAuthModal();
+
+
+                    showVerification({
+
+                        verificationState:
+                            "REDEEMED",
+
+                        participant:
+                            data.participant,
+
+                        registrationId:
+                            data.registrationId,
+
+                        tier:
+                            data.tier,
+
+                        benefit:
+                            "30% Health Care Rebate",
+
+                        redeemedAt:
+                            data.redeemedAt,
+
+                        redemptionReference:
+                            data.redemptionReference
+
+                    });
+
+
+                    return;
+
+                }
+
+
+                showAuthMessage(
+
+                    data.message ||
+                    "Hospital authorisation failed.",
+
+                    false
+
+                );
+
+
+                return;
+
+            }
+
+
+            /* -------------------------------------------------
+               FINAL REDEMPTION
+               ------------------------------------------------- */
+
+            if (
+                data.type ===
+                "REDEMPTION_RESULT"
+            ) {
+
+                if (
+                    data.callbackNonce !==
+                    actionNonce
+                ) {
+
+                    return;
+
+                }
+
+
+                clearTimeout(
+                    responseTimeout
+                );
+
+
+                actionNonce =
+                    "";
+
+
+                confirmRedemptionButton.disabled =
+                    false;
+
+
+                confirmRedemptionButton.textContent =
+                    "Confirm Redemption";
+
+
+                if (
+                    data.success ===
+                    true &&
+                    data.code ===
+                    "REDEEMED"
+                ) {
+
+                    redemptionAuthToken =
+                        "";
+
+
+                    showRedemptionSuccess(
+                        data
                     );
 
 
@@ -4662,164 +4903,107 @@
                 }
 
 
-                /* -------------------------------------------------
-                   FINAL REDEMPTION
-                   ------------------------------------------------- */
-
                 if (
-                    data.type ===
-                    "REDEMPTION_RESULT"
+                    data.code ===
+                    "ALREADY_REDEEMED"
                 ) {
 
-                    if (
-                        data.callbackNonce !==
-                        actionNonce
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    clearTimeout(
-                        responseTimeout
-                    );
-
-
-                    actionNonce =
-                        "";
-
-
-                    confirmRedemptionButton.disabled =
-                        false;
-
-
-                    confirmRedemptionButton.textContent =
-                        "Confirm Redemption";
-
-
-                    if (
-                        data.success ===
-                        true &&
-                        data.code ===
-                        "REDEEMED"
-                    ) {
-
-                        redemptionAuthToken =
-                            "";
-
-
-                        showRedemptionSuccess(
-                            data
-                        );
-
-
-                        return;
-
-                    }
-
-
-                    if (
-                        data.code ===
-                        "ALREADY_REDEEMED"
-                    ) {
-
-                        confirmationModal.classList.add(
-                            "hidden"
-                        );
-
-
-                        confirmationModal.classList.remove(
-                            "flex"
-                        );
-
-
-                        showVerification({
-
-                            verificationState:
-                                "REDEEMED",
-
-                            participant:
-                                data.participant,
-
-                            registrationId:
-                                data.registrationId,
-
-                            tier:
-                                data.tier,
-
-                            benefit:
-                                "30% Discount",
-
-                            redeemedAt:
-                                data.redeemedAt,
-
-                            redemptionReference:
-                                data.redemptionReference
-
-                        });
-
-
-                        return;
-
-                    }
-
-
-                    if (
-                        data.code ===
-                        "AUTHORISATION_EXPIRED"
-                    ) {
-
-                        confirmationModal.classList.add(
-                            "hidden"
-                        );
-
-
-                        confirmationModal.classList.remove(
-                            "flex"
-                        );
-
-
-                        redemptionAuthToken =
-                            "";
-
-
-                        resetPin();
-
-
-                        authModal.classList.remove(
-                            "hidden"
-                        );
-
-
-                        authModal.classList.add(
-                            "flex"
-                        );
-
-
-                        showAuthMessage(
-                            data.message,
-                            false
-                        );
-
-
-                        return;
-
-                    }
-
-
-                    confirmationError.textContent =
-
-                        data.message ||
-
-                        "Redemption could not be completed.";
-
-
-                    confirmationError.classList.remove(
+                    confirmationModal.classList.add(
                         "hidden"
                     );
 
+
+                    confirmationModal.classList.remove(
+                        "flex"
+                    );
+
+
+                    showVerification({
+
+                        verificationState:
+                            "REDEEMED",
+
+                        participant:
+                            data.participant,
+
+                        registrationId:
+                            data.registrationId,
+
+                        tier:
+                            data.tier,
+
+                        benefit:
+                            "30% Health Care Rebate",
+
+                        redeemedAt:
+                            data.redeemedAt,
+
+                        redemptionReference:
+                            data.redemptionReference
+
+                    });
+
+
+                    return;
+
                 }
+
+
+                if (
+                    data.code ===
+                    "AUTHORISATION_EXPIRED"
+                ) {
+
+                    confirmationModal.classList.add(
+                        "hidden"
+                    );
+
+
+                    confirmationModal.classList.remove(
+                        "flex"
+                    );
+
+
+                    redemptionAuthToken =
+                        "";
+
+
+                    resetPin();
+
+
+                    authModal.classList.remove(
+                        "hidden"
+                    );
+
+
+                    authModal.classList.add(
+                        "flex"
+                    );
+
+
+                    showAuthMessage(
+                        data.message,
+                        false
+                    );
+
+
+                    return;
+
+                }
+
+
+                confirmationError.textContent =
+
+                    data.message ||
+
+                    "Redemption could not be completed.";
+
+
+                confirmationError.classList.remove(
+                    "hidden"
+                );
+
+            }
 
         }
 
